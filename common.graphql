@@ -50,6 +50,11 @@ enum MsColorScheme {
   AUTO
 }
 
+enum TestScheme {
+  ONE 
+  TWO
+}
+
 enum MsDiscipline {
   DRESSAGE
   EVENTING
