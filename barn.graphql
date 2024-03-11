@@ -1,0 +1,567 @@
+
+## Queries
+type Query {
+
+  getBarnSummaries(input: GetBarnSummariesInput): [BarnSummary]!
+
+  getBarn(input: GetBarnInput): Barn!
+}
+
+
+## Mutations
+type Mutation {
+
+  ## Barn
+  createBarn(input: CreateBarnInput): ID!
+
+  ## BarnProfile
+  updateBarnProfile(input: UpdateBarnProfileInput): BarnProfile!
+
+  ## BarnBoard
+  createBarnBoard(input: CreateBarnBoardInput): BarnBoardSummary!
+  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardSummary!
+
+  ## BarnBoardPlan
+  createBarnPlan(input: CreateBarnPlanInput): BarnPlan!
+  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlan!
+
+  ## BarnFamily
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilySummary!
+  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilySummary!
+  acceptBarnFamilyCode(input: AcceptBarnFamilyCodeInput): BarnFamilySummary!
+
+  ## BarnActivities
+  createBarnActivity(input: CreateBarnActivityInput): BarnActivity!
+  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivity!
+
+  ## BarnFacility
+  createBarnFacility(input: CreateBarnFacilityInput): BarnFacility!
+  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacility!
+}
+
+
+## Subscriptions
+type Subscription {
+
+  ## BarnProfile
+  subscribeBarnProfile(barnId: ID!): BarnProfile
+  @aws_subscribe(mutations: ["updateBarnProfile"])
+
+  ## BarnBoard
+  subscribeBarnBoardByBarnId(barnId: ID!): BarnBoardSummary
+  @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
+
+  subscribeBarnBoardByHorseId(horseId: ID!): BarnBoardSummary
+  @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
+
+  ## BarnFamily
+  subscribeBarnFamilyByBarnId(barnId: ID!): BarnFamilySummary
+  @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
+
+  subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): BarnFamilySummary
+  @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
+
+  ## BarnActivities
+  subscribeBarnActivities(barnId: ID!): BarnActivity
+  @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
+
+  ## BarnFacilities
+  subscribeBarnFacilities(barnId: ID!): BarnFacility
+  @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
+}
+
+
+## Barn
+type Barn {
+  barnId: ID!
+  barnRoleAssociation: BarnRole!
+  barnFamilyAssociation: BarnFamilySummary
+  barnProfileSummary: BarnProfileSummary!
+  barnBoardSummaries: [BarnBoardSummary]
+  barnFamilySummaries: [BarnFamilySummary]
+  barnActivities: [BarnActivity]
+}
+
+type BarnSummary {
+  barnId: ID!
+  barnRoleAssociation: BarnRole!
+  barnFamilyAssociation: BarnFamilySummary
+  barnProfileSummary: BarnProfileSummary!
+}
+
+input CreateBarnInput {
+  barnDisplayName: String!
+  barnAddress: MsAddressInput!
+}
+
+
+## BarnProfile
+type BarnProfile {
+  barnId: ID!
+  barnOwnerSummary: UserProfileSummary!
+  barnPhoneId: ID
+  barnEmailId: ID
+  barnType: BarnType!
+  barnGeohash: String!
+  barnStatus: BarnStatus!
+  barnDisplayName: String!
+  barnCreatedOn: AWSDateTime!
+  barnCreatedBy: UserProfileSummary!
+  barnModifiedOn: AWSDateTime
+  barnModifiedBy: UserProfileSummary
+  barnSuspendedOn: AWSDateTime
+  barnSuspendedBy: UserProfileSummary
+  barnDeactivatedOn: AWSDateTime
+  barnDeactivatedBy: UserProfileSummary
+  barnDeactivationReason: BarnDeactivationReason
+  barnDeactivationComment: String
+  barnTimezone: MsTimezone!
+  barnAvatarId: ID!
+  barnAddress: MsAddress!
+  barnLegalName: String
+  barnWelcomeMessage: String
+}
+
+type BarnProfileSummary {
+  barnId: ID!
+  barnOwnerSummary: UserProfileSummary!
+  barnType: BarnType!
+  barnStatus: BarnStatus!
+  barnDisplayName: String!
+  barnTimezone: MsTimezone!
+  barnAvatarId: ID!
+  barnCity: String
+  barnState: String
+  barnCountry: String
+  barnCountryCode: String
+}
+
+input GetBarnInput {
+  barnId: ID!
+  associatedId: ID!
+}
+
+input GetBarnSummariesInput {
+  associatedId: ID!
+}
+
+input UpdateBarnProfileInput {
+  barnId: ID!
+  barnAvatarId: ID
+  barnDisplayName: String
+  barnPhone: String
+  barnEmail: String
+  barnLegalName: String
+  barnTimeZone: MsTimezone
+  barnWelcomeMessage: String
+  barnAddress: MsAddressInput
+}
+
+enum BarnRole {
+  BARN_OWNER
+  BARN_FAMILY
+  BARN_BOARD
+  MYSTRIDE
+}
+
+enum BarnType {
+  COMMERCIAL
+  PERSONAL
+}
+
+enum BarnStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+enum BarnDeactivationReason {
+  OWNER
+  INACTIVITY
+  VIOLATION
+}
+
+
+## BarnBoard
+type BarnBoard {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardHorse: Horse!
+  barnBoardBarnSummary: BarnSummary!
+  barnBoardFacilitySummary: BarnFacilitySummary
+  barnBoardPlan: BarnPlan
+  barnBoardInitiatedOn: AWSDateTime!
+  barnBoardInitiatedBy: UserProfileSummary
+  barnBoardModifiedOn: AWSDateTime
+  barnBoardModifiedBy: UserProfileSummary
+  barnBoardApprovedOn: AWSDateTime
+  barnBoardApprovedBy: UserProfileSummary
+  barnBoardRemovedOn: AWSDateTime
+  barnBoardRemovedBy: UserProfileSummary
+  barnBoardEndOn: AWSDateTime
+  barnBoardComment: String
+}
+
+type BarnBoardSummary {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardHorseSummary: HorseSummary!
+  barnBoardBarnSummary: BarnSummary!
+  barnBoardFacilitySummary: BarnFacilitySummary
+}
+
+input CreateBarnBoardInput {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardType: BarnBoardType
+  barnBoardStallId: ID
+  barnBoardStall: CreateBarnFacilityInput
+  barnBoardPlanPackage: ID
+  barnBoardPlanCustom: CreateBarnPlanInput
+}
+
+input UpdateBarnBoardInput {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus
+  barnBoardType: BarnBoardType
+  barnBoardExistingStall: ID
+  barnBoardNewStall: CreateBarnFacilityInput
+  barnBoardPlanPackage: ID
+  barnBoardPlanCustom: CreateBarnPlanInput
+}
+
+enum BarnBoardType {
+  STALL
+  PASTURE
+}
+
+enum BarnBoardStatus {
+  ACTIVE
+  INACTIVE
+  INVITED
+  DECLINED
+  REQUESTED
+  DEFERED
+  DENIED
+  SUSPENDED
+}
+
+
+## BarnPlan
+type BarnPlan {
+  barnPlanId: ID!
+  barnPlanCreatedOn: AWSDateTime!
+  barnPlanCreatedBy: ID!
+  barnPlanModifiedOn: AWSDateTime
+  barnPlanModifiedBy: ID
+  barnPlanType: BarnPlanType
+  barnPlanName: String
+  barnPlanPrice: Int
+  barnPlanCurrency: MsCurrencyCode
+  barnPlanDescription: String
+  barnPlanHay: Boolean
+  barnPlanHayType: HayType
+  barnPlanHayPeriods: [HorseActivityPeriod]
+  barnPlanHaySupplier: BarnPlanSupplier
+  barnPlanGrain: Boolean
+  barnPlanGrainPeriods: [HorseActivityPeriod]
+  barnPlanGrainSupplier: BarnPlanSupplier
+  barnPlanSupplement: Boolean
+  barnPlanSupplementPeriods: [HorseActivityPeriod]
+  barnPlanSupplementSupplier: BarnPlanSupplier
+  barnPlanMedication: Boolean
+  barnPlanTurnout: Boolean
+  barnPlanTurnoutPeriods: [HorseActivityPeriod]
+  barnPlanTurnoutDuration: [Int]
+  barnPlanBlanketing: Boolean
+}
+
+input CreateBarnPlanInput {
+  barnPlanName: String
+  barnPlanType: BarnPlanType
+  barnPlanPrice: Int
+  barnPlanCurrency: MsCurrencyCode
+  barnPlanDescription: String
+  barnPlanHay: Boolean
+  barnPlanHayType: HayType
+  barnPlanHayPeriods: [HorseActivityPeriod]
+  barnPlanHaySupplier: BarnPlanSupplier
+  barnPlanGrain: Boolean
+  barnPlanGrainPeriods: [HorseActivityPeriod]
+  barnPlanGrainSupplier: BarnPlanSupplier
+  barnPlanSupplement: Boolean
+  barnPlanSupplementPeriods: [HorseActivityPeriod]
+  barnPlanSupplementSupplier: BarnPlanSupplier
+  barnPlanMedication: Boolean
+  barnPlanTurnout: Boolean
+  barnPlanTurnoutPeriods: [HorseActivityPeriod]
+  barnPlanTurnoutDuration: [Int]
+  barnPlanBlanketing: Boolean
+}
+
+input UpdateBarnPlanInput {
+  barnPlanName: String
+  barnPlanPrice: Int
+  barnPlanDescription: String
+  barnPlanHay: Boolean
+  barnPlanHayType: HayType
+  barnPlanHayPeriods: [HorseActivityPeriod]
+  barnPlanHaySupplier: BarnPlanSupplier
+  barnPlanGrain: Boolean
+  barnPlanGrainPeriods: [HorseActivityPeriod]
+  barnPlanGrainSupplier: BarnPlanSupplier
+  barnPlanSupplement: Boolean
+  barnPlanSupplementPeriods: [HorseActivityPeriod]
+  barnPlanSupplementSupplier: BarnPlanSupplier
+  barnPlanMedication: Boolean
+  barnPlanTurnout: Boolean
+  barnPlanTurnoutPeriods: [HorseActivityPeriod]
+  barnPlanTurnoutDuration: [Int]
+  barnPlanBlanketing: Boolean
+}
+
+enum BarnPlanType {
+  PACKAGE
+  CUSTOM
+}
+
+enum BarnPlanSupplier {
+  BARN
+  HORSE_OWNER
+}
+
+
+## BarnFamily
+type BarnFamily {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyType: BarnFamilyType!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyUserProfileSummary: UserProfileSummary
+  barnFamilyProProfileSummary: ProProfileSummary
+  barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyInvitedBy: UserProfileSummary
+  barnFamilyAcceptedOn: AWSDateTime
+  barnFamilyDeclinedOn: AWSDateTime
+  barnFamilySuspendedOn: AWSDateTime
+  barnFamilySuspendedBy: UserProfileSummary
+  barnFamilyDeactivatedOn: AWSDateTime
+  barnFamilyDeactivatedBy: UserProfileSummary
+  barnFamilyAutoDeactivateOn: AWSDateTime
+  barnFamilyAutoDeactivateSetBy: UserProfileSummary
+  barnFamilyIsAnonymous: Boolean
+}
+
+type BarnFamilySummary {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyType: BarnFamilyType!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyUserProfileSummary: UserProfileSummary
+  barnFamilyProProfileSummary: ProProfileSummary
+  barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyAcceptedOn: AWSDateTime
+  barnFamilyDeclinedOn: AWSDateTime
+  barnFamilySuspendedOn: AWSDateTime
+  barnFamilySuspendedBy: UserProfileSummary
+  barnFamilyDeactivatedOn: AWSDateTime
+  barnFamilyDeactivatedBy: UserProfileSummary
+  barnFamilyAutoDeactivateOn: AWSDateTime
+  barnFamilyAutoDeactivateSetBy: UserProfileSummary
+  barnFamilyIsAnonymous: Boolean
+}
+
+type BarnFamilyAssociaiton {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyType: BarnFamilyType!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyIsAnonymous: Boolean!
+  barnFamilyStartOn: AWSDateTime!
+  barnFamilyModifiedOn: AWSDateTime!
+  barnFamilyEndOn: AWSDateTime
+  barnFamilyExpiryDays: Int
+}
+
+input CreateBarnFamilyInput {
+  barnId: ID!
+  barnFamilyId: ID
+  barnFamilyType: BarnFamilyType!
+  barnFamilyExpiryTime: Int
+}
+
+input UpdateBarnFamilyInput {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyExpiryTime: Int
+}
+
+input AcceptBarnFamilyCodeInput {
+  barnCode: ID!
+}
+
+enum BarnFamilyType {
+  OWNER
+  CO_OWNER
+  TEAM_MEMBER
+  BOARDER
+  PRO
+  ORG
+}
+
+enum BarnFamilyStatus {
+  INVITED
+  REQUESTED
+  DECLINED
+  ACTIVE
+  SUSPENDED
+}
+
+
+## BarnActivity
+type BarnActivity {
+  barnId: ID!
+  barnActivityType: BarnActivityType
+  barnActivityCreatedOn: AWSDateTime!
+  barnActivityCreatedBy: UserProfileSummary!
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: UserProfileSummary
+  barnActivityCompletedBy: UserProfileSummary
+}
+
+input CreateBarnActivityInput {
+  barnId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: ID
+}
+
+input UpdateBarnActivityInput {
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: ID
+}
+
+input CompleteBarnActivityInput {
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityComment: String
+}
+
+enum BarnActivityType {
+  TRASH
+}
+
+
+## BarnFacility
+type BarnFacility {
+  barnId: ID!
+  barnFacilityId: ID!
+  barnFacilityType: BarnFacilityType!
+  barnFacilityName: String
+  barnFacilityNumber: Float
+  barnFacilityDescription: String
+  barnFacilityManager: UserProfileSummary
+  barnFacilityCreatedOn: AWSDateTime!
+  barnFacilityCreatedBy: UserProfileSummary
+  barnFacilityModifiedOn: AWSDateTime
+  barnFacilityModifiedBy: UserProfileSummary
+}
+
+type BarnFacilitySummary {
+  barnId: ID!
+  barnFacilityId: ID!
+  barnFacilityType: BarnFacilityType!
+  BarnFacilityName: String
+  BarnFacilityNumber: Float
+}
+
+input CreateBarnFacilityInput {
+  barnId: ID!
+}
+
+input UpdateBarnFacilityInput {
+  barnId: ID!
+  barnFacilityId: ID!
+}
+
+enum BarnFacilityType {
+  STALL
+  PASTURE
+  ARENA
+  TRAIL
+  WASHBAY
+  TACKROOM
+  FEEDROOM
+  PEN
+  OBSERVATIONAREA
+  LOUNGE
+  TURNOUTAREA
+  RUN
+  HAYSTORAGE
+  FARRIERSTATION
+}
+
+union BarnFacilityProfile = StallProfile | PastureProfile | ArenaProfile | TrailProfile | WashBayProfile | TackRoomProfile | FeedRoomProfile | PenProfile | ObservationAreaProfile | LoungeProfile | RunProfile | TurnoutAreaProfile | HayStorageProfile | FarrierStationProfile
+
+type StallProfile {
+  StallProfileName: String
+}
+
+type PastureProfile {
+  PastureProfileName: String
+}
+
+type ArenaProfile {
+  ArenaProfileName: String
+}
+
+type TrailProfile {
+  TrailProfileName: String
+}
+
+type WashBayProfile {
+  WashBayProfileName: String
+}
+
+type TackRoomProfile {
+  TackRoomProfileName: String
+}
+
+type FeedRoomProfile {
+  FeedRoomProfileName: String
+}
+
+type PenProfile {
+  PenProfileName: String
+}
+
+type ObservationAreaProfile {
+  ObservationAreaProfileName: String
+}
+
+type LoungeProfile {
+  LoungeOfficeProfileName: String
+}
+
+type TurnoutAreaProfile {
+  TurnoutAreaProfileName: String
+}
+
+type RunProfile {
+  TurnoutAreaProfileName: String
+}
+
+type HayStorageProfile {
+  HayStorageProfileName: String
+}
+
+type FarrierStationProfile {
+  FarrierStationProfileName: String
+}

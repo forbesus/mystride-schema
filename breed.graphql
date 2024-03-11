@@ -1,0 +1,61 @@
+
+
+
+## Breed
+type Breed {
+  breedId: ID!
+  breedProfile: BreedProfile!
+  breedOrganizations: [Org]
+}
+
+type BreedSummary {
+  breedId: ID!
+  breedProfileSummary: BreedProfileSummary!
+}
+
+## BreedProfile
+type BreedProfile {
+  breedId: ID!
+  breedCommonNameEnglish: String!
+  breedOfficialNameEn: String
+  breedAlternateNameEn: String
+  breedHistoricalNameEn: String
+  breedCommonNameLocalized: String
+  breedCommonNameLocalizedLanguage: String
+  breedCategory: String
+  breedBuild: String
+  breedType: String
+  breedOrginCountryCode: String
+  breedOrginCountry: String
+  breedRegions: [String]
+  breedOrgs: [ID]
+  breedRelatives: [BreedProfileSummary]
+  breedLifeAvg: Float
+  breedLifeLow: Float
+  breedLifeHigh: Float
+  breedHeightAvg: Float
+  breedHeightLow: Float
+  breedHeightHigh: Float
+  breedWeightAvg: Float
+  breedWeightLow: Float
+  breedWeightHigh: Float
+  breedPrimaryUse: String
+}
+
+type BreedProfileSummary {
+  breedId: ID!
+  breedCommonNameEn: String!
+  breedAlternateNameEn: String
+  breedCommonNameLocalized: String
+  breedCommonNameLocalizedLanguage: String
+}
+
+enum BreedConservationStatus {
+  EXTINCT
+  CRITICAL
+  ENDANGERED
+  VULNERABLE
+  NEAR
+  LEAST
+  UNKNOWN
+}

@@ -1,0 +1,478 @@
+
+## Queries
+type Query {
+  getHorseSummaries(input: GetHorseSummariesInput): [HorseSummary]
+
+  getHorse(input: GetHorseInput): Horse!
+}
+
+
+## Mutations
+type Mutation {
+
+  ## HorseProfile
+  createHorse(input: CreateHorseInput): ID!
+  updateHorseProfile(input: UpdateHorseProfileInput): HorseProfile!
+
+  ## HorseShares
+  createHorseShare(input: CreateHorseShareInput): HorseShareSummary!
+  updateHorseShare(input: UpdateHorseShareInput): HorseShareSummary!
+  
+  ## HorseActivities
+  createHorseActivity(input: CreateHorseActivityInput): HorseActivity!
+  updateHorseActivity(input: UpdateHorseActivityInput): HorseActivity!
+
+  ## HorseNotes
+  createHorseNote(input: CreateHorseNoteInput): HorseNote!
+
+  ## HorseServings
+  createHorseServing(input: CreateHorseServingInput): HorseServing!
+  updateHorseServing(input: UpdateHorseServingInput): HorseServing!
+}
+
+
+## Subscriptions
+type Subscription {
+
+  ## HorseProfile
+  subscribeHorseProfile(horseId: ID!): HorseProfile
+  @aws_subscribe(mutations: ["updateHorseProfile"])
+
+  ## HorseActivities
+  subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivity
+  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
+
+  subscribeHorseActivitiesByAssignedId(horseActivityAssignedToId: ID!): HorseActivity
+  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
+
+  ## HorseNotes
+  subscribeHorseNotes(horseId: ID!): HorseNote
+  @aws_subscribe(mutations: ["createHorseNote"])
+
+  ## HorseServings
+  subscribeHorseServings(horseId: ID!): HorseServing
+  @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"])
+
+  ## HorseShares
+  subscribeHorseSharesByHorseId(horseId: ID!): HorseShareSummary
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
+
+  subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareSummary
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
+}
+
+## Horse
+type Horse {
+  horseId: ID!
+  horseRole: HorseRole!
+  horseShareAssociation: HorseShare
+  horseProfile: HorseProfile!
+  horseShareSummaries: [HorseShareSummary]
+  horseBoardSummaries: [BarnBoardSummary]
+  horseActivities: [HorseActivity]
+  horseNotes: [HorseNote]
+  horsServings: [HorseServing]
+}
+
+type HorseSummary {
+  horseId: ID!
+  horseRole: HorseRole!
+  horseShareAssociation: HorseShare
+  horseProfileSummary: HorseProfileSummary
+}
+
+input CreateHorseInput {
+  horseDisplayName: String!
+  horseAvatarId: ID!
+  horseBoard: CreateBarnBoardInput
+}
+
+enum HorseRole {
+  OWNER
+  SHARE
+}
+
+## HorseProfile
+type HorseProfile {
+  horseId: ID!
+  horseDisplayName: String!
+  horsePrimaryOwner: UserProfileSummary!
+  horseStatus: HorseStatus!
+  horseCreatedOn: AWSDateTime!
+  horseCreatedBy: UserProfileSummary!
+  horseAvatarId: ID!
+  horseModifiedOn: AWSDateTime
+  horseModifiedBy: UserProfileSummary
+  horseDeactivatedOn: AWSDateTime
+  horseDeactivatedBy: UserProfileSummary
+  horseDeceasedOn: AWSDateTime
+  horseCategory: HorseCategory
+  horseBred: HorseBred
+  horseSireBreed: BreedSummary
+  horseDamnBreed: BreedSummary
+  horseSireHorseSummary: HorseSummary
+  horseSireOwnerConfirmation: Boolean
+  horseDamnHorseSummary: HorseSummary
+  horseDamnOwnerConfirmation: Boolean
+  horseGender: HorseGender
+  horseBuild: HorseBuild
+  horseClassification: HorseClassification
+  HorseType: HorseType
+  horseRegisteredName: String
+  horseHeight: HorseHeight
+  horseWeight: Float
+  horseBirthday: AWSDateTime
+  horseGotchaDay: AWSDateTime
+}
+
+
+type HorseProfileSummary {
+  horseId: ID!
+  horseAvatarId: ID!
+  horseDisplayName: String
+  horsePrimaryOwner: UserProfileSummary
+  horseBirthday: AWSDateTime
+  horseGender: HorseGender
+  horseSireBreedSummary: BreedSummary
+  horseDamnBreedSummary: BreedSummary
+}
+
+input GetHorseInput {
+  horseId: ID!
+  associatedId: ID!
+}
+
+input GetHorseSummariesInput {
+  associatedId: ID!
+}
+
+input UpdateHorseProfileInput {
+  horseDisplayName: String!
+}
+
+enum HorseStatus {
+  NORMAL
+  REST
+  QUARANTEEN
+}
+
+enum HorseCategory {
+  HORSE
+  MINIATURE
+  PONY
+}
+
+enum HorseBred {
+  PURE
+  CROSS
+  MIXED
+}
+
+enum HorseGender {
+  STALLION
+  MARE
+  GELDING
+  COLT
+  FILLY
+  RIDGLING
+}
+
+enum HorseBuild {
+  COB
+  BAROQUE
+  HEAVY
+  MEDIUM
+  LIGHT
+}
+
+enum HorseClassification {
+  PLEASURE
+  GAITED
+  SHOW
+  SPORT
+  RACE
+  STOCK
+  ENDURANCE
+  DRIVING
+  WORK
+  PET
+  FERAL
+}
+
+enum HorseType {
+  WARMBLOOD
+  HOTBLOOD
+  COLDBLOOD
+  FERAL
+}
+
+enum HorseHeight {
+  HANDS_10_0
+  HANDS_10_1
+  HANDS_10_2
+  HANDS_10_3
+  HANDS_11_0
+  HANDS_11_1
+  HANDS_11_2
+  HANDS_11_3
+  HANDS_12_0
+  HANDS_12_1
+  HANDS_12_2
+  HANDS_12_3
+  HANDS_13_0
+  HANDS_13_1
+  HANDS_13_2
+  HANDS_13_3
+  HANDS_14_0
+  HANDS_14_1
+  HANDS_14_2
+  HANDS_14_3
+  HANDS_15_0
+  HANDS_15_1
+  HANDS_15_2
+  HANDS_15_3
+  HANDS_16_0
+  HANDS_16_1
+  HANDS_16_2
+  HANDS_16_3
+  HANDS_17_0
+  HANDS_17_1
+  HANDS_17_2
+  HANDS_17_3
+  HANDS_18_0
+  HANDS_18_1
+  HANDS_18_2
+  HANDS_18_3
+  HANDS_19_0
+  HANDS_19_1
+  HANDS_19_2
+  HANDS_19_3
+  HANDS_20_0
+  HANDS_20_1
+  HANDS_20_2
+  HANDS_20_3
+}
+
+
+## HorseShare
+type HorseShare {
+  horseId: ID!
+  horseShareId: ID!
+  horseShareType: HorseShareType!
+  horseShareStatus: HorseShareStatus!
+  horseShareUserProfileSummary: UserProfileSummary
+  horseShareProProfileSummary: ProProfileSummary
+  horseShareInvitedBy: UserProfileSummary!
+  horseShareInvitedOn: AWSDateTime!
+  horseShareAcceptedOn: AWSDateTime
+  horseShareDeclinedOn: AWSDateTime
+  horseShareSuspendedBy: UserProfileSummary
+  horseShareSuspendedOn: AWSDateTime
+  horseShareDeactivatedOn: AWSDateTime
+  horseShareDeactivatedBy: UserProfileSummary
+  horseShareAutoDeactivateOn: AWSDateTime
+  horseShareAutoDeactivateSetBy: UserProfileSummary
+  horseShareComment: String
+}
+
+
+type HorseShareSummary {
+  horseId: ID!
+  horseShareId: ID!
+  horseShareType: HorseShareType!
+  horseShareStatus: HorseShareStatus!
+  horseShareUserProfileSummary: UserProfileSummary
+  horseShareProProfileSummary: ProProfileSummary
+  horseShareInvitedBy: UserProfileSummary!
+  horseShareInvitedOn: AWSDateTime!
+  horseShareAcceptedOn: AWSDateTime
+  horseShareDeclinedOn: AWSDateTime
+  horseShareSuspendedBy: UserProfileSummary
+  horseShareSuspendedOn: AWSDateTime
+  horseShareDeactivatedOn: AWSDateTime
+  horseShareDeactivatedBy: UserProfileSummary
+}
+
+
+input CreateHorseShareInput {
+  horseId: ID!
+  horseShareId: ID!
+  horseShareType: HorseShareType!
+  horseShareStatus: HorseShareStatus!
+}
+
+input UpdateHorseShareInput {
+  horseId: ID!
+  horseShareId: ID!
+  horseShareStatus: HorseShareStatus!
+}
+
+input AcceptHorseShareCodeInput {
+  horseCode: ID!
+}
+
+enum HorseShareType {
+  OWNER
+  CO_OWNER
+  LESSEE
+  PRO
+  RIDER
+}
+
+enum HorseShareStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  DECLINED
+  REMOVED
+}
+
+
+## HorseActivities
+type HorseActivity {
+  horseId: ID!
+  horseActivityId: ID!
+  horseActivityAssignedToId: ID
+  horseActivityType: HorseActivityType!
+  horseActivityCreatedById: ID!
+  horseActivityCreatedByName: String
+  horseActivityCreatedByLabel: String
+  horseActivityCreatedOn: AWSDateTime!
+  horseActivityDueOn: AWSDateTime
+  horseActivityPeriod: HorseActivityPeriod
+  horseActivityAssignedToName: String
+  horseActivityAssignedToLabel: String
+  horseActivityAssignedToAvatarId: ID
+  horseActivityCompletedOn: AWSDateTime
+  horseActivityCompletedById: ID
+  horseActivityCompletedByName: String
+  horseActivityCompletedByLabel: String
+  horseActivityCompletedByAvatarId: ID
+  horseActivityCreateComment: String
+  horseActivityCompleteComment: String
+}
+
+input CreateHorseActivityInput {
+  horseId: ID!
+  horseBarnId: ID
+  horseActivityType: HorseActivityType!
+  horseActivityAssignedTo: ID
+  horseActivityCompleteBy: AWSDateTime
+  horseActivityCreateComment: String
+}
+
+input UpdateHorseActivityInput {
+  horseId: ID!
+  barnId: ID
+  horseActivityCompleteComment: String
+}
+
+enum HorseActivityType {
+  FEED
+  MEDICATION
+  CLEAN_STALL
+  TURNOUT
+  BLANKET
+  RIDE
+  HAND_WALK
+}
+
+enum HorseActivityPeriod {
+  BREAKFAST
+  LUNCH
+  DINNER
+  EVENING
+}
+
+
+## HorseNotes
+type HorseNote {
+  horseId: ID!
+  horseNoteId: ID!
+  horseNoteType: HorseNoteType!
+  horseNoteCreatedOn: AWSDateTime!
+  horseNoteCreatedBy: ID!
+  horseNoteTitle: String
+  horseNoteBody: String!
+  horseNoteIsPined: Boolean
+}
+
+input CreateHorseNoteInput {
+  horseNoteType: HorseNoteType!
+  horseNoteTitle: String
+  horseNoteBody: String!
+}
+
+enum HorseNoteType {
+  OWNER
+  PRO
+  MYSTRIDE
+}
+
+
+## HorseServings
+type HorseServing {
+  horseId: ID!
+  horseServingId: ID!
+  HorseServingPeriod: HorseActivityPeriod!
+  horseServingProduct: Product!
+  horseServingQuantity: Int!
+  horseServingUnit: HorseServingUnit!
+  horseServingFrequency: HorseServingFrequency!
+}
+
+input CreateHorseServingInput {
+  horseId: ID!
+  horseServingProductId: ID!
+  horseServingQuantity: Int!
+  horseServingUnit: HorseServingUnit!
+  horseServingFrequency: HorseServingFrequency
+  horseServingDays: HorseServingDays
+}
+
+input UpdateHorseServingInput {
+  horseId: ID!
+  horseServingId: ID!
+  horseServingQuantity: Int
+  horseServingUnit: HorseServingUnit
+  horseServingFrequency: HorseServingFrequency
+}
+
+enum HorseServingUnit {
+  POUND
+  KILOGRAM
+  OUNCE
+  CUP
+  HANDFUL
+  FLAKE
+  BALE
+  SCOOP
+  TABLESPOON
+  TEASPOON
+  MILLILITER
+  LITER
+  BLOCK
+  BAG
+  IU
+}
+
+enum HorseServingFrequency {
+  DAILY
+  SPECIFIC_DAYS
+  BIWEEKLY
+  BIMONTHLY
+  MONTHLY
+  QUARTERLY
+  BIANNUALLY
+  ANNUALLY
+}
+
+enum HorseServingDays {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}

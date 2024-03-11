@@ -1,0 +1,46 @@
+
+
+# Pro
+
+
+# Pro Profile
+type ProProfile {
+  proId: ID!
+  proType: ProType!
+  proStatus: ProStatus!
+  proDisplayName: String!
+  proOwner: UserProfileSummary!
+  proTimezone: MsTimezone!
+  proAvatarId: ID!
+  proAddressCity: String
+  proAddressState: String
+  proAddressCountry: String
+  proAddressCountryCode: MsCountryCode
+}
+
+type ProProfileSummary {
+  proId: ID!
+  proType: ProType!
+  proStatus: ProStatus!
+  proDisplayName: String!
+  proPrimaryOwner: UserProfileSummary!
+  proTimezone: MsTimezone!
+  proAvatarId: ID!
+  proAddressCity: String
+  proAddressState: String
+  proAddressCountry: String
+  proAddressCountryCode: MsCountryCode
+}
+
+
+# Enums
+enum ProType {
+  TRAINER
+  FARRIER
+}
+
+enum ProStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}

@@ -1,0 +1,110 @@
+
+## Queries
+type Query {
+  getUser: User!
+}
+
+
+## Mutations
+type Mutation {
+  updateUserProfile(input: UpdateUserProfileInput): UserProfile!
+  upsertUserDevice(input: UserDeviceInput): Boolean!
+}
+
+
+## Subscriptions
+type Subscription {
+
+  ## UserProfile
+  subscribeUserProfile(userId: ID!): UserProfile
+  @aws_subscribe(mutations: ["updateUserProfile"])
+}
+
+
+## User
+type User {
+  userId: ID!
+  userProfile: UserProfile!
+  userDevices: [UserDevice]
+  userSettings: UserSetting
+}
+
+type UserSummary {
+  userId: ID!
+  userProfileSummary: UserProfileSummary!
+}
+
+## UserProfile
+type UserProfile {
+  userId: ID!
+  userCognitoSubId: String!
+  userPhoneId: String!
+  userEmailId: String
+  userAvatarId: String!
+  userStatus: UserStatus!
+  userCreatedOn: AWSDateTime!
+  userSuspendedOn: AWSDateTime
+  userDeactivatedOn: AWSDateTime
+  userLocale: MsLocale!
+  userFirstName: String
+  userLastName: String
+  userBio: String
+  userAddress: MsAddress
+  userPrimaryDiscipline: MsDiscipline
+  userAdditionalDisciplines: [MsDiscipline]
+  userMainMount: ID
+  userHeartHorse: ID
+}
+
+type UserProfileSummary {
+  userId: ID!
+  userAvatarId: String!
+  userFirstName: String
+  userLastName: String
+  userPrimaryDiscipline: MsDiscipline
+}
+
+input UpdateUserProfileInput {
+  userId: ID!
+  userFirstName: String
+}
+
+type UserDevice {
+  userId: ID!
+  userDeviceId: ID!
+  userDeviceOperatingSystem: MsOperatingSystem!
+  userDeviceOsVersion: String!
+  userDeviceModel: String!
+  userDeviceModelLocalized: String!
+  userDeviceName: String!
+  userDeviceVendorIdentifier: String!
+  userDeviceAppVersion: String!
+  userDeviceAppBuild: String!
+  userDeviceAppId: String!
+  userDeviceRegisteredOn: String!
+}
+
+input UserDeviceInput {
+  userDeviceOperatingSystem: MsOperatingSystem!
+  userDeviceOsVersion: String!
+  userDeviceModel: String!
+  userDeviceModelLocalized: String!
+  userDeviceName: String!
+  userDeviceVendorIdentifier: String!
+  userDeviceAppVersion: String!
+  userDeviceAppBuild: String!
+  userDeviceAppId: String!
+}
+
+type UserSetting {
+  userId: ID!
+  userSettingColorScheme: MsColorScheme
+}
+
+
+# Enums
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}

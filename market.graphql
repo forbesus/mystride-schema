@@ -1,0 +1,69 @@
+
+## Queries
+
+
+## Mutations
+
+
+## Subscriptions
+
+
+## Product
+type Product {
+  productId: ID!
+  productOrgId: ID
+  productProfile: ProductProfile!
+}
+
+union ProductProfile = HayProfile | GrainProfile | SupplementProfile
+
+
+## Hay
+type HayProfile {
+  hayType: HayType
+  hayQuality: HayQuality
+  hayColor: HayColor
+}
+
+enum HayType {
+  ALFALFA_HAY
+  CLOVER_HAY
+  ORCHARD_GRASS
+  BERMUDA_GRASS
+  OAT_HAY
+  MEADOW_HAY
+  MIXED_HAY
+}
+
+enum HayQuality {
+ PREMIUM
+ GOOD
+ FAIR
+ POOR 
+ UTILITY
+}
+
+enum HayColor {
+  BRIGHT_GREEN
+  PALE_GREEN
+  YELLOW
+  BROWN
+  GRAY 
+  MIXED
+}
+
+
+## Grains
+type GrainProfile {
+  hayType: HayType
+  hayQuality: HayQuality
+  hayColor: HayColor
+}
+
+
+# Supplements
+type SupplementProfile {
+  supplmentType: HayType
+  hayQuality: HayQuality
+  hayColor: HayColor
+}

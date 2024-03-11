@@ -1,0 +1,26 @@
+
+
+
+## Org
+type Org {
+  orgId: ID!
+  orgProfile: OrgProfile!
+}
+
+type OrgSummary {
+  orgId: ID!
+  orgProfile: OrgProfileSummary!
+}
+
+## OrgProfile
+type OrgProfile {
+  orgId: ID!
+  orgName: String!
+  orgPhoneId: ID
+  orgEmailId: ID
+}
+
+type OrgProfileSummary {
+  orgId: ID!
+  orgName: String!
+}
