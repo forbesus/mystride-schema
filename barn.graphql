@@ -165,7 +165,7 @@ type BarnProfileSummary {
   barnCountryCode: String
 }
 
-input GetBarnInput {
+input GetBarnProfileInput {
   barnId: ID!
   associatedId: ID!
 }
@@ -241,6 +241,17 @@ type BarnBoardSummary {
   barnBoardFacilitySummary: BarnFacilitySummary
 }
 
+input GetBarnBoardSummariesInput {
+  barnId: ID!
+  associatedId: ID!
+}
+
+input GetBarnBoardInput {
+  barnId: ID!
+  horseId: ID!
+  associatedId: ID!
+}
+
 input CreateBarnBoardInput {
   barnId: ID!
   horseId: ID!
@@ -307,6 +318,16 @@ type BarnPlan {
   barnPlanTurnoutPeriods: [HorseActivityPeriod]
   barnPlanTurnoutDuration: [Int]
   barnPlanBlanketing: Boolean
+}
+
+input GetBarnPlanSummariesInput {
+  barnId: ID!
+  associatedId: ID!
+}
+
+input GetBarnPlanInput {
+  barnPlanId: ID!
+  associatedId: ID!
 }
 
 input CreateBarnPlanInput {
@@ -416,6 +437,17 @@ type BarnFamilyAssociaiton {
   barnFamilyExpiryDays: Int
 }
 
+input GetBarnFamilySummariesInput {
+  barnId: ID!
+  associatedId: ID!
+}
+
+input GetBarnFamilyInput {
+  barnId: ID!
+  barnFamilyId: ID!
+  associatedId: ID!
+}
+
 input CreateBarnFamilyInput {
   barnId: ID!
   barnFamilyId: ID
@@ -463,6 +495,11 @@ type BarnActivity {
   barnActivityCompletedBy: UserProfileSummary
 }
 
+input GetBarnActivitiesInput {
+  barnId: ID!
+  associatedId: ID!
+}
+
 input CreateBarnActivityInput {
   barnId: ID!
   barnActivityType: BarnActivityType!
@@ -473,14 +510,9 @@ input CreateBarnActivityInput {
 input UpdateBarnActivityInput {
   barnId: ID!
   barnActivityId: ID!
+  activityCompletedOn: AWSDateTime
   barnActivityDueDate: AWSDateTime
   barnActivityAssignedTo: ID
-}
-
-input CompleteBarnActivityInput {
-  barnId: ID!
-  barnActivityId: ID!
-  barnActivityComment: String
 }
 
 enum BarnActivityType {
@@ -509,6 +541,17 @@ type BarnFacilitySummary {
   barnFacilityType: BarnFacilityType!
   BarnFacilityName: String
   BarnFacilityNumber: Float
+}
+
+input GetBarnFacilitySummariesInput {
+  barnId: ID!
+  associatedId: ID!
+}
+
+input GetBarnFacilityInput {
+  barnId: ID!
+  barnFacilityId: ID!
+  associatedId: ID!
 }
 
 input CreateBarnFacilityInput {
