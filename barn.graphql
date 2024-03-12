@@ -8,28 +8,20 @@ type Query {
   ## BarnProfile
   getBarnProfile(input: GetBarnProfileInput): BarnProfile!
 
-  ## BarnBoardSummaries
-  getBarnBoardSummaries(input: GetBarnBoardSummariesInput): [BarnBoardSummary]!
-
   ## BarnBoard
+  getBarnBoardSummaries(input: GetBarnBoardSummariesInput): [BarnBoardSummary]!
   getBarnBoard(input: GetBarnBoardInput): BarnBoard!
 
-  ## BarnFamilySummaries
-  getBarnFamilySummaries(input: GetBarnFamilySummariesInput): [BarnFamilySummary]!
-
   ## BarnFamily
+  getBarnFamilySummaries(input: GetBarnFamilySummariesInput): [BarnFamilySummary]!
   getBarnFamily(input: GetBarnFamilyInput): BarnFamily!
 
-  ## BarnPlanSummaries
-  getBarnPlanSummaries(input: GetBarnPlanSummariesInput): [BarnPlanSummary]!
-
   ## BarnPlan
+  getBarnPlanSummaries(input: GetBarnPlanSummariesInput): [BarnPlanSummary]!
   getBarnPlan(input: GetBarnPlanInput): BarnPlan!
 
-  ## BarnFacilitySummaries
+  ## BarnFacility
   getBarnFacilitySummaries(input: GetBarnFacilitySummariesInput): [BarnFacilitySummary]!
-
-  ## BarnPlan
   getBarnPlan(input: GetBarnPlanInput): BarnPlan!
 
   ## BarnActivities
@@ -423,18 +415,6 @@ type BarnFamilySummary {
   barnFamilyAutoDeactivateOn: AWSDateTime
   barnFamilyAutoDeactivateSetBy: UserProfileSummary
   barnFamilyIsAnonymous: Boolean
-}
-
-type BarnFamilyAssociaiton {
-  barnId: ID!
-  barnFamilyId: ID!
-  barnFamilyType: BarnFamilyType!
-  barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyIsAnonymous: Boolean!
-  barnFamilyStartOn: AWSDateTime!
-  barnFamilyModifiedOn: AWSDateTime!
-  barnFamilyEndOn: AWSDateTime
-  barnFamilyExpiryDays: Int
 }
 
 input GetBarnFamilySummariesInput {

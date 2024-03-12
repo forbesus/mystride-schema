@@ -1,9 +1,26 @@
 
 ## Queries
 type Query {
-  getHorseSummaries(input: GetHorseSummariesInput): [HorseSummary]
 
-  getHorse(input: GetHorseInput): Horse!
+  ## HorseSummaries
+  getHorseSummaries(input: GetHorseSummariesInput): [HorseSummary]!
+
+  ## HorseProfile
+  getHorseProfile(input: GetHorseProfileInput): HorseProfile!
+
+  ## HorseShare
+  getHorseShareSummaries(input: GetHorseShareSummariesInput): [HorseShareSummary]!
+  getHorseShare(input: GetHorseShareInput): HorseShare!
+
+  ## HorseActivities
+  getHorseActivities(input: GetHorseActivitiesInput): [HorseActivity]!
+
+  ## HorseServings
+  getHorseServings(input: GetHorseServingsInput): [HorseServing]!
+
+
+  ## HorseNotes
+  getHorseNotes(input: GetHorseNotesInput): [HorseNote]!
 }
 
 
@@ -14,7 +31,7 @@ type Mutation {
   createHorse(input: CreateHorseInput): ID!
   updateHorseProfile(input: UpdateHorseProfileInput): HorseProfile!
 
-  ## HorseShares
+  ## HorseShare
   createHorseShare(input: CreateHorseShareInput): HorseShareSummary!
   updateHorseShare(input: UpdateHorseShareInput): HorseShareSummary!
   
@@ -81,6 +98,10 @@ type HorseSummary {
   horseProfileSummary: HorseProfileSummary
 }
 
+input GetHorseSummariesInput {
+  associatedId: ID!
+}
+
 input CreateHorseInput {
   horseDisplayName: String!
   horseAvatarId: ID!
@@ -90,6 +111,7 @@ input CreateHorseInput {
 enum HorseRole {
   OWNER
   SHARE
+  MYSTRIDE
 }
 
 ## HorseProfile
@@ -125,7 +147,6 @@ type HorseProfile {
   horseGotchaDay: AWSDateTime
 }
 
-
 type HorseProfileSummary {
   horseId: ID!
   horseAvatarId: ID!
@@ -137,12 +158,8 @@ type HorseProfileSummary {
   horseDamnBreedSummary: BreedSummary
 }
 
-input GetHorseInput {
+input GetHorseProfileInput {
   horseId: ID!
-  associatedId: ID!
-}
-
-input GetHorseSummariesInput {
   associatedId: ID!
 }
 
@@ -153,7 +170,7 @@ input UpdateHorseProfileInput {
 enum HorseStatus {
   NORMAL
   REST
-  QUARANTEEN
+  QUARANTINE
 }
 
 enum HorseCategory {
@@ -200,9 +217,9 @@ enum HorseClassification {
 }
 
 enum HorseType {
-  WARMBLOOD
-  HOTBLOOD
-  COLDBLOOD
+  WARM_BLOOD
+  HOT_BLOOD
+  COLD_BLOOD
   FERAL
 }
 
@@ -292,7 +309,16 @@ type HorseShareSummary {
   horseShareDeactivatedOn: AWSDateTime
   horseShareDeactivatedBy: UserProfileSummary
 }
+input GetHorseShareSummariesInput {
+  horseId: ID!
+  associatedId: ID!
+}
 
+input GetHorseShareInput {
+  horseId: ID!
+  horseShareId: ID!
+  associatedId: ID!
+}
 
 input CreateHorseShareInput {
   horseId: ID!
@@ -312,7 +338,6 @@ input AcceptHorseShareCodeInput {
 }
 
 enum HorseShareType {
-  OWNER
   CO_OWNER
   LESSEE
   PRO
@@ -350,6 +375,11 @@ type HorseActivity {
   horseActivityCompletedByAvatarId: ID
   horseActivityCreateComment: String
   horseActivityCompleteComment: String
+}
+
+input GetHorseActivitiesInput {
+  horseId: ID!
+  associatedId: ID!
 }
 
 input CreateHorseActivityInput {
@@ -397,6 +427,11 @@ type HorseNote {
   horseNoteIsPined: Boolean
 }
 
+input GetHorseNotesInput {
+  horseId: ID!
+  associatedId: ID!
+}
+
 input CreateHorseNoteInput {
   horseNoteType: HorseNoteType!
   horseNoteTitle: String
@@ -419,6 +454,11 @@ type HorseServing {
   horseServingQuantity: Int!
   horseServingUnit: HorseServingUnit!
   horseServingFrequency: HorseServingFrequency!
+}
+
+input GetHorseServingsInput {
+  horseId: ID!
+  associatedId: ID!
 }
 
 input CreateHorseServingInput {

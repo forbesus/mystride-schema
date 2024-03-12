@@ -8,24 +8,50 @@
 ## Subscriptions
 
 
+## Brand
+type Brand {
+  brandId: ID!
+  brandOrgId: OrgId!
+  brandName: String!
+}
+
+type BrandSummary {
+  brandId: ID!
+  brandOrgId: OrgId!
+  brandName: String!
+}
+
 ## Product
 type Product {
   productId: ID!
-  productOrgId: ID
+  productBrandSummary: BrandSummary
+  productType: ProductType!
   productProfile: ProductProfile!
 }
 
-union ProductProfile = HayProfile | GrainProfile | SupplementProfile
-
-
-## Hay
-type HayProfile {
-  hayType: HayType
-  hayQuality: HayQuality
-  hayColor: HayColor
+type ProductSummary {
+  productId: ID!
+  productBrandId: BrandSummary
+  productType: ProductType!
+  productProfileSummary: ProductProfileSummary!
 }
 
-enum HayType {
+enum ProductType {
+ FORAGE
+ GRAIN
+ SUPPLEMENT
+}
+
+union ProductProfile = ForageProfile | GrainProfile | SupplementProfile
+
+## Forage
+type ForageProfile {
+  forageType: ForageType
+  forageQuality: ForageQuality
+  forageColor: ForageColor
+}
+
+enum ForageType {
   ALFALFA_HAY
   CLOVER_HAY
   ORCHARD_GRASS
@@ -35,7 +61,7 @@ enum HayType {
   MIXED_HAY
 }
 
-enum HayQuality {
+enum ForageQuality {
  PREMIUM
  GOOD
  FAIR
@@ -43,7 +69,7 @@ enum HayQuality {
  UTILITY
 }
 
-enum HayColor {
+enum ForageColor {
   BRIGHT_GREEN
   PALE_GREEN
   YELLOW
@@ -53,17 +79,13 @@ enum HayColor {
 }
 
 
-## Grains
+## Grain
 type GrainProfile {
-  hayType: HayType
-  hayQuality: HayQuality
-  hayColor: HayColor
+  grainName: String!
 }
 
 
-# Supplements
+# Supplement
 type SupplementProfile {
-  supplmentType: HayType
-  hayQuality: HayQuality
-  hayColor: HayColor
+  supplementName: String!
 }
