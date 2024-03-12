@@ -15,11 +15,11 @@ type Query {
   ## HorseActivities
   getHorseActivities(input: GetHorseActivitiesInput): HorseActivities!
 
-  ## HorseServings
-  getHorseServings(input: GetHorseServingsInput): [HorseServing]!
-
   ## HorseNotes
   getHorseNotes(input: GetHorseNotesInput): HorseNotes!
+
+  ## HorseServings
+  getHorseServings(input: GetHorseServingsInput): [HorseServing]!
 }
 
 
@@ -40,6 +40,7 @@ type Mutation {
 
   ## HorseNotes
   createHorseNote(input: CreateHorseNoteInput): HorseNote!
+  updateHorseNote(input: UpdateHorseNoteInput): HorseNote!
 
   ## HorseServings
   createHorseServing(input: CreateHorseServingInput): HorseServing!
@@ -53,6 +54,13 @@ type Subscription {
   ## HorseProfile
   subscribeHorseProfile(horseId: ID!): HorseProfile
   @aws_subscribe(mutations: ["updateHorseProfile"])
+
+  ## HorseShare
+  subscribeHorseSharesByHorseId(horseId: ID!): HorseShareSummary
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
+
+  subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareSummary
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
   ## HorseActivities
   subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivity
@@ -68,13 +76,6 @@ type Subscription {
   ## HorseServings
   subscribeHorseServings(horseId: ID!): HorseServing
   @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"])
-
-  ## HorseShares
-  subscribeHorseSharesByHorseId(horseId: ID!): HorseShareSummary
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
-
-  subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareSummary
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 }
 
 ## Horse
