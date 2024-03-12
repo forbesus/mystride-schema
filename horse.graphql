@@ -446,8 +446,20 @@ input GetHorseNotesInput {
 input CreateHorseNoteInput {
   horseNoteTitle: String
   horseNoteBody: String!
+  horseNoteIsPined: Boolean
 }
 
+input UpdateHorseNoteInput {
+  horseNoteId: ID!
+  associatedId: ID!
+  horseNoteIsPined: Boolean
+}
+
+input DeleteHorseNoteInput {
+  horseNoteId: ID!
+  associatedId: ID!
+  horseNoteIsPined: Boolean
+}
 
 ## HorseServing
 type HorseServing {
