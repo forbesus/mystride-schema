@@ -20,12 +20,15 @@ type Query {
   getBarnPlanSummaries(input: GetBarnPlanSummariesInput): [BarnPlanSummary]!
   getBarnPlan(input: GetBarnPlanInput): BarnPlan!
 
-  ## BarnFacility
-  getBarnFacilitySummaries(input: GetBarnFacilitySummariesInput): [BarnFacilitySummary]!
-  getBarnFacility(input: GetBarnFacilityInput): BarnFacility!
-
   ## BarnActivities
   getBarnActivities(input: GetBarnActivitiesInput): BarnActivities
+
+  ## BarnNotes
+  getBarnNotes(input: GetBarnNotesInput): BarnNotes
+
+    ## BarnFacility
+  getBarnFacilitySummaries(input: GetBarnFacilitySummariesInput): [BarnFacilitySummary]!
+  getBarnFacility(input: GetBarnFacilityInput): BarnFacility!
 }
 
 
@@ -43,17 +46,21 @@ type Mutation {
   updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardSummary!
 
   ## BarnPlan
-  createBarnPlan(input: CreateBarnPlanInput): BarnPlan!
-  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlan!
+  createBarnPlan(input: CreateBarnPlanInput): BarnPlanSummary!
+  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanSummary!
 
   ## BarnFamily
   createBarnFamily(input: CreateBarnFamilyInput): BarnFamilySummary!
   updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilySummary!
   acceptBarnFamilyCode(input: AcceptBarnFamilyCodeInput): BarnFamilySummary!
 
-  ## BarnActivities
+  ## BarnActivity
   createBarnActivity(input: CreateBarnActivityInput): BarnActivity!
   updateBarnActivity(input: UpdateBarnActivityInput): BarnActivity!
+
+  ## BarnNote
+  createBarnNote(input: CreateBarnNoteInput): BarnNote!
+  updateBarnNote(input: UpdateBarnNoteInput): BarnNote!
 
   ## BarnFacility
   createBarnFacility(input: CreateBarnFacilityInput): BarnFacility!
@@ -517,8 +524,47 @@ enum BarnActivityType {
   REPAIR
   SWEEP_ISLES
   MOP_FLOORS
+}
 
+## BarnNotes
+type BarnNotes {
+  notes: [BarnNote]!
+  lastKey: String
+}
 
+type BarnNote {
+  barnId: ID!
+  barnNoteId: ID!
+  subjectId: ID!
+  barnNoteCreatedOn: AWSDateTime!
+  barnNoteCreatedBy: UserProfileSummary!
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
+}
+
+input GetBarnNotesInput {
+  barnId: ID!
+  subjectId: ID!
+  associatedId: ID!
+  startKey: String
+}
+
+input CreateBarnNoteInput {
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
+}
+
+input UpdateBarnNoteInput {
+  barnNoteId: ID!
+  associatedId: ID!
+  horseNoteIsPined: Boolean
+}
+
+input DeleteBarnNoteInput {
+  barnNoteId: ID!
+  associatedId: ID!
 }
 
 
