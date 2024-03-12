@@ -25,7 +25,7 @@ type Query {
   getBarnPlan(input: GetBarnPlanInput): BarnPlan!
 
   ## BarnActivities
-  getBarnActivities(input: GetBarnActivitiesInput): [BarnActivity]!
+  getBarnActivities(input: GetBarnActivitiesInput): BarnActivities
 }
 
 
@@ -465,6 +465,11 @@ enum BarnFamilyStatus {
 
 
 ## BarnActivity
+type BarnActivities {
+  lastKey: String
+  activities: [BarnActivity]!
+}
+
 type BarnActivity {
   barnId: ID!
   barnActivityType: BarnActivityType
@@ -478,6 +483,7 @@ type BarnActivity {
 input GetBarnActivitiesInput {
   barnId: ID!
   associatedId: ID!
+  startKey: String
 }
 
 input CreateBarnActivityInput {

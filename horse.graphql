@@ -13,14 +13,13 @@ type Query {
   getHorseShare(input: GetHorseShareInput): HorseShare!
 
   ## HorseActivities
-  getHorseActivities(input: GetHorseActivitiesInput): [HorseActivity]!
+  getHorseActivities(input: GetHorseActivitiesInput): HorseActivities!
 
   ## HorseServings
   getHorseServings(input: GetHorseServingsInput): [HorseServing]!
 
-
   ## HorseNotes
-  getHorseNotes(input: GetHorseNotesInput): [HorseNote]!
+  getHorseNotes(input: GetHorseNotesInput): HorseNotes!
 }
 
 
@@ -62,9 +61,9 @@ type Subscription {
   subscribeHorseActivitiesByAssignedId(horseActivityAssignedToId: ID!): HorseActivity
   @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
 
-  ## HorseNotes
-  subscribeHorseNotes(horseId: ID!): HorseNote
-  @aws_subscribe(mutations: ["createHorseNote"])
+  ## HorseNote
+  subscribeHorseNote(horseId: ID!): HorseNote
+  @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote"])
 
   ## HorseServings
   subscribeHorseServings(horseId: ID!): HorseServing
@@ -353,7 +352,12 @@ enum HorseShareStatus {
 }
 
 
-## HorseActivities
+## HorseActivity
+type HorseActivities {
+  lastKey: String
+  activities: [HorseActivity]!
+}
+
 type HorseActivity {
   horseId: ID!
   horseActivityId: ID!
@@ -380,6 +384,7 @@ type HorseActivity {
 input GetHorseActivitiesInput {
   horseId: ID!
   associatedId: ID!
+  startKey: String
 }
 
 input CreateHorseActivityInput {
@@ -415,13 +420,17 @@ enum HorseActivityPeriod {
 }
 
 
-## HorseNotes
+## HorseNote
+type HorseNotes {
+  lastKey: String
+  notes: [HorseNote]!
+}
+
 type HorseNote {
   horseId: ID!
   horseNoteId: ID!
-  horseNoteType: HorseNoteType!
   horseNoteCreatedOn: AWSDateTime!
-  horseNoteCreatedBy: ID!
+  horseNoteCreatedBy: UserProfileSummary!
   horseNoteTitle: String
   horseNoteBody: String!
   horseNoteIsPined: Boolean
@@ -430,6 +439,7 @@ type HorseNote {
 input GetHorseNotesInput {
   horseId: ID!
   associatedId: ID!
+  startKey: String
 }
 
 input CreateHorseNoteInput {
@@ -438,19 +448,13 @@ input CreateHorseNoteInput {
   horseNoteBody: String!
 }
 
-enum HorseNoteType {
-  OWNER
-  PRO
-  MYSTRIDE
-}
 
-
-## HorseServings
+## HorseServing
 type HorseServing {
   horseId: ID!
   horseServingId: ID!
   HorseServingPeriod: HorseActivityPeriod!
-  horseServingProduct: Product!
+  horseServingProductSummary: ProductSummary!
   horseServingQuantity: Int!
   horseServingUnit: HorseServingUnit!
   horseServingFrequency: HorseServingFrequency!
