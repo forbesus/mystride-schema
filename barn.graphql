@@ -456,9 +456,8 @@ input AcceptBarnFamilyCodeInput {
 }
 
 enum BarnFamilyType {
-  OWNER
   CO_OWNER
-  TEAM_MEMBER
+  STAFF
   BOARDER
   PRO
   ORG
@@ -511,7 +510,15 @@ input UpdateBarnActivityInput {
 }
 
 enum BarnActivityType {
-  TRASH
+  EMPTY_TRASH
+  RESTOCK_SUPPLIES
+  WASH_BLANKETS
+  CLEAN_TACK
+  REPAIR
+  SWEEP_ISLES
+  MOP_FLOORS
+
+
 }
 
 
