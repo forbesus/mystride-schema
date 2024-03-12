@@ -2,9 +2,38 @@
 ## Queries
 type Query {
 
+  ## BarnSummaries
   getBarnSummaries(input: GetBarnSummariesInput): [BarnSummary]!
 
-  getBarn(input: GetBarnInput): Barn!
+  ## BarnProfile
+  getBarnProfile(input: GetBarnProfileInput): BarnProfile!
+
+  ## BarnBoardSummaries
+  getBarnBoardSummaries(input: GetBarnBoardSummariesInput): [BarnBoardSummary]!
+
+  ## BarnBoard
+  getBarnBoard(input: GetBarnBoardInput): BarnBoard!
+
+  ## BarnFamilySummaries
+  getBarnFamilySummaries(input: GetBarnFamilySummariesInput): [BarnFamilySummary]!
+
+  ## BarnFamily
+  getBarnFamily(input: GetBarnFamilyInput): BarnFamily!
+
+  ## BarnPlanSummaries
+  getBarnPlanSummaries(input: GetBarnPlanSummariesInput): [BarnPlanSummary]!
+
+  ## BarnPlan
+  getBarnPlan(input: GetBarnPlanInput): BarnPlan!
+
+  ## BarnFacilitySummaries
+  getBarnFacilitySummaries(input: GetBarnFacilitySummariesInput): [BarnFacilitySummary]!
+
+  ## BarnPlan
+  getBarnPlan(input: GetBarnPlanInput): BarnPlan!
+
+  ## BarnActivities
+  getBarnActivities(input: GetBarnActivitiesInput): [BarnActivity]!
 }
 
 
@@ -21,7 +50,7 @@ type Mutation {
   createBarnBoard(input: CreateBarnBoardInput): BarnBoardSummary!
   updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardSummary!
 
-  ## BarnBoardPlan
+  ## BarnPlan
   createBarnPlan(input: CreateBarnPlanInput): BarnPlan!
   updateBarnPlan(input: UpdateBarnPlanInput): BarnPlan!
 
