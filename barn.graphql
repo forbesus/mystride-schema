@@ -554,72 +554,72 @@ enum BarnFacilityType {
   PASTURE
   ARENA
   TRAIL
-  WASHBAY
-  TACKROOM
-  FEEDROOM
+  WASH_BAY
+  TACK_ROOM
+  FEED_ROOM
   PEN
-  OBSERVATIONAREA
+  OBSERVATION_AREA
   LOUNGE
-  TURNOUTAREA
+  TURNOUT_AREA
   RUN
-  HAYSTORAGE
-  FARRIERSTATION
+  HAY_STORAGE
+  FARRIER_STATION
 }
 
 union BarnFacilityProfile = StallProfile | PastureProfile | ArenaProfile | TrailProfile | WashBayProfile | TackRoomProfile | FeedRoomProfile | PenProfile | ObservationAreaProfile | LoungeProfile | RunProfile | TurnoutAreaProfile | HayStorageProfile | FarrierStationProfile
 
 type StallProfile {
-  StallProfileName: String
+  stallProfileName: String
 }
 
 type PastureProfile {
-  PastureProfileName: String
+  pastureProfileName: String
 }
 
 type ArenaProfile {
-  ArenaProfileName: String
+  arenaProfileName: String
 }
 
 type TrailProfile {
-  TrailProfileName: String
+  trailProfileName: String
 }
 
 type WashBayProfile {
-  WashBayProfileName: String
+  washBayProfileName: String
 }
 
 type TackRoomProfile {
-  TackRoomProfileName: String
+  tackRoomProfileName: String
 }
 
 type FeedRoomProfile {
-  FeedRoomProfileName: String
+  feedRoomProfileName: String
 }
 
 type PenProfile {
-  PenProfileName: String
+  penProfileName: String
 }
 
 type ObservationAreaProfile {
-  ObservationAreaProfileName: String
+  observationAreaProfileName: String
 }
 
 type LoungeProfile {
-  LoungeOfficeProfileName: String
+  loungeOfficeProfileName: String
 }
 
 type TurnoutAreaProfile {
-  TurnoutAreaProfileName: String
+  turnoutAreaProfileName: String
 }
 
 type RunProfile {
-  TurnoutAreaProfileName: String
+  turnoutAreaProfileName: String
 }
 
 type HayStorageProfile {
-  HayStorageProfileName: String
+  hayStorageProfileName: String
 }
 
 type FarrierStationProfile {
-  FarrierStationProfileName: String
+  farrierStationProfileName: String
 }
