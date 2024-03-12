@@ -44,12 +44,21 @@ enum ProductType {
 
 union ProductProfile = ForageProfile | GrainProfile | SupplementProfile
 
+union ProductProfileSummary = ForageProfileSummary | GrainProfileSummary | SupplementProfileSummary
+
 ## Forage
 type ForageProfile {
   forageType: ForageType
   forageQuality: ForageQuality
   forageColor: ForageColor
 }
+
+type ForageProfileSummary {
+  forageType: ForageType
+  forageQuality: ForageQuality
+  forageColor: ForageColor
+}
+
 
 enum ForageType {
   ALFALFA_HAY
@@ -84,8 +93,15 @@ type GrainProfile {
   grainName: String!
 }
 
+type GrainProfileSummary {
+  grainName: String!
+}
 
 # Supplement
 type SupplementProfile {
+  supplementName: String!
+}
+
+type SupplementProfileSummary {
   supplementName: String!
 }

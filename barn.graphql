@@ -359,7 +359,7 @@ input UpdateBarnPlanInput {
   barnPlanPrice: Int
   barnPlanDescription: String
   barnPlanForage: Boolean
-  barnPlanForageType: HayType
+  barnPlanForageType: ForageType
   barnPlanForagePeriods: [HorseActivityPeriod]
   barnPlanForageSupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
