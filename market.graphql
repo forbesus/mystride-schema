@@ -11,13 +11,13 @@
 ## Brand
 type Brand {
   brandId: ID!
-  brandOrgId: OrgId!
+  brandOrgId: ID!
   brandName: String!
 }
 
 type BrandSummary {
   brandId: ID!
-  brandOrgId: OrgId!
+  brandOrgId: ID!
   brandName: String!
 }
 

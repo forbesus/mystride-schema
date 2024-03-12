@@ -22,7 +22,7 @@ type Query {
 
   ## BarnFacility
   getBarnFacilitySummaries(input: GetBarnFacilitySummariesInput): [BarnFacilitySummary]!
-  getBarnPlan(input: GetBarnPlanInput): BarnPlan!
+  getBarnFacility(input: GetBarnFacilityInput): BarnFacility!
 
   ## BarnActivities
   getBarnActivities(input: GetBarnActivitiesInput): BarnActivities
@@ -277,7 +277,7 @@ enum BarnBoardStatus {
   INVITED
   DECLINED
   REQUESTED
-  DEFERED
+  DEFERRED
   DENIED
   SUSPENDED
 }
@@ -287,16 +287,16 @@ enum BarnBoardStatus {
 type BarnPlan {
   barnPlanId: ID!
   barnPlanCreatedOn: AWSDateTime!
-  barnPlanCreatedBy: ID!
+  barnPlanCreatedBy: UserProfileSummary!
   barnPlanModifiedOn: AWSDateTime
-  barnPlanModifiedBy: ID
-  barnPlanType: BarnPlanType
+  barnPlanModifiedBy: UserProfileSummary
+  barnPlanType: BarnPlanType!
   barnPlanName: String
   barnPlanPrice: Int
   barnPlanCurrency: MsCurrencyCode
   barnPlanDescription: String
-  barnPlanHay: Boolean
-  barnPlanHayType: HayType
+  barnPlanForage: Boolean
+  barnPlanHayType: ForageType
   barnPlanHayPeriods: [HorseActivityPeriod]
   barnPlanHaySupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
@@ -310,6 +310,15 @@ type BarnPlan {
   barnPlanTurnoutPeriods: [HorseActivityPeriod]
   barnPlanTurnoutDuration: [Int]
   barnPlanBlanketing: Boolean
+}
+
+type BarnPlanSummary {
+  barnPlanId: ID!
+  barnPlanType: BarnPlanType!
+  barnPlanName: String
+  barnPlanPrice: Int
+  barnPlanCurrency: MsCurrencyCode
+  barnPlanDescription: String
 }
 
 input GetBarnPlanSummariesInput {
@@ -328,10 +337,10 @@ input CreateBarnPlanInput {
   barnPlanPrice: Int
   barnPlanCurrency: MsCurrencyCode
   barnPlanDescription: String
-  barnPlanHay: Boolean
-  barnPlanHayType: HayType
-  barnPlanHayPeriods: [HorseActivityPeriod]
-  barnPlanHaySupplier: BarnPlanSupplier
+  barnPlanForage: Boolean
+  barnPlanForageType: ForageType
+  barnPlanHForagePeriods: [HorseActivityPeriod]
+  barnPlanForageSupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
   barnPlanGrainPeriods: [HorseActivityPeriod]
   barnPlanGrainSupplier: BarnPlanSupplier
@@ -349,10 +358,10 @@ input UpdateBarnPlanInput {
   barnPlanName: String
   barnPlanPrice: Int
   barnPlanDescription: String
-  barnPlanHay: Boolean
-  barnPlanHayType: HayType
-  barnPlanHayPeriods: [HorseActivityPeriod]
-  barnPlanHaySupplier: BarnPlanSupplier
+  barnPlanForage: Boolean
+  barnPlanForageType: HayType
+  barnPlanForagePeriods: [HorseActivityPeriod]
+  barnPlanForageSupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
   barnPlanGrainPeriods: [HorseActivityPeriod]
   barnPlanGrainSupplier: BarnPlanSupplier
