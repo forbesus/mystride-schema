@@ -56,10 +56,10 @@ type Subscription {
   @aws_subscribe(mutations: ["updateHorseProfile"])
 
   ## HorseShare
-  subscribeHorseSharesByHorseId(horseId: ID!): HorseShareSummary
+  subscribeHorseShareSummariesByHorseId(horseId: ID!): HorseShareSummary
   @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
-  subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareSummary
+  subscribeHorseShareSummariesByShareId(horseShareId: ID!): HorseShareSummary
   @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
   ## HorseActivities
@@ -69,8 +69,8 @@ type Subscription {
   subscribeHorseActivitiesByAssignedId(horseActivityAssignedToId: ID!): HorseActivity
   @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
 
-  ## HorseNote
-  subscribeHorseNote(horseId: ID!): HorseNote
+  ## HorseNotes
+  subscribeHorseNotesByHorseId(horseId: ID!): HorseNote
   @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote"])
 
   ## HorseServings
