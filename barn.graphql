@@ -63,8 +63,8 @@ type Mutation {
   updateBarnNote(input: UpdateBarnNoteInput): BarnNote!
 
   ## BarnFacility
-  createBarnFacility(input: CreateBarnFacilityInput): BarnFacility!
-  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacility!
+  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilitySummary!
+  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilitySummary!
 }
 
 
