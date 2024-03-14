@@ -101,7 +101,7 @@ type Subscription {
   @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
 
   ## BarnFacilities
-  subscribeBarnFacilities(barnId: ID!): BarnFacilitySummary
+  subscribeBarnFacilitySummariesByBarnId(barnId: ID!): BarnFacilitySummary
   @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
 }
 
