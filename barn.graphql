@@ -107,14 +107,11 @@ type Subscription {
 
 
 ## Barn
-type Barn {
-  barnId: ID!
-  barnRoleAssociation: BarnRole!
-  barnFamilyAssociation: BarnFamilySummary
-  barnProfileSummary: BarnProfileSummary!
-  barnBoardSummaries: [BarnBoardSummary]
-  barnFamilySummaries: [BarnFamilySummary]
-  barnActivities: [BarnActivity]
+input CreateBarnInput {
+  barnOwnerId: ID!
+  barnDisplayName: String!
+  barnType: BarnType!
+  barnAddressInput: UpsertMsAddressInput!
 }
 
 type BarnSummary {
@@ -124,13 +121,18 @@ type BarnSummary {
   barnProfileSummary: BarnProfileSummary!
 }
 
-input CreateBarnInput {
-  barnDisplayName: String!
-  barnAddress: MsAddressInput!
+input GetBarnSummariesInput {
+  associatedId: ID!
 }
 
+enum BarnRole {
+  BARN_OWNER
+  BARN_FAMILY
+  BARN_BOARD
+  MYSTRIDE
+}
 
-## BarnProfile
+## Barn
 type BarnProfile {
   barnId: ID!
   barnOwnerSummary: UserProfileSummary!
@@ -176,10 +178,6 @@ input GetBarnProfileInput {
   associatedId: ID!
 }
 
-input GetBarnSummariesInput {
-  associatedId: ID!
-}
-
 input UpdateBarnProfileInput {
   barnId: ID!
   barnAvatarId: ID
@@ -190,13 +188,6 @@ input UpdateBarnProfileInput {
   barnTimeZone: MsTimezone
   barnWelcomeMessage: String
   barnAddress: MsAddressInput
-}
-
-enum BarnRole {
-  BARN_OWNER
-  BARN_FAMILY
-  BARN_BOARD
-  MYSTRIDE
 }
 
 enum BarnType {

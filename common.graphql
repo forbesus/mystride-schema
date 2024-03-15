@@ -23,7 +23,7 @@ type MsAddress {
   countryCode: MsCountryCode
 }
 
-input MsAddressInput {
+input UpsertMsAddressInput {
   latitude: Float
   longitude: Float
   streetNumber: String
@@ -37,6 +37,14 @@ input MsAddressInput {
 }
 
 type MsLocale {
+  countryCode: MsCountryCode!
+  measurementSystem: MsMeasurementSystemCode!
+  numberSystem: MsNumberSystemCode!
+  preferredLanguage: MsLanguageCode!
+  currencyCode: MsCurrencyCode!
+}
+
+type UpsertMsLocale {
   countryCode: MsCountryCode!
   measurementSystem: MsMeasurementSystemCode!
   numberSystem: MsNumberSystemCode!
