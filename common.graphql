@@ -11,29 +11,29 @@ scalar AWSDateTime
 
 ## Address
 type MsAddress {
-  latitude: Float
-  longitude: Float
-  streetNumber: String
-  streetName: String
-  city: String
-  state: String
-  county: String
-  postalCode: String
-  country: String
-  countryCode: MsCountryCode
+  addressLatitude: Float
+  addressLongitude: Float
+  addressStreetNumber: String
+  addressStreetName: String
+  addressCity: String
+  addressState: String
+  addressCounty: String
+  addressPostalCode: String
+  addressCountry: String
+  addressCountryCode: MsCountryCode
 }
 
 input UpsertMsAddressInput {
-  latitude: Float
-  longitude: Float
-  streetNumber: String
-  streetName: String
-  city: String
-  state: String
-  county: String
-  postalCode: String
-  country: String
-  countryCode: MsCountryCode
+  addressLatitude: Float
+  addressLongitude: Float
+  addressStreetNumber: String
+  addressStreetName: String
+  addressCity: String
+  addressState: String
+  addressCounty: String
+  addressPostalCode: String
+  addressCountry: String
+  addressCountryCode: MsCountryCode
 }
 
 type MsLocale {
