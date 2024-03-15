@@ -187,7 +187,7 @@ input UpdateBarnProfileInput {
   barnLegalName: String
   barnTimeZone: MsTimezone
   barnWelcomeMessage: String
-  barnAddress: MsAddressInput
+  barnAddress: UpsertMsAddressInput
 }
 
 enum BarnType {
