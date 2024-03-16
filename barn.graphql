@@ -1,7 +1,5 @@
-
 ## Queries
 type Query {
-
   ## BarnSummaries
   getBarnSummaries(input: GetBarnSummariesInput): [BarnSummary]!
 
@@ -13,7 +11,9 @@ type Query {
   getBarnBoard(input: GetBarnBoardInput): BarnBoard!
 
   ## BarnFamily
-  getBarnFamilySummaries(input: GetBarnFamilySummariesInput): [BarnFamilySummary]!
+  getBarnFamilySummaries(
+    input: GetBarnFamilySummariesInput
+  ): [BarnFamilySummary]!
   getBarnFamily(input: GetBarnFamilyInput): BarnFamily!
 
   ## BarnPlan
@@ -27,14 +27,14 @@ type Query {
   getBarnNotes(input: GetBarnNotesInput): BarnNotes
 
   ## BarnFacility
-  getBarnFacilitySummaries(input: GetBarnFacilitySummariesInput): [BarnFacilitySummary]!
+  getBarnFacilitySummaries(
+    input: GetBarnFacilitySummariesInput
+  ): [BarnFacilitySummary]!
   getBarnFacility(input: GetBarnFacilityInput): BarnFacility!
 }
 
-
 ## Mutations
 type Mutation {
-
   ## Barn
   createBarn(input: CreateBarnInput): ID!
 
@@ -67,44 +67,41 @@ type Mutation {
   updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilitySummary!
 }
 
-
 ## Subscriptions
 type Subscription {
-
   ## BarnProfile
   subscribeBarnProfile(barnId: ID!): BarnProfile
-  @aws_subscribe(mutations: ["updateBarnProfile"])
+    @aws_subscribe(mutations: ["updateBarnProfile"])
 
   ## BarnBoard
   subscribeBarnBoardSummariesByBarnId(barnId: ID!): BarnBoardSummary
-  @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   subscribeBarnBoardSummariesByHorseId(horseId: ID!): BarnBoardSummary
-  @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   ## BarnFamily
   subscribeBarnFamilySummariesByBarnId(barnId: ID!): BarnFamilySummary
-  @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   subscribeBarnFamilySummariesByFamilyId(barnFamilyId: ID!): BarnFamilySummary
-  @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   ## BarnActivities
   subscribeBarnActivitiesByBarnId(barnId: ID!): BarnActivity
-  @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
+    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
 
   ## BarnNotes
   subscribeBarnNotesByBarnId(barnId: ID!): BarnNote
-  @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
 
   subscribeBarnNotesBySubjectId(subjectId: ID!): BarnNote
-  @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
 
   ## BarnFacilities
   subscribeBarnFacilitySummariesByBarnId(barnId: ID!): BarnFacilitySummary
-  @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
+    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
 }
-
 
 ## Barn
 input CreateBarnInput {
@@ -113,6 +110,13 @@ input CreateBarnInput {
   barnType: BarnType!
   barnAddressInput: UpsertMsAddressInput!
 }
+
+## CreateBarnError
+"not authorized"
+"barn name length exceeded"
+"maximum barn limit reached"
+"unknown error"
+
 
 type BarnSummary {
   barnId: ID!
@@ -207,7 +211,6 @@ enum BarnDeactivationReason {
   VIOLATION
 }
 
-
 ## BarnBoard
 type BarnBoard {
   barnId: ID!
@@ -286,7 +289,6 @@ enum BarnBoardStatus {
   DENIED
   SUSPENDED
 }
-
 
 ## BarnPlan
 type BarnPlan {
@@ -390,7 +392,6 @@ enum BarnPlanSupplier {
   HORSE_OWNER
 }
 
-
 ## BarnFamily
 type BarnFamily {
   barnId: ID!
@@ -475,7 +476,6 @@ enum BarnFamilyStatus {
   ACTIVE
   SUSPENDED
 }
-
 
 ## BarnActivity
 type BarnActivities {
@@ -565,7 +565,6 @@ input DeleteBarnNoteInput {
   associatedId: ID!
 }
 
-
 ## BarnFacility
 type BarnFacility {
   barnId: ID!
@@ -626,7 +625,21 @@ enum BarnFacilityType {
   FARRIER_STATION
 }
 
-union BarnFacilityProfile = StallProfile | PastureProfile | ArenaProfile | TrailProfile | WashBayProfile | TackRoomProfile | FeedRoomProfile | PenProfile | ObservationAreaProfile | LoungeProfile | RunProfile | TurnoutAreaProfile | HayStorageProfile | FarrierStationProfile
+union BarnFacilityProfile =
+    StallProfile
+  | PastureProfile
+  | ArenaProfile
+  | TrailProfile
+  | WashBayProfile
+  | TackRoomProfile
+  | FeedRoomProfile
+  | PenProfile
+  | ObservationAreaProfile
+  | LoungeProfile
+  | RunProfile
+  | TurnoutAreaProfile
+  | HayStorageProfile
+  | FarrierStationProfile
 
 type StallProfile {
   stallProfileName: String
