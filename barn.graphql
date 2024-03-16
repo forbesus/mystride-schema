@@ -113,8 +113,8 @@ input CreateBarnInput {
 
 ## CreateBarnError
 "not authorized"
-"barn name length exceeded"
-"maximum barn limit reached"
+"name length exceeded"
+"barn limit exceeded"
 "unknown error"
 
 
