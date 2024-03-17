@@ -47,10 +47,50 @@ type UserProfile {
   userLastName: String
   userBio: String
   userAddress: MsAddress
+  userPrimaryBarn: BarnProfileSummary
   userPrimaryDiscipline: MsDiscipline
   userAdditionalDisciplines: [MsDiscipline]
-  userMainMount: HorseSummary
-  userHeartHorse: HorseSummary
+  userMainMount: HorseProfileSummary
+  userHeartHorse: HorseProfileSummary
+}
+
+input GetUserProfileInput {
+  userId: ID!
+}
+
+enum GetUserProfileError {
+  NOT_FOUND
+  NOT_AUTHORIZED
+  SERVICE
+}
+
+input UpdateUserProfileInput {
+  userId: ID!
+  userAvatarId: ID
+  userLocale: UpsertMsLocaleInput
+  userFirstName: String
+  userLastName: String
+  userBio: String
+  userAddress: UpsertMsAddressInput
+  userPrimaryBarnId: ID
+  userPrimaryDiscipline: MsDiscipline
+  userAdditionalDisciplines: [MsDiscipline]
+  userMainMountId: ID
+  userHeartHorseId: ID
+}
+
+enum UpdateUserProfileError {
+  NOT_FOUND
+  NOT_AUTHORIZED
+  INVALID_AVATAR_ID
+  INVALID_LOCALE
+  EXCEEDED_NAME_LENGTH
+  EXCEEDED_BIO_LENGTH
+  INVALID_ADDRESS
+  INVALID_PRIMARY_BARN
+  INVALID_MAIN_MOUNT
+  INVALID_HEART_HORSE
+  SERVICE
 }
 
 type UserProfileSummary {
@@ -61,15 +101,6 @@ type UserProfileSummary {
   userPrimaryDiscipline: MsDiscipline
   userPrimaryBarn: BarnSummary
   userMainMount: HorseSummary
-}
-
-input getUserProfileInput {
-  userId: ID!
-}
-
-input UpdateUserProfileInput {
-  userId: ID!
-  userFirstName: String
 }
 
 type UserDevice {

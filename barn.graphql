@@ -113,9 +113,9 @@ input CreateBarnInput {
 
 enum CreateBarnError {
   NOT_AUTHORIZED
-  NAME_LENGTH_EXCEEDED
-  BARN_LIMIT_EXCEEDED
-  UNKNOWN
+  EXCEEDED_NAME_LENGTH
+  EXCEEDED_BARN_LIMIT
+  SERVICE
 }
 
 type BarnSummary {
