@@ -111,12 +111,12 @@ input CreateBarnInput {
   barnAddressInput: UpsertMsAddressInput!
 }
 
-## CreateBarnError
-"not authorized"
-"name length exceeded"
-"barn limit exceeded"
-"unknown error"
-
+enum CreateBarnError {
+  NOT_AUTHORIZED
+  NAME_LENGTH_EXCEEDED
+  BARN_LIMIT_EXCEEDED
+  UNKNOWN
+}
 
 type BarnSummary {
   barnId: ID!

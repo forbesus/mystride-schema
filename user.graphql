@@ -44,7 +44,9 @@ type UserProfile {
   userStatus: UserStatus!
   userCreatedOn: AWSDateTime!
   userSuspendedOn: AWSDateTime
+  userSuspendedBy: UserProfileSummary
   userDeactivatedOn: AWSDateTime
+  userDeactivatedBy: UserProfileSummary
   userLocale: MsLocale!
   userFirstName: String
   userLastName: String
@@ -52,8 +54,8 @@ type UserProfile {
   userAddress: MsAddress
   userPrimaryDiscipline: MsDiscipline
   userAdditionalDisciplines: [MsDiscipline]
-  userMainMount: ID
-  userHeartHorse: ID
+  userMainMount: HorseSummary
+  userHeartHorse: HorseSummary
 }
 
 type UserProfileSummary {
@@ -62,6 +64,8 @@ type UserProfileSummary {
   userFirstName: String
   userLastName: String
   userPrimaryDiscipline: MsDiscipline
+  userPrimaryBarn: BarnSummary
+  userMainMount: HorseSummary
 }
 
 input UpdateUserProfileInput {
