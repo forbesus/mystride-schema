@@ -9,7 +9,7 @@ type ProProfile {
   proType: ProType!
   proStatus: ProStatus!
   proDisplayName: String!
-  proOwner: UserProfileSummary!
+  proOwner: UserProfilePublic!
   proTimezone: MsTimezone!
   proAvatarId: ID!
   proAddressCity: String
@@ -23,8 +23,21 @@ type ProProfileSummary {
   proType: ProType!
   proStatus: ProStatus!
   proDisplayName: String!
-  proPrimaryOwner: UserProfileSummary!
+  proPrimaryOwner: UserProfilePublic!
   proTimezone: MsTimezone!
+  proAvatarId: ID!
+  proAddressCity: String
+  proAddressState: String
+  proAddressCountry: String
+  proAddressCountryCode: MsCountryCode
+}
+
+type ProProfilePublic {
+  proId: ID!
+  proType: ProType!
+  proStatus: ProStatus!
+  proDisplayName: String!
+  proPrimaryOwner: UserProfilePublic!
   proAvatarId: ID!
   proAddressCity: String
   proAddressState: String

@@ -100,8 +100,16 @@ type UserProfileSummary {
   userFirstName: String
   userLastName: String
   userPrimaryDiscipline: MsDiscipline
-  userPrimaryBarn: BarnSummary
-  userMainMount: HorseSummary
+  userPrimaryBarn: BarnProfilePublic
+  userMainMount: HorseProfilePublic
+}
+
+type UserProfilePublic {
+  userId: ID!
+  userAvatarId: String!
+  userFirstName: String
+  userLastName: String
+  userPrimaryDiscipline: MsDiscipline
 }
 
 type UserDevice {

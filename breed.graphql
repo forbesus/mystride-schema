@@ -8,10 +8,6 @@ type Breed {
   breedOrganizations: [Org]
 }
 
-type BreedSummary {
-  breedId: ID!
-  breedProfileSummary: BreedProfileSummary!
-}
 
 ## BreedProfile
 type BreedProfile {
@@ -42,7 +38,7 @@ type BreedProfile {
   breedPrimaryUse: String
 }
 
-type BreedProfileSummary {
+type BreedProfileSummary{
   breedId: ID!
   breedCommonNameEn: String!
   breedAlternateNameEn: String

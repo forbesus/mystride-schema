@@ -118,23 +118,23 @@ enum HorseRole {
 type HorseProfile {
   horseId: ID!
   horseDisplayName: String!
-  horsePrimaryOwner: UserProfileSummary!
+  horsePrimaryOwner: UserProfilePublic!
   horseStatus: HorseStatus!
   horseCreatedOn: AWSDateTime!
-  horseCreatedBy: UserProfileSummary!
+  horseCreatedBy: UserProfilePublic!
   horseAvatarId: ID!
   horseModifiedOn: AWSDateTime
-  horseModifiedBy: UserProfileSummary
+  horseModifiedBy: UserProfilePublic
   horseDeactivatedOn: AWSDateTime
-  horseDeactivatedBy: UserProfileSummary
+  horseDeactivatedBy: UserProfilePublic
   horseDeceasedOn: AWSDateTime
   horseCategory: HorseCategory
   horseBred: HorseBred
   horseSireBreed: BreedSummary
   horseDamnBreed: BreedSummary
-  horseSireHorseSummary: HorseSummary
+  horseSireHorseSummary: HorseProfilePublic
   horseSireOwnerConfirmation: Boolean
-  horseDamnHorseSummary: HorseSummary
+  horseDamnHorseSummary: HorseProfilePublic
   horseDamnOwnerConfirmation: Boolean
   horseGender: HorseGender
   horseBuild: HorseBuild
@@ -151,11 +151,21 @@ type HorseProfileSummary {
   horseId: ID!
   horseAvatarId: ID!
   horseDisplayName: String
-  horsePrimaryOwner: UserProfileSummary
+  horsePrimaryOwner: UserProfilePublic
   horseBirthday: AWSDateTime
   horseGender: HorseGender
-  horseSireBreedSummary: BreedSummary
-  horseDamnBreedSummary: BreedSummary
+  horseSireBreedSummary: BreedProfileSummary
+  horseDamnBreedSummary: BreedProfileSummary
+}
+
+type HorseProfilePublic {
+  horseId: ID!
+  horseAvatarId: ID!
+  horseDisplayName: String
+  horseBirthday: AWSDateTime
+  horseGender: HorseGender
+  horseSireBreedSummary: BreedProfileSummary
+  horseDamnBreedSummary: BreedProfileSummary
 }
 
 input GetHorseProfileInput {
@@ -277,18 +287,18 @@ type HorseShare {
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
-  horseShareUserProfileSummary: UserProfileSummary
-  horseShareProProfileSummary: ProProfileSummary
-  horseShareInvitedBy: UserProfileSummary!
+  horseShareUserProfileSummary: UserProfilePublic
+  horseShareProProfileSummary: ProProfilePublic
+  horseShareInvitedBy: UserProfilePublic!
   horseShareInvitedOn: AWSDateTime!
   horseShareAcceptedOn: AWSDateTime
   horseShareDeclinedOn: AWSDateTime
-  horseShareSuspendedBy: UserProfileSummary
+  horseShareSuspendedBy: UserProfilePublic
   horseShareSuspendedOn: AWSDateTime
   horseShareDeactivatedOn: AWSDateTime
-  horseShareDeactivatedBy: UserProfileSummary
+  horseShareDeactivatedBy: UserProfilePublic
   horseShareAutoDeactivateOn: AWSDateTime
-  horseShareAutoDeactivateSetBy: UserProfileSummary
+  horseShareAutoDeactivateSetBy: UserProfilePublic
   horseShareComment: String
 }
 
@@ -298,16 +308,16 @@ type HorseShareSummary {
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
-  horseShareUserProfileSummary: UserProfileSummary
-  horseShareProProfileSummary: ProProfileSummary
-  horseShareInvitedBy: UserProfileSummary!
+  horseShareUserProfileSummary: UserProfilePublic
+  horseShareProProfileSummary: ProProfilePublic
+  horseShareInvitedBy: UserProfilePublic!
   horseShareInvitedOn: AWSDateTime!
   horseShareAcceptedOn: AWSDateTime
   horseShareDeclinedOn: AWSDateTime
-  horseShareSuspendedBy: UserProfileSummary
+  horseShareSuspendedBy: UserProfilePublic
   horseShareSuspendedOn: AWSDateTime
   horseShareDeactivatedOn: AWSDateTime
-  horseShareDeactivatedBy: UserProfileSummary
+  horseShareDeactivatedBy: UserProfilePublic
 }
 input GetHorseShareSummariesInput {
   horseId: ID!
@@ -362,7 +372,8 @@ type HorseActivities {
 type HorseActivity {
   horseId: ID!
   horseActivityId: ID!
-  horseActivityAssignedToId: ID
+  horseActivityUserAssignment: UserProfilePublic
+  horseActivityBarnAssignment: BarnProfilePublic
   horseActivityType: HorseActivityType!
   horseActivityCreatedById: ID!
   horseActivityCreatedByName: String
@@ -431,7 +442,7 @@ type HorseNote {
   horseId: ID!
   horseNoteId: ID!
   horseNoteCreatedOn: AWSDateTime!
-  horseNoteCreatedBy: UserProfileSummary!
+  horseNoteCreatedBy: UserProfilePublic!
   horseNoteTitle: String
   horseNoteBody: String!
   horseNoteIsPined: Boolean

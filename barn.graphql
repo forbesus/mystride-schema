@@ -139,7 +139,7 @@ enum BarnRole {
 ## Barn
 type BarnProfile {
   barnId: ID!
-  barnOwnerSummary: UserProfileSummary!
+  barnOwnerSummary: UserProfilePublic!
   barnPhoneId: ID
   barnEmailId: ID
   barnType: BarnType!
@@ -165,11 +165,22 @@ type BarnProfile {
 
 type BarnProfileSummary {
   barnId: ID!
-  barnOwnerSummary: UserProfileSummary!
+  barnOwnerSummary: UserProfilePublic!
   barnType: BarnType!
   barnStatus: BarnStatus!
   barnDisplayName: String!
   barnTimezone: MsTimezone!
+  barnAvatarId: ID!
+  barnCity: String
+  barnState: String
+  barnCountry: String
+  barnCountryCode: String
+}
+
+type BarnProfilePublic {
+  barnId: ID!
+  barnType: BarnType!
+  barnDisplayName: String!
   barnAvatarId: ID!
   barnCity: String
   barnState: String
@@ -216,18 +227,18 @@ type BarnBoard {
   barnId: ID!
   horseId: ID!
   barnBoardStatus: BarnBoardStatus!
-  barnBoardHorse: Horse!
-  barnBoardBarnSummary: BarnSummary!
+  barnBoardHorse: HorseProfilePublic!
+  barnBoardBarn: BarnProfilePublic!
   barnBoardFacilitySummary: BarnFacilitySummary
   barnBoardPlan: BarnPlan
   barnBoardInitiatedOn: AWSDateTime!
-  barnBoardInitiatedBy: UserProfileSummary
+  barnBoardInitiatedBy: UserProfilePublic
   barnBoardModifiedOn: AWSDateTime
-  barnBoardModifiedBy: UserProfileSummary
+  barnBoardModifiedBy: UserProfilePublic
   barnBoardApprovedOn: AWSDateTime
-  barnBoardApprovedBy: UserProfileSummary
+  barnBoardApprovedBy: UserProfilePublic
   barnBoardRemovedOn: AWSDateTime
-  barnBoardRemovedBy: UserProfileSummary
+  barnBoardRemovedBy: UserProfilePublic
   barnBoardEndOn: AWSDateTime
   barnBoardComment: String
 }
@@ -236,8 +247,8 @@ type BarnBoardSummary {
   barnId: ID!
   horseId: ID!
   barnBoardStatus: BarnBoardStatus!
-  barnBoardHorseSummary: HorseSummary!
-  barnBoardBarnSummary: BarnSummary!
+  barnBoardHorseSummary: HorseProfilePublic!
+  barnBoardBarnSummary: BarnProfilePublic!
   barnBoardFacilitySummary: BarnFacilitySummary
 }
 
@@ -294,9 +305,9 @@ enum BarnBoardStatus {
 type BarnPlan {
   barnPlanId: ID!
   barnPlanCreatedOn: AWSDateTime!
-  barnPlanCreatedBy: UserProfileSummary!
+  barnPlanCreatedBy: UserProfilePublic!
   barnPlanModifiedOn: AWSDateTime
-  barnPlanModifiedBy: UserProfileSummary
+  barnPlanModifiedBy: UserProfilePublic
   barnPlanType: BarnPlanType!
   barnPlanName: String
   barnPlanPrice: Int
@@ -398,18 +409,18 @@ type BarnFamily {
   barnFamilyId: ID!
   barnFamilyType: BarnFamilyType!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyUserProfileSummary: UserProfileSummary
-  barnFamilyProProfileSummary: ProProfileSummary
+  barnFamilyUserProfileSummary: UserProfilePublic
+  barnFamilyProProfileSummary: ProProfilePublic
   barnFamilyInvitedOn: AWSDateTime!
-  barnFamilyInvitedBy: UserProfileSummary
+  barnFamilyInvitedBy: UserProfilePublic
   barnFamilyAcceptedOn: AWSDateTime
   barnFamilyDeclinedOn: AWSDateTime
   barnFamilySuspendedOn: AWSDateTime
-  barnFamilySuspendedBy: UserProfileSummary
+  barnFamilySuspendedBy: UserProfilePublic
   barnFamilyDeactivatedOn: AWSDateTime
-  barnFamilyDeactivatedBy: UserProfileSummary
+  barnFamilyDeactivatedBy: UserProfilePublic
   barnFamilyAutoDeactivateOn: AWSDateTime
-  barnFamilyAutoDeactivateSetBy: UserProfileSummary
+  barnFamilyAutoDeactivateSetBy: UserProfilePublic
   barnFamilyIsAnonymous: Boolean
 }
 
@@ -418,17 +429,17 @@ type BarnFamilySummary {
   barnFamilyId: ID!
   barnFamilyType: BarnFamilyType!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyUserProfileSummary: UserProfileSummary
-  barnFamilyProProfileSummary: ProProfileSummary
+  barnFamilyUserProfileSummary: UserProfilePublic
+  barnFamilyProProfileSummary: ProProfilePublic
   barnFamilyInvitedOn: AWSDateTime!
   barnFamilyAcceptedOn: AWSDateTime
   barnFamilyDeclinedOn: AWSDateTime
   barnFamilySuspendedOn: AWSDateTime
-  barnFamilySuspendedBy: UserProfileSummary
+  barnFamilySuspendedBy: UserProfilePublic
   barnFamilyDeactivatedOn: AWSDateTime
-  barnFamilyDeactivatedBy: UserProfileSummary
+  barnFamilyDeactivatedBy: UserProfilePublic
   barnFamilyAutoDeactivateOn: AWSDateTime
-  barnFamilyAutoDeactivateSetBy: UserProfileSummary
+  barnFamilyAutoDeactivateSetBy: UserProfilePublic
   barnFamilyIsAnonymous: Boolean
 }
 
@@ -487,10 +498,10 @@ type BarnActivity {
   barnId: ID!
   barnActivityType: BarnActivityType
   barnActivityCreatedOn: AWSDateTime!
-  barnActivityCreatedBy: UserProfileSummary!
+  barnActivityCreatedBy: UserProfilePublic!
   barnActivityDueDate: AWSDateTime
-  barnActivityAssignedTo: UserProfileSummary
-  barnActivityCompletedBy: UserProfileSummary
+  barnActivityAssignedTo: UserProfilePublic
+  barnActivityCompletedBy: UserProfilePublic
 }
 
 input GetBarnActivitiesInput {
@@ -535,7 +546,7 @@ type BarnNote {
   barnNoteId: ID!
   subjectId: ID!
   barnNoteCreatedOn: AWSDateTime!
-  barnNoteCreatedBy: UserProfileSummary!
+  barnNoteCreatedBy: UserProfilePublic!
   barnNoteTitle: String
   barnNoteBody: String!
   barnNoteIsPined: Boolean
@@ -573,11 +584,11 @@ type BarnFacility {
   barnFacilityName: String
   barnFacilityNumber: Float
   barnFacilityDescription: String
-  barnFacilityManager: UserProfileSummary
+  barnFacilityManager: UserProfilePublic
   barnFacilityCreatedOn: AWSDateTime!
-  barnFacilityCreatedBy: UserProfileSummary
+  barnFacilityCreatedBy: UserProfilePublic
   barnFacilityModifiedOn: AWSDateTime
-  barnFacilityModifiedBy: UserProfileSummary
+  barnFacilityModifiedBy: UserProfilePublic
 }
 
 type BarnFacilitySummary {
