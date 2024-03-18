@@ -2,6 +2,7 @@
 ## Queries
 type Query {
   getUserProfile: UserProfile!
+  getUserDevices: [UserDevice]!
 }
 
 
