@@ -38,16 +38,16 @@ input UpsertMsAddressInput {
 
 type MsLocale {
   localeCountryCode: MsCountryCode!
-  localeMeasurementSystemCode: MsMeasurementCode!
-  localNumberingSystemCode: MsNumberingSystemCode!
+  localeMeasurementCode: MsMeasurementCode!
+  localNumberingCode: MsNumberingCode!
   localeLanguageCode: MsLanguageCode!
   localeCurrencyCode: MsCurrencyCode!
 }
 
 input UpsertMsLocaleInput {
   localeCountryCode: MsCountryCode
-  localeMeasurementSystemCode: MsMeasurementCode
-  localeNumberingSystemCode: MsNumberingCode
+  localeMeasurementCode: MsMeasurementCode
+  localeNumberingCode: MsNumberingCode
   localeLanguageCode: MsLanguageCode
   localeCurrencyCode: MsCurrencyCode
 }
