@@ -21,8 +21,8 @@ type BreedProfile {
   breedCategory: String
   breedBuild: String
   breedType: String
-  breedOrginCountryCode: String
-  breedOrginCountry: String
+  breedOriginCountryCode: String
+  breedOriginCountry: String
   breedRegions: [String]
   breedOrgs: [ID]
   breedRelatives: [BreedProfileSummary]
