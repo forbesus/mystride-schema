@@ -39,7 +39,7 @@ input UpsertMsAddressInput {
 type MsLocale {
   localeCountryCode: MsCountryCode!
   localeMeasurementCode: MsMeasurementCode!
-  localNumberingCode: MsNumberingCode!
+  localeNumberingCode: MsNumberingCode!
   localeLanguageCode: MsLanguageCode!
   localeCurrencyCode: MsCurrencyCode!
 }
