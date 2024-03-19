@@ -37,19 +37,19 @@ input UpsertMsAddressInput {
 }
 
 type MsLocale {
-  countryCode: MsCountryCode!
-  measurementSystem: MsMeasurementSystemCode!
-  numberSystem: MsNumberSystemCode!
-  preferredLanguage: MsLanguageCode!
-  currencyCode: MsCurrencyCode!
+  localeCountryCode: MsCountryCode!
+  localeMeasurementSystem: MsMeasurementSystemCode!
+  localNumberSystem: MsNumberSystemCode!
+  localePreferredLanguage: MsLanguageCode!
+  localeCurrencyCode: MsCurrencyCode!
 }
 
 input UpsertMsLocaleInput {
-  countryCode: MsCountryCode
-  measurementSystem: MsMeasurementSystemCode
-  numberSystem: MsNumberSystemCode
-  preferredLanguage: MsLanguageCode
-  currencyCode: MsCurrencyCode
+  localeCountryCode: MsCountryCode
+  localeMeasurementSystem: MsMeasurementSystemCode
+  localeNumberSystem: MsNumberSystemCode
+  localePreferredLanguage: MsLanguageCode
+  localeCurrencyCode: MsCurrencyCode
 }
 
 enum MsColorScheme {
