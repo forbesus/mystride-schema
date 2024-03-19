@@ -130,8 +130,8 @@ type HorseProfile {
   horseDeceasedOn: AWSDateTime
   horseCategory: HorseCategory
   horseBred: HorseBred
-  horseSireBreed: BreedSummaryProfile
-  horseDamnBreed: BreedSummaryProfile
+  horseSireBreed: BreedProfileSummary
+  horseDamnBreed: BreedProfileSummary
   horseSire: HorseProfilePublic
   horseSireOwnerConfirmation: Boolean
   horseDamn: HorseProfilePublic
