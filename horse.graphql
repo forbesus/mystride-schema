@@ -79,18 +79,6 @@ type Subscription {
 }
 
 ## Horse
-type Horse {
-  horseId: ID!
-  horseRole: HorseRole!
-  horseShareAssociation: HorseShare
-  horseProfile: HorseProfile!
-  horseShareSummaries: [HorseShareSummary]
-  horseBoardSummaries: [BarnBoardSummary]
-  horseActivities: [HorseActivity]
-  horseNotes: [HorseNote]
-  horsServings: [HorseServing]
-}
-
 type HorseSummary {
   horseId: ID!
   horseRole: HorseRole!
@@ -133,9 +121,9 @@ type HorseProfile {
   horseSireBreed: BreedProfileSummary
   horseDamnBreed: BreedProfileSummary
   horseSire: HorseProfilePublic
-  horseSireOwnerConfirmation: Boolean
+  horseSiringStatus: HorseSiringStatus
   horseDamn: HorseProfilePublic
-  horseDamnOwnerConfirmation: Boolean
+  horseDammingStatus: HorseDammingStatus
   horseGender: HorseGender
   horseBuild: HorseBuild
   horseClassification: HorseClassification
@@ -154,8 +142,8 @@ type HorseProfileSummary {
   horsePrimaryOwner: UserProfilePublic
   horseBirthday: AWSDateTime
   horseGender: HorseGender
-  horseSireBreedSummary: BreedProfileSummary
-  horseDamnBreedSummary: BreedProfileSummary
+  horseSireBreed: BreedProfileSummary
+  horseDamnBreed: BreedProfileSummary
 }
 
 type HorseProfilePublic {
@@ -164,8 +152,8 @@ type HorseProfilePublic {
   horseDisplayName: String
   horseBirthday: AWSDateTime
   horseGender: HorseGender
-  horseSireBreedSummary: BreedProfileSummary
-  horseDamnBreedSummary: BreedProfileSummary
+  horseSireBreed: BreedProfileSummary
+  horseDamnBreed: BreedProfileSummary
 }
 
 input GetHorseProfileInput {
@@ -175,6 +163,18 @@ input GetHorseProfileInput {
 
 input UpdateHorseProfileInput {
   horseDisplayName: String!
+}
+
+enum HorseSiringStatus {
+  REQUESTED
+  DENIED
+  CONFIRMED
+}
+
+enum HorseDammingStatus {
+  REQUESTED
+  DENIED
+  CONFIRMED
 }
 
 enum HorseStatus {
