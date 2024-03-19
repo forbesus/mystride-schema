@@ -38,7 +38,7 @@ input UpsertMsAddressInput {
 
 type MsLocale {
   localeCountryCode: MsCountryCode!
-  localeMeasurementSystemCode: MsMeasurementSystemCode!
+  localeMeasurementSystemCode: MsMeasurementCode!
   localNumberingSystemCode: MsNumberingSystemCode!
   localeLanguageCode: MsLanguageCode!
   localeCurrencyCode: MsCurrencyCode!
@@ -46,8 +46,8 @@ type MsLocale {
 
 input UpsertMsLocaleInput {
   localeCountryCode: MsCountryCode
-  localeMeasurementSystemCode: MsMeasurementSystemCode
-  localeNumberingSystemCode: MsNumberingSystemCode!
+  localeMeasurementSystemCode: MsMeasurementCode
+  localeNumberingSystemCode: MsNumberingCode
   localeLanguageCode: MsLanguageCode
   localeCurrencyCode: MsCurrencyCode
 }
@@ -119,7 +119,7 @@ enum MsOperatingSystem {
   WEB
 }
 
-enum MsNumberingSystemCode {
+enum MsNumberingCode {
   latn
   arab
   arabext
@@ -170,7 +170,7 @@ enum MsLanguageCode {
   tr
 }
 
-enum MsMeasurementSystemCode {
+enum MsMeasurementCode {
   US
   UK
   METRIC
