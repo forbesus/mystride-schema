@@ -50,7 +50,7 @@ type UserProfile {
   userAddress: MsAddress
   userPrimaryBarn: BarnProfilePublic
   userPrimaryDiscipline: MsDiscipline
-  userAdditionalDisciplines: [MsDiscipline]
+  userSecondaryDisciplines: [MsDiscipline]
   userMainMount: HorseProfilePublic
   userHeartHorse: HorseProfilePublic
 }
@@ -75,7 +75,7 @@ input UpdateUserProfileInput {
   userAddress: UpsertMsAddressInput
   userPrimaryBarnId: ID
   userPrimaryDiscipline: MsDiscipline
-  userAdditionalDisciplines: [MsDiscipline]
+  userSecondaryDisciplines: [MsDiscipline]
   userMainMountId: ID
   userHeartHorseId: ID
 }
