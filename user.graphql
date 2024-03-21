@@ -94,6 +94,11 @@ enum UpdateUserProfileError {
   SERVICE
 }
 
+enum SubscribeUserProfileError {
+  NOT_AUTHORIZED
+  SERVICE
+}
+
 type UserProfileSummary {
   userId: ID!
   userAvatarId: String!
