@@ -458,7 +458,7 @@ input CreateBarnFamilyInput {
   barnId: ID!
   barnFamilyId: ID
   barnFamilyType: BarnFamilyType!
-  barnFamilyExpiryTime: Int
+  barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
 input UpdateBarnFamilyInput {
