@@ -231,15 +231,22 @@ type BarnBoard {
   barnBoardBarn: BarnProfilePublic!
   barnBoardFacilitySummary: BarnFacilitySummary
   barnBoardPlan: BarnPlan
-  barnBoardInitiatedOn: AWSDateTime!
   barnBoardInitiatedBy: UserProfilePublic
-  barnBoardModifiedOn: AWSDateTime
+  barnBoardInitiatedOn: AWSDateTime!
   barnBoardModifiedBy: UserProfilePublic
-  barnBoardApprovedOn: AWSDateTime
-  barnBoardApprovedBy: UserProfilePublic
-  barnBoardRemovedOn: AWSDateTime
-  barnBoardRemovedBy: UserProfilePublic
-  barnBoardEndOn: AWSDateTime
+  barnBoardModifiedOn: AWSDateTime
+  barnBoardAcceptedBy: UserProfilePublic
+  barnBoardAcceptedOn: AWSDateTime
+  barnBoardDeclinedBy: UserProfilePublic
+  barnBoardDeclinedOn: AWSDateTime
+  barnBoardWaitlistedBy: UserProfilePublic
+  barnBoardWaitlistedOn: AWSDateTime
+  barnBoardSuspendedBy: UserProfilePublic
+  barnBoardSuspendedOn: AWSDateTime
+  barnBoardDeactivatedBy: UserProfilePublic
+  barnBoardDeactivatedOn: AWSDateTime
+  barnBoardAutoDeactivateSetBy: UserProfilePublic
+  barnBoardAutoDeactivateOn: AWSDateTime
   barnBoardComment: String
 }
 
@@ -266,23 +273,33 @@ input GetBarnBoardInput {
 input CreateBarnBoardInput {
   barnId: ID!
   horseId: ID!
-  barnBoardStatus: BarnBoardStatus!
-  barnBoardType: BarnBoardType
-  barnBoardStallId: ID
-  barnBoardStall: CreateBarnFacilityInput
-  barnBoardPlanPackage: ID
-  barnBoardPlanCustom: CreateBarnPlanInput
+  barnBoardFacilityId: ID
+  barnBoardCreateFacilityInput: CreateBarnFacilityInput
+  barnBoardPlanId: ID
+  barnBoardCreatePlanInput: CreateBarnPlanInput
+}
+
+enum CreateBarnBoardError {
+  AUTHORIZATION
+  EXCEEDED_BARN_BOARD_LIMIT
+  EXCEEDED_BARN_FACILITY_LIMIT
+  MISSING_REQUIRED_BARN_PLAN
+  MISSING_REQUIRED_BARN_FACILITY
+  CONFLICTING_BARN_PLAN_INPUT
+  CONFLICTING_BARN_FACILITY_INPUT
+  NONEXISTENT_BARN_ID
+  NONEXISTENT_HORSE_ID
+  NONEXISTENT_BARN_PLAN_ID
+  NONEXISTENT_BARN_FACILITY_ID
+  SERVICE
 }
 
 input UpdateBarnBoardInput {
   barnId: ID!
   horseId: ID!
   barnBoardStatus: BarnBoardStatus
-  barnBoardType: BarnBoardType
-  barnBoardExistingStall: ID
-  barnBoardNewStall: CreateBarnFacilityInput
-  barnBoardPlanPackage: ID
-  barnBoardPlanCustom: CreateBarnPlanInput
+  barnBoardFacilityId: ID
+  barnBoardPlanId: ID
 }
 
 enum BarnBoardType {
@@ -304,6 +321,8 @@ enum BarnBoardStatus {
 ## BarnPlan
 type BarnPlan {
   barnPlanId: ID!
+  barnPlanType: BarnPlanType!
+  barnPlanStatus: BarnPlanStatus!
   barnPlanCreatedOn: AWSDateTime!
   barnPlanCreatedBy: UserProfilePublic!
   barnPlanModifiedOn: AWSDateTime
@@ -333,6 +352,7 @@ type BarnPlan {
 type BarnPlanSummary {
   barnPlanId: ID!
   barnPlanType: BarnPlanType!
+  barnPlanStatus: BarnPlanStatus!
   barnPlanName: String
   barnPlanPrice: Int
   barnPlanCurrency: MsCurrencyCode
@@ -351,7 +371,7 @@ input GetBarnPlanInput {
 
 input CreateBarnPlanInput {
   barnPlanName: String
-  barnPlanType: BarnPlanType
+  barnPlanType: BarnPlanType!
   barnPlanPrice: Int
   barnPlanCurrency: MsCurrencyCode
   barnPlanDescription: String
@@ -374,6 +394,7 @@ input CreateBarnPlanInput {
 
 input UpdateBarnPlanInput {
   barnPlanName: String
+  barnPlanStatus: BarnPlanStatus
   barnPlanPrice: Int
   barnPlanDescription: String
   barnPlanForage: Boolean
@@ -394,7 +415,7 @@ input UpdateBarnPlanInput {
 }
 
 enum BarnPlanType {
-  PACKAGE
+  GROUP
   CUSTOM
 }
 
@@ -402,6 +423,12 @@ enum BarnPlanSupplier {
   BARN
   HORSE_OWNER
 }
+
+enum BarnPlanStatus {
+  ACTIVE
+  INACTIVE
+}
+
 
 ## BarnFamily
 type BarnFamily {
@@ -581,6 +608,7 @@ type BarnFacility {
   barnId: ID!
   barnFacilityId: ID!
   barnFacilityType: BarnFacilityType!
+  barnFacilityStatus: BarnFacilityStatus!
   barnFacilityName: String
   barnFacilityNumber: Float
   barnFacilityDescription: String
@@ -595,6 +623,7 @@ type BarnFacilitySummary {
   barnId: ID!
   barnFacilityId: ID!
   barnFacilityType: BarnFacilityType!
+  barnFacilityStatus: BarnFacilityStatus!
   BarnFacilityName: String
   BarnFacilityNumber: Float
 }
@@ -612,11 +641,26 @@ input GetBarnFacilityInput {
 
 input CreateBarnFacilityInput {
   barnId: ID!
+  barnFacilityType: BarnFacilityType!
+  BarnFacilityName: String
+  BarnFacilityNumber: Float
+  BarnFacilityDescription: String
+  barnFacilityManagerId: ID
+}
+
+export enum CreateBarnFacilityError {
+  AUTHORIZATION = "AUTHORIZATION",
+  DUPLICATE_FACILITY_NUMBER = "DUPLICATE_FACILITY_NUMBER",
+  SERVICE = "SERVICE",
 }
 
 input UpdateBarnFacilityInput {
   barnId: ID!
   barnFacilityId: ID!
+  barnFacilityStatus: BarnFacilityStatus
+  barnFacilityName: String
+  barnFacilityDescription: String
+  barnFacilityManagerId: ID
 }
 
 enum BarnFacilityType {
@@ -634,6 +678,12 @@ enum BarnFacilityType {
   RUN
   HAY_STORAGE
   FARRIER_STATION
+}
+
+enum BarnFacilityStatus {
+  IN_SERVICE
+  OUT_OF_SERVICE
+  CLOSED
 }
 
 union BarnFacilityProfile =
