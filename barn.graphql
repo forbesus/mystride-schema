@@ -130,10 +130,12 @@ input GetBarnSummariesInput {
 }
 
 enum BarnRole {
-  BARN_OWNER
-  BARN_FAMILY
-  BARN_BOARD
-  MYSTRIDE
+  OWNER
+  ADMIN
+  STAFF
+  PRO
+  BOARDER
+  MEMBER
 }
 
 ## Barn
