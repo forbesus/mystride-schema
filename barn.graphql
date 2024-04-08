@@ -647,12 +647,6 @@ input CreateBarnFacilityInput {
   barnFacilityManagerId: ID
 }
 
-export enum CreateBarnFacilityError {
-  AUTHORIZATION = "AUTHORIZATION",
-  DUPLICATE_FACILITY_NUMBER = "DUPLICATE_FACILITY_NUMBER",
-  SERVICE = "SERVICE",
-}
-
 input UpdateBarnFacilityInput {
   barnId: ID!
   barnFacilityId: ID!
