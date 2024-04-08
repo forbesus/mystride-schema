@@ -98,8 +98,10 @@ input CreateHorseInput {
 
 enum HorseRole {
   OWNER
-  SHARE
-  MYSTRIDE
+  SHAREHOLDER
+  LESSEE
+  CARETAKER
+  RIDER
 }
 
 ## HorseProfile
@@ -355,11 +357,11 @@ enum HorseShareType {
 }
 
 enum HorseShareStatus {
-  INVITED
   ACTIVE
   SUSPENDED
+  DEACTIVATED
+  INVITED
   DECLINED
-  REMOVED
 }
 
 

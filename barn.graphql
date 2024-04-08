@@ -131,11 +131,11 @@ input GetBarnSummariesInput {
 
 enum BarnRole {
   OWNER
-  ADMIN
+  MANAGER
   STAFF
   PRO
-  BOARDER
   MEMBER
+  HORSE
 }
 
 ## Barn
@@ -283,6 +283,7 @@ input CreateBarnBoardInput {
 
 enum CreateBarnBoardError {
   AUTHORIZATION
+  EXISTING_BOARD
   EXCEEDED_BARN_BOARD_LIMIT
   EXCEEDED_BARN_FACILITY_LIMIT
   MISSING_REQUIRED_BARN_PLAN
@@ -311,14 +312,13 @@ enum BarnBoardType {
 
 enum BarnBoardStatus {
   ACTIVE
-  INACTIVE
-  INVITED
-  DECLINED
-  REQUESTED
-  DEFERRED
-  DENIED
   SUSPENDED
+  DEACTIVATED
+  REQUESTED
+  WAITLISTED
+  DECLINED
 }
+
 
 ## BarnPlan
 type BarnPlan {
@@ -510,11 +510,11 @@ enum BarnFamilyType {
 }
 
 enum BarnFamilyStatus {
-  INVITED
-  REQUESTED
-  DECLINED
   ACTIVE
   SUSPENDED
+  DEACTIVATED
+  INVITED
+  DECLINED
 }
 
 ## BarnActivity
