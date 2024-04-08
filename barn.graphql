@@ -275,10 +275,7 @@ input GetBarnBoardInput {
 input CreateBarnBoardInput {
   barnId: ID!
   horseId: ID!
-  barnBoardFacilityId: ID
-  barnBoardCreateFacilityInput: CreateBarnFacilityInput
-  barnBoardPlanId: ID
-  barnBoardCreatePlanInput: CreateBarnPlanInput
+  barnBoardRequestedPlanId: ID
 }
 
 enum CreateBarnBoardError {
