@@ -134,7 +134,9 @@ enum BarnRole {
   MANAGER
   STAFF
   PRO
+  BOARDER
   MEMBER
+  GUEST
   HORSE
 }
 
@@ -282,15 +284,8 @@ enum CreateBarnBoardError {
   AUTHORIZATION
   EXISTING_BOARD
   EXCEEDED_BARN_BOARD_LIMIT
-  EXCEEDED_BARN_FACILITY_LIMIT
-  MISSING_REQUIRED_BARN_PLAN
-  MISSING_REQUIRED_BARN_FACILITY
-  CONFLICTING_BARN_PLAN_INPUT
-  CONFLICTING_BARN_FACILITY_INPUT
   NONEXISTENT_BARN_ID
   NONEXISTENT_HORSE_ID
-  NONEXISTENT_BARN_PLAN_ID
-  NONEXISTENT_BARN_FACILITY_ID
   SERVICE
 }
 
@@ -433,7 +428,7 @@ enum BarnPlanStatus {
 type BarnFamily {
   barnId: ID!
   barnFamilyId: ID!
-  barnFamilyType: BarnFamilyType!
+  barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
   barnFamilyUserProfileSummary: UserProfilePublic
   barnFamilyProProfileSummary: ProProfilePublic
@@ -453,7 +448,7 @@ type BarnFamily {
 type BarnFamilySummary {
   barnId: ID!
   barnFamilyId: ID!
-  barnFamilyType: BarnFamilyType!
+  barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
   barnFamilyUserProfileSummary: UserProfilePublic
   barnFamilyProProfileSummary: ProProfilePublic
@@ -483,27 +478,28 @@ input GetBarnFamilyInput {
 input CreateBarnFamilyInput {
   barnId: ID!
   barnFamilyId: ID
-  barnFamilyType: BarnFamilyType!
+  barnFamilyRole: BarnRole!
   barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
+enum CreateBarnFamilyError {
+  AUTHORIZATION
+  EXISTING_FAMILY
+  EXCEEDED_BARN_FAMILY_LIMIT
+  NONEXISTENT_BARN_FAMILY_ID
+  NONEXISTENT_BARN_ID
+  SERVICE
 }
 
 input UpdateBarnFamilyInput {
   barnId: ID!
   barnFamilyId: ID!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyExpiryTime: Int
+  barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
 input AcceptBarnFamilyCodeInput {
   barnCode: ID!
-}
-
-enum BarnFamilyType {
-  CO_OWNER
-  STAFF
-  BOARDER
-  PRO
-  ORG
 }
 
 enum BarnFamilyStatus {
