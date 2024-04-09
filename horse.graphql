@@ -100,7 +100,7 @@ enum HorseRole {
   OWNER
   SHAREHOLDER
   LESSEE
-  CARETAKER
+  CAREGIVER
   RIDER
 }
 
@@ -283,14 +283,16 @@ enum HorseHeight {
 }
 
 
+union HorseShareProfilePublic = UserProfilePublic | ProProfilePublic
+
+
 ## HorseShare
 type HorseShare {
   horseId: ID!
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
-  horseShareUserProfileSummary: UserProfilePublic
-  horseShareProProfileSummary: ProProfilePublic
+  horseShareProfile: HorseShareProfilePublic!
   horseShareInvitedBy: UserProfilePublic!
   horseShareInvitedOn: AWSDateTime!
   horseShareAcceptedOn: AWSDateTime
