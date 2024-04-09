@@ -33,6 +33,7 @@ type Mutation {
   ## HorseShare
   createHorseShare(input: CreateHorseShareInput): HorseShareSummary!
   updateHorseShare(input: UpdateHorseShareInput): HorseShareSummary!
+  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareSummary!
   
   ## HorseActivities
   createHorseActivity(input: CreateHorseActivityInput): HorseActivity!
@@ -339,6 +340,10 @@ input CreateHorseShareInput {
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
+}
+
+input AcceptHorseShareQrCodeInput {
+  qrCode: ID!
 }
 
 input UpdateHorseShareInput {

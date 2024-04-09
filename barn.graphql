@@ -52,7 +52,7 @@ type Mutation {
   ## BarnFamily
   createBarnFamily(input: CreateBarnFamilyInput): BarnFamilySummary!
   updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilySummary!
-  acceptBarnFamilyCode(input: AcceptBarnFamilyCodeInput): BarnFamilySummary!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilySummary!
 
   ## BarnActivity
   createBarnActivity(input: CreateBarnActivityInput): BarnActivity!
@@ -498,8 +498,8 @@ input UpdateBarnFamilyInput {
   barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
-input AcceptBarnFamilyCodeInput {
-  barnCode: ID!
+input AcceptBarnFamilyQrCodeInput {
+  qrCode: ID!
 }
 
 enum BarnFamilyStatus {
