@@ -120,7 +120,7 @@ enum CreateBarnError {
 
 type BarnSummary {
   barnId: ID!
-  barnRoleAssociation: BarnRole!
+  barnRole: BarnRole!
   barnFamilyAssociation: BarnFamilySummary
   barnProfileSummary: BarnProfileSummary!
 }
