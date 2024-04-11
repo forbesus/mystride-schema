@@ -284,7 +284,7 @@ enum HorseHeight {
 }
 
 
-union HorseShareProfilePublic = UserProfilePublic | ProProfilePublic
+union HorseShareProfile = UserProfilePublic | ProProfilePublic
 
 
 ## HorseShare
@@ -293,7 +293,7 @@ type HorseShare {
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
-  horseShareProfile: HorseShareProfilePublic!
+  horseShareProfile: HorseShareProfile!
   horseShareInvitedBy: UserProfilePublic!
   horseShareInvitedOn: AWSDateTime!
   horseShareAcceptedOn: AWSDateTime

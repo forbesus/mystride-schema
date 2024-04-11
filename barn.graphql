@@ -422,6 +422,7 @@ enum BarnPlanStatus {
   INACTIVE
 }
 
+union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
 
 ## BarnFamily
 type BarnFamily {
@@ -429,10 +430,9 @@ type BarnFamily {
   barnFamilyId: ID!
   barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyUserProfileSummary: UserProfilePublic
-  barnFamilyProProfileSummary: ProProfilePublic
+  barnFamilyProfile:  BarnFamilyProfile!
   barnFamilyInvitedOn: AWSDateTime!
-  barnFamilyInvitedBy: UserProfilePublic
+  barnFamilyInvitedBy: UserProfilePublic!
   barnFamilyAcceptedOn: AWSDateTime
   barnFamilyDeclinedOn: AWSDateTime
   barnFamilySuspendedOn: AWSDateTime
@@ -447,19 +447,16 @@ type BarnFamily {
 type BarnFamilySummary {
   barnId: ID!
   barnFamilyId: ID!
+  barnFamilyProfile:  BarnFamilyProfile!
   barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyUserProfileSummary: UserProfilePublic
-  barnFamilyProProfileSummary: ProProfilePublic
   barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyInvitedBy: UserProfilePublic!
   barnFamilyAcceptedOn: AWSDateTime
   barnFamilyDeclinedOn: AWSDateTime
   barnFamilySuspendedOn: AWSDateTime
-  barnFamilySuspendedBy: UserProfilePublic
   barnFamilyDeactivatedOn: AWSDateTime
-  barnFamilyDeactivatedBy: UserProfilePublic
   barnFamilyAutoDeactivateOn: AWSDateTime
-  barnFamilyAutoDeactivateSetBy: UserProfilePublic
   barnFamilyIsAnonymous: Boolean
 }
 
