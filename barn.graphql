@@ -36,7 +36,7 @@ type Query {
 ## Mutations
 type Mutation {
   ## Barn
-  createBarn(input: CreateBarnInput): ID!
+  createBarn(input: CreateBarnInput): BarnSummary!
 
   ## BarnProfile
   updateBarnProfile(input: UpdateBarnProfileInput): BarnProfile!
