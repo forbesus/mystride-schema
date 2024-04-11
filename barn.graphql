@@ -121,8 +121,8 @@ enum CreateBarnError {
 type BarnSummary {
   barnId: ID!
   barnRole: BarnRole!
-  barnFamilyAssociation: BarnFamilySummary
-  barnProfileSummary: BarnProfileSummary!
+  barnFamily: BarnFamilySummary
+  barnProfile: BarnProfileSummary!
 }
 
 input GetBarnSummariesInput {
