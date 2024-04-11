@@ -143,7 +143,7 @@ enum BarnRole {
 ## Barn
 type BarnProfile {
   barnId: ID!
-  barnOwnerSummary: UserProfilePublic!
+  barnOwner: UserProfilePublic!
   barnPhoneId: ID
   barnEmailId: ID
   barnType: BarnType!
@@ -151,13 +151,13 @@ type BarnProfile {
   barnStatus: BarnStatus!
   barnDisplayName: String!
   barnCreatedOn: AWSDateTime!
-  barnCreatedBy: UserProfileSummary!
+  barnCreatedBy:UserProfilePublic!
   barnModifiedOn: AWSDateTime
-  barnModifiedBy: UserProfileSummary
+  barnModifiedBy: UserProfilePublic
   barnSuspendedOn: AWSDateTime
-  barnSuspendedBy: UserProfileSummary
+  barnSuspendedBy: UserProfilePublic
   barnDeactivatedOn: AWSDateTime
-  barnDeactivatedBy: UserProfileSummary
+  barnDeactivatedBy: UserProfilePublic
   barnDeactivationReason: BarnDeactivationReason
   barnDeactivationComment: String
   barnTimezone: MsTimezone!
@@ -169,7 +169,7 @@ type BarnProfile {
 
 type BarnProfileSummary {
   barnId: ID!
-  barnOwnerSummary: UserProfilePublic!
+  barnOwner: UserProfilePublic!
   barnType: BarnType!
   barnStatus: BarnStatus!
   barnDisplayName: String!
