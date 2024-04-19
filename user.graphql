@@ -152,12 +152,12 @@ enum GetUserDeviceError {
 }
 
 input UpsertUserDeviceInput {
+  userDeviceVendorId: String!
   userDeviceOperatingSystem: MsOperatingSystem!
   userDeviceOsVersion: String!
   userDeviceModel: String!
   userDeviceModelLocalized: String!
   userDeviceName: String!
-  userDeviceVendorIdentifier: String!
   userDeviceAppVersion: String!
   userDeviceAppBuild: String!
   userDeviceAppId: String!
