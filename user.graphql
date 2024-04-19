@@ -125,15 +125,30 @@ type UserDevice {
   userDeviceModel: String!
   userDeviceModelLocalized: String!
   userDeviceName: String!
-  userDeviceVendorIdentifier: String!
   userDeviceAppVersion: String!
   userDeviceAppBuild: String!
   userDeviceAppId: String!
-  userDeviceRegisteredOn: String!
+  userDeviceUpdatedOn: AWSDateTime!
 }
 
 input GetUserDevicesInput {
   userId: ID!
+}
+
+enum GetUserDevicesError {
+  AUTHORIZATION
+  SERVICE
+}
+
+input GetUserDeviceInput {
+  userId: ID!
+  userDeviceId: ID!
+}
+
+enum GetUserDeviceError {
+  AUTHORIZATION
+  NONEXISTENT_DEVICE
+  SERVICE
 }
 
 input UpsertUserDeviceInput {
@@ -146,6 +161,10 @@ input UpsertUserDeviceInput {
   userDeviceAppVersion: String!
   userDeviceAppBuild: String!
   userDeviceAppId: String!
+}
+
+enum UpsertUserDeviceError {
+  SERVICE
 }
 
 # Enums
