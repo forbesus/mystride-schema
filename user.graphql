@@ -128,6 +128,7 @@ type UserDevice {
   userDeviceAppVersion: String!
   userDeviceAppBuild: String!
   userDeviceAppId: String!
+  userDeviceCreatedOn: AWSDateTime!
   userDeviceUpdatedOn: AWSDateTime!
 }
 
