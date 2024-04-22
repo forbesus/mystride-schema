@@ -352,6 +352,12 @@ input UpdateHorseShareInput {
   horseShareStatus: HorseShareStatus!
 }
 
+enum UpdateHorseShareError {
+  NOT_FOUND
+  NOT_AUTHORIZED
+  SERVICE
+}
+
 input AcceptHorseShareCodeInput {
   horseCode: ID!
 }
@@ -408,6 +414,7 @@ input GetHorseActivitiesInput {
   startKey: String
 }
 
+
 input CreateHorseActivityInput {
   horseId: ID!
   horseBarnId: ID
@@ -417,10 +424,21 @@ input CreateHorseActivityInput {
   horseActivityCreateComment: String
 }
 
+enum CreateHorseActivityError {
+  NOT_AUTHORIZED
+  SERVICE
+}
+
 input UpdateHorseActivityInput {
   horseId: ID!
   barnId: ID
   horseActivityCompleteComment: String
+}
+
+enum UpdateHorseActivityError {
+  NOT_FOUND
+  NOT_AUTHORIZED
+  SERVICE
 }
 
 enum HorseActivityType {
@@ -469,6 +487,11 @@ input CreateHorseNoteInput {
   horseNoteIsPined: Boolean
 }
 
+enum CreateHorseNoteError {
+  NOT_AUTHORIZED
+  SERVICE
+}
+
 input UpdateHorseNoteInput {
   horseNoteId: ID!
   associatedId: ID!
@@ -477,8 +500,11 @@ input UpdateHorseNoteInput {
 
 input DeleteHorseNoteInput {
   horseNoteId: ID!
-  associatedId: ID!
-  horseNoteIsPined: Boolean
+}
+
+enum DeleteHorseNoteError {
+  NOT_AUTHORIZED
+  SERVICE
 }
 
 ## HorseServing

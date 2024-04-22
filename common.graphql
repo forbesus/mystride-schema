@@ -42,6 +42,7 @@ type MsLocale {
   localeNumberingCode: MsNumberingCode!
   localeLanguageCode: MsLanguageCode!
   localeCurrencyCode: MsCurrencyCode!
+  localeTimezone: MsTimezone
 }
 
 input UpsertMsLocaleInput {
@@ -50,6 +51,7 @@ input UpsertMsLocaleInput {
   localeNumberingCode: MsNumberingCode
   localeLanguageCode: MsLanguageCode
   localeCurrencyCode: MsCurrencyCode
+  localeTimezone: MsTimezone
 }
 
 enum MsColorScheme {
