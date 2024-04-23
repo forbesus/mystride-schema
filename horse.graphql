@@ -88,7 +88,11 @@ type HorseSummary {
 }
 
 input GetHorseSummariesInput {
-  associatedId: ID!
+  horseShareId: ID
+}
+
+enum GetHorseSummariesError {
+  SERVICE
 }
 
 input CreateHorseInput {
@@ -161,11 +165,23 @@ type HorseProfilePublic {
 
 input GetHorseProfileInput {
   horseId: ID!
-  associatedId: ID!
+  horseShareId: ID
+}
+
+enum GetHorseProfileError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
 }
 
 input UpdateHorseProfileInput {
   horseDisplayName: String!
+}
+
+enum UpdateHorseProfileError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
 }
 
 enum HorseSiringStatus {
@@ -324,15 +340,25 @@ type HorseShareSummary {
   horseShareDeactivatedOn: AWSDateTime
   horseShareDeactivatedBy: UserProfilePublic
 }
+
 input GetHorseShareSummariesInput {
   horseId: ID!
-  associatedId: ID!
+}
+
+enum GetHorseShareSummariesError {
+  NOT_AUTHORIZED
+  SERVICE
 }
 
 input GetHorseShareInput {
   horseId: ID!
   horseShareId: ID!
-  associatedId: ID!
+}
+
+enum GetHorseShareError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
 }
 
 input CreateHorseShareInput {
@@ -340,6 +366,13 @@ input CreateHorseShareInput {
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
+}
+
+enum CreateHorseShareError {
+  NOT_AUTHORIZED
+  NONEXISTENT_HORSE_ID
+  NONEXISTENT_HORSE_SHARE_ID
+  SERVICE
 }
 
 input AcceptHorseShareQrCodeInput {
@@ -410,10 +443,16 @@ type HorseActivity {
 
 input GetHorseActivitiesInput {
   horseId: ID!
-  associatedId: ID!
+  horseShareId: ID
   startKey: String
 }
 
+enum GetHorseActivitiesError {
+  NOT_AUTHORIZED
+  NONEXISTENT_HORSE_ID
+  INVALID_START_KEY
+  SERVICE
+}
 
 input CreateHorseActivityInput {
   horseId: ID!
@@ -426,6 +465,7 @@ input CreateHorseActivityInput {
 
 enum CreateHorseActivityError {
   NOT_AUTHORIZED
+  NOT_FOUND
   SERVICE
 }
 
@@ -436,8 +476,8 @@ input UpdateHorseActivityInput {
 }
 
 enum UpdateHorseActivityError {
-  NOT_FOUND
   NOT_AUTHORIZED
+  NOT_FOUND
   SERVICE
 }
 
@@ -477,8 +517,15 @@ type HorseNote {
 
 input GetHorseNotesInput {
   horseId: ID!
-  associatedId: ID!
+  horseShareId: ID
   startKey: String
+}
+
+enum GetHorseNotesError {
+  NOT_AUTHORIZED
+  NONEXISTENT_HORSE_ID
+  INVALID_START_KEY
+  SERVICE
 }
 
 input CreateHorseNoteInput {

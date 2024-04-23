@@ -204,7 +204,7 @@ input UpdateBarnProfileInput {
   barnPhone: String
   barnEmail: String
   barnLegalName: String
-  barnTimeZone: MsTimezone
+  barnTimezone: MsTimezone
   barnWelcomeMessage: String
   barnAddress: UpsertMsAddressInput
 }
@@ -281,7 +281,7 @@ input CreateBarnBoardInput {
 }
 
 enum CreateBarnBoardError {
-  AUTHORIZATION
+  NOT_AUTHORIZED
   EXISTING_BOARD
   EXCEEDED_BARN_BOARD_LIMIT
   NONEXISTENT_BARN_ID
@@ -295,6 +295,12 @@ input UpdateBarnBoardInput {
   barnBoardStatus: BarnBoardStatus
   barnBoardFacilityId: ID
   barnBoardPlanId: ID
+}
+
+enum UpdateBarnBoardError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
 }
 
 enum BarnBoardType {
@@ -362,6 +368,12 @@ input GetBarnPlanInput {
   associatedId: ID!
 }
 
+enum GetBarnPlanError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
+}
+
 input CreateBarnPlanInput {
   barnPlanName: String
   barnPlanType: BarnPlanType!
@@ -385,6 +397,11 @@ input CreateBarnPlanInput {
   barnPlanBlanketing: Boolean
 }
 
+enum CreateBarnPlanError {
+  NOT_AUTHORIZED
+  SERVICE
+}
+
 input UpdateBarnPlanInput {
   barnPlanName: String
   barnPlanStatus: BarnPlanStatus
@@ -405,6 +422,12 @@ input UpdateBarnPlanInput {
   barnPlanTurnoutPeriods: [HorseActivityPeriod]
   barnPlanTurnoutDuration: [Int]
   barnPlanBlanketing: Boolean
+}
+
+enum UpdateBarnPlanError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
 }
 
 enum BarnPlanType {
