@@ -151,7 +151,7 @@ type BarnProfile {
   barnStatus: BarnStatus!
   barnDisplayName: String!
   barnCreatedOn: AWSDateTime!
-  barnCreatedBy:UserProfilePublic!
+  barnCreatedBy: UserProfilePublic!
   barnModifiedOn: AWSDateTime
   barnModifiedBy: UserProfilePublic
   barnSuspendedOn: AWSDateTime
@@ -201,8 +201,8 @@ input UpdateBarnProfileInput {
   barnId: ID!
   barnAvatarId: ID
   barnDisplayName: String
-  barnPhone: String
-  barnEmail: String
+  barnPhoneId: String
+  barnEmailId: String
   barnLegalName: String
   barnTimezone: MsTimezone
   barnWelcomeMessage: String
@@ -243,7 +243,7 @@ type BarnBoard {
   barnBoardAcceptedOn: AWSDateTime
   barnBoardDeclinedBy: UserProfilePublic
   barnBoardDeclinedOn: AWSDateTime
-  barnBoardWaitlistedBy: UserProfilePublic
+  barnBoardWhitelistedBy: UserProfilePublic
   barnBoardWaitlistedOn: AWSDateTime
   barnBoardSuspendedBy: UserProfilePublic
   barnBoardSuspendedOn: AWSDateTime

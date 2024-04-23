@@ -141,17 +141,6 @@ enum GetUserDevicesError {
   SERVICE
 }
 
-input GetUserDeviceInput {
-  userId: ID!
-  userDeviceId: ID!
-}
-
-enum GetUserDeviceError {
-  AUTHORIZATION
-  NONEXISTENT_DEVICE
-  SERVICE
-}
-
 input UpsertUserDeviceInput {
   userDeviceId: String!
   userDeviceOperatingSystem: MsOperatingSystem!
