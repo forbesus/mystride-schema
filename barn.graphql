@@ -165,6 +165,7 @@ type BarnProfile {
   barnAddress: MsAddress!
   barnLegalName: String
   barnWelcomeMessage: String
+  barnBio: String
 }
 
 type BarnProfileSummary {
@@ -207,6 +208,20 @@ input UpdateBarnProfileInput {
   barnTimezone: MsTimezone
   barnWelcomeMessage: String
   barnAddress: UpsertMsAddressInput
+}
+
+enum UpdateBarnProfileError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  INVALID_PHONE_FORMAT
+  INVALID_EMAIL_FORMAT
+  INVALID_AVATAR_ID
+  INVALID_ADDRESS
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  EXCEEDED_LEGAL_NAME_LENGTH
+  EXCEEDED_WELCOME_MESSAGE_LENGTH
+  EXCEEDED_BIO_LENGTH
+  SERVICE
 }
 
 enum BarnType {
