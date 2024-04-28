@@ -68,11 +68,11 @@ enum GetUserProfileError {
 input UpdateUserProfileInput {
   userId: ID!
   userAvatarId: ID
-  userLocale: UpsertMsLocaleInput
+  userLocaleInput: UpsertMsLocaleInput
   userFirstName: String
   userLastName: String
   userBio: String
-  userAddress: UpsertMsAddressInput
+  userAddressInput: UpsertMsAddressInput
   userPrimaryBarnId: ID
   userPrimaryDiscipline: MsDiscipline
   userSecondaryDisciplines: [MsDiscipline]
