@@ -75,7 +75,7 @@ type Subscription {
   @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote"])
 
   ## HorseServings
-  subscribeHorseServings(horseId: ID!): HorseServing
+  subscribeHorseServingsByHorseId(horseId: ID!): HorseServing
   @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"])
 }
 
