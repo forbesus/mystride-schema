@@ -20,7 +20,7 @@ type Subscription {
   subscribeUserProfile(userId: ID!): UserProfile
   @aws_subscribe(mutations: ["updateUserProfile"])
 
-  subscribeUserDevicesByUserId(userId: ID!): UserDevice
+  subscribeUserDevicesByUserId(input: SubscribeUserDevicesByUserIdInput): UserDevice
   @aws_subscribe(mutations: ["upsertUserDevice"])
 }
 
@@ -154,6 +154,14 @@ input UpsertUserDeviceInput {
 }
 
 enum UpsertUserDeviceError {
+  SERVICE
+}
+
+input SubscribeUserDevicesByUserIdInput {
+  userId: ID!
+}
+
+enum SubscribeUserDevicesByUserIdError {
   SERVICE
 }
 
