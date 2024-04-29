@@ -17,7 +17,7 @@ type Mutation {
 type Subscription {
 
   ## UserProfile
-  subscribeUserProfile(userId: ID!): UserProfile
+  subscribeUserProfileByUserId(userId: ID!): UserProfile
   @aws_subscribe(mutations: ["updateUserProfile"])
 
   subscribeUserDevicesByUserId(input: SubscribeUserDevicesByUserIdInput): UserDevice
