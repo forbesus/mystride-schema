@@ -129,6 +129,12 @@ input GetBarnSummariesInput {
   associatedId: ID!
 }
 
+enum GetBarnSummariesError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ASSOCIATED_ID
+  SERVICE
+}
+
 enum BarnRole {
   OWNER
   MANAGER
@@ -140,7 +146,7 @@ enum BarnRole {
   HORSE
 }
 
-## Barn
+## BarnProfile
 type BarnProfile {
   barnId: ID!
   barnOwner: UserProfilePublic!
@@ -168,34 +174,15 @@ type BarnProfile {
   barnBio: String
 }
 
-type BarnProfileSummary {
-  barnId: ID!
-  barnOwner: UserProfilePublic!
-  barnType: BarnType!
-  barnStatus: BarnStatus!
-  barnDisplayName: String!
-  barnTimezone: MsTimezone!
-  barnAvatarId: ID!
-  barnCity: String
-  barnState: String
-  barnCountry: String
-  barnCountryCode: String
-}
-
-type BarnProfilePublic {
-  barnId: ID!
-  barnType: BarnType!
-  barnDisplayName: String!
-  barnAvatarId: ID!
-  barnCity: String
-  barnState: String
-  barnCountry: String
-  barnCountryCode: String
-}
-
 input GetBarnProfileInput {
   barnId: ID!
   associatedId: ID!
+}
+
+enum GetBarnProfileError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
 }
 
 input UpdateBarnProfileInput {
@@ -222,6 +209,43 @@ enum UpdateBarnProfileError {
   EXCEEDED_WELCOME_MESSAGE_LENGTH
   EXCEEDED_BIO_LENGTH
   SERVICE
+}
+
+## BarnProfileSummary
+type BarnProfileSummary {
+  barnId: ID!
+  barnOwner: UserProfilePublic!
+  barnType: BarnType!
+  barnStatus: BarnStatus!
+  barnDisplayName: String!
+  barnTimezone: MsTimezone!
+  barnAvatarId: ID!
+  barnCity: String
+  barnState: String
+  barnCountry: String
+  barnCountryCode: String
+}
+
+input GetBarnProfileSummaryInput {
+  barnId: MsId;
+  associatedId: MsId;
+}
+
+enum GetBarnProfileSummaryError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  SERVICE
+}
+
+type BarnProfilePublic {
+  barnId: ID!
+  barnType: BarnType!
+  barnDisplayName: String!
+  barnAvatarId: ID!
+  barnCity: String
+  barnState: String
+  barnCountry: String
+  barnCountryCode: String
 }
 
 enum BarnType {
