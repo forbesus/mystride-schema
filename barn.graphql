@@ -227,8 +227,8 @@ type BarnProfileSummary {
 }
 
 input GetBarnProfileSummaryInput {
-  barnId: MsId;
-  associatedId: MsId;
+  barnId: ID!
+  associatedId: ID!
 }
 
 enum GetBarnProfileSummaryError {
