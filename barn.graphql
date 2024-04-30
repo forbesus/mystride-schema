@@ -42,17 +42,17 @@ type Mutation {
   updateBarnProfile(input: UpdateBarnProfileInput): BarnProfile!
 
   ## BarnBoard
-  createBarnBoard(input: CreateBarnBoardInput): BarnBoardSummary!
-  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardSummary!
+  createBarnBoard(input: CreateBarnBoardInput): ID!
+  updateBarnBoard(input: UpdateBarnBoardInput): ID!
 
   ## BarnPlan
-  createBarnPlan(input: CreateBarnPlanInput): BarnPlanSummary!
-  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanSummary!
+  createBarnPlan(input: CreateBarnPlanInput): ID!
+  updateBarnPlan(input: UpdateBarnPlanInput): ID!
 
   ## BarnFamily
-  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilySummary!
-  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilySummary!
-  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilySummary!
+  createBarnFamily(input: CreateBarnFamilyInput): ID!
+  updateBarnFamily(input: UpdateBarnFamilyInput): ID!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): ID!
 
   ## BarnActivity
   createBarnActivity(input: CreateBarnActivityInput): BarnActivity!
@@ -63,28 +63,28 @@ type Mutation {
   updateBarnNote(input: UpdateBarnNoteInput): BarnNote!
 
   ## BarnFacility
-  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilitySummary!
-  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilitySummary!
+  createBarnFacility(input: CreateBarnFacilityInput): ID!
+  updateBarnFacility(input: UpdateBarnFacilityInput): ID!
 }
 
 ## Subscriptions
 type Subscription {
   ## BarnProfile
-  subscribeBarnProfile(barnId: ID!): BarnProfile
+  subscribeBarnProfileByBarnId(barnId: ID!): BarnProfile
     @aws_subscribe(mutations: ["updateBarnProfile"])
 
   ## BarnBoard
-  subscribeBarnBoardSummariesByBarnId(barnId: ID!): BarnBoardSummary
+  subscribeBarnBoardByBarnId(barnId: ID!): ID
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
-  subscribeBarnBoardSummariesByHorseId(horseId: ID!): BarnBoardSummary
+  subscribeBarnBoardByHorseId(horseId: ID!): ID
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   ## BarnFamily
-  subscribeBarnFamilySummariesByBarnId(barnId: ID!): BarnFamilySummary
+  subscribeBarnFamilyByBarnId(barnId: ID!): ID
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
-  subscribeBarnFamilySummariesByFamilyId(barnFamilyId: ID!): BarnFamilySummary
+  subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): ID
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   ## BarnActivities
@@ -92,14 +92,11 @@ type Subscription {
     @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
 
   ## BarnNotes
-  subscribeBarnNotesByBarnId(barnId: ID!): BarnNote
-    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
-
   subscribeBarnNotesBySubjectId(subjectId: ID!): BarnNote
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
 
   ## BarnFacilities
-  subscribeBarnFacilitySummariesByBarnId(barnId: ID!): BarnFacilitySummary
+  subscribeBarnFacilitiesByBarnId(barnId: ID!): ID
     @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
 }
 
