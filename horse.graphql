@@ -26,14 +26,16 @@ type Query {
 ## Mutations
 type Mutation {
 
-  ## HorseProfile
+  ## Horse
   createHorse(input: CreateHorseInput): ID!
+  
+  ## HorseProfile
   updateHorseProfile(input: UpdateHorseProfileInput): HorseProfile!
 
   ## HorseShare
-  createHorseShare(input: CreateHorseShareInput): HorseShareSummary!
-  updateHorseShare(input: UpdateHorseShareInput): HorseShareSummary!
-  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareSummary!
+  createHorseShare(input: CreateHorseShareInput): ID!
+  updateHorseShare(input: UpdateHorseShareInput): ID!
+  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): ID!
   
   ## HorseActivities
   createHorseActivity(input: CreateHorseActivityInput): HorseActivity!
@@ -57,10 +59,10 @@ type Subscription {
   @aws_subscribe(mutations: ["updateHorseProfile"])
 
   ## HorseShare
-  subscribeHorseShareSummariesByHorseId(horseId: ID!): HorseShareSummary
+  subscribeHorseSharesByHorseId(horseId: ID!): ID
   @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
-  subscribeHorseShareSummariesByShareId(horseShareId: ID!): HorseShareSummary
+  subscribeHorseSharesByShareId(horseShareId: ID!): ID
   @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
   ## HorseActivities
@@ -83,7 +85,7 @@ type Subscription {
 type HorseSummary {
   horseId: ID!
   horseRole: HorseRole!
-  horseShareAssociation: HorseShare
+  horseShareSummary: HorseShareSummary
   horseProfileSummary: HorseProfileSummary
 }
 
