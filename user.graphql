@@ -57,12 +57,23 @@ type UserProfile {
 
 input GetUserProfileInput {
   userId: ID!
+  associatedId: ID
 }
 
 enum GetUserProfileError {
-  NOT_FOUND
   NOT_AUTHORIZED
+  NOT_FOUND
+  INVALID_USER_ID
+  INVALID_ASSOCIATED_ID
   SERVICE
+}
+
+enum GetUserProfileError {
+  NOT_AUTHORIZED = "NOT_AUTHORIZED",
+  NOT_FOUND = "NOT_FOUND",
+  INVALID_USER_ID = "INVALID_USER_ID",
+  INVALID_ASSOCIATED_ID = "INVALID_ASSOCIATED_ID",
+  SERVICE = "SERVICE",
 }
 
 input UpdateUserProfileInput {
@@ -107,6 +118,19 @@ type UserProfileSummary {
   userPrimaryDiscipline: MsDiscipline
   userPrimaryBarn: BarnProfilePublic
   userMainMount: HorseProfilePublic
+}
+
+input GetUserProfileSummaryInput {
+  userId: ID!
+  associatedId: ID
+}
+
+enum GetUserProfileSummaryError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  INVALID_USER_ID
+  INVALID_ASSOCIATED_ID
+  SERVICE
 }
 
 type UserProfilePublic {

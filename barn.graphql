@@ -544,10 +544,14 @@ enum CreateBarnFamilyError {
   EXCEEDED_BARN_FAMILY_LIMIT
   NONEXISTENT_BARN_FAMILY_ID
   INVALID_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID_PHONE_FORMAT
+  INVALID_BARN_FAMILY_ID_PHONE_TYPE
   INACTIVE_BARN_FAMILY_ID
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
+  INVALID_DEACTIVATION_DATE_FORMAT
+  INVALID_DEACTIVATION_DATE
   SERVICE
 }
 
@@ -556,6 +560,19 @@ input UpdateBarnFamilyInput {
   barnFamilyId: ID!
   barnFamilyStatus: BarnFamilyStatus!
   barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
+enum UpdateBarnFamilyError {
+  NOT_AUTHORIZED
+  INVALID_STATUS_UPDATE
+  NONEXISTENT_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID
+  INACTIVE_BARN_FAMILY_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_DEACTIVATION_DATE
+  SERVICE
 }
 
 input AcceptBarnFamilyQrCodeInput {
@@ -588,43 +605,105 @@ type BarnActivities {
 
 type BarnActivity {
   barnId: ID!
-  barnActivityType: BarnActivityType
+  barnActivityId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityStatus: BarnActivityStatus!
   barnActivityCreatedOn: AWSDateTime!
   barnActivityCreatedBy: UserProfilePublic!
   barnActivityDueDate: AWSDateTime
   barnActivityAssignedTo: UserProfilePublic
+  barnActivityCompletedOn: AWSDateTime
   barnActivityCompletedBy: UserProfilePublic
+  barnActivityCreateComment: String
+  barnActivityCompleteComment: String
 }
 
 input GetBarnActivitiesInput {
   barnId: ID!
   associatedId: ID!
+  activityStatus: BarnActivityStatus
   startKey: String
 }
 
+enum GetBarnActivitiesError {
+  NOT_AUTHORIZED
+  INVALID_STATUS_UPDATE
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_START_KEY
+  SERVICE
+}
+
+
 input CreateBarnActivityInput {
   barnId: ID!
+  associatedId: ID!
   barnActivityType: BarnActivityType!
-  barnActivityDueDate: AWSDateTime
+  barnActivityCompleteBy: AWSDateTime
   barnActivityAssignedTo: ID
+  barnActivityCreateComment: String
+}
+
+enum CreateBarnActivityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSIGNED_ID
+  INVALID_ASSIGNED_ID
+  INACTIVE_ASSIGNED_ID
+  INVALID_DUE_DATE
+  EXCEEDED_CREATE_COMMENT_LENGTH
+  SERVICE
 }
 
 input UpdateBarnActivityInput {
   barnId: ID!
+  associatedId: ID!
   barnActivityId: ID!
-  activityCompletedOn: AWSDateTime
+  barnActivityStatus: BarnActivityStatus
   barnActivityDueDate: AWSDateTime
   barnActivityAssignedTo: ID
+  barnActivityCompleteComment: String
+}
+
+enum UpdateBarnActivityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSIGNED_ID
+  INVALID_ASSIGNED_ID
+  INACTIVE_ASSIGNED_ID
+  INVALID_DUE_DATE
+  EXCEEDED_COMPLETE_COMMENT_LENGTH
+  SERVICE
 }
 
 enum BarnActivityType {
   EMPTY_TRASH
   RESTOCK_SUPPLIES
   WASH_BLANKETS
+  WASH_BUCKETS
   CLEAN_TACK
   REPAIR
   SWEEP_ISLES
   MOP_FLOORS
+}
+
+enum BarnActivityType {
+  COMPLETE
+  INCOMPLETE
 }
 
 ## BarnNotes
