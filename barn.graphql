@@ -694,7 +694,7 @@ enum BarnActivityType {
   EMPTY_TRASH
   RESTOCK_SUPPLIES
   WASH_BLANKETS
-  WASH_BUCKETS
+  WASH_BLANKETS
   CLEAN_TACK
   REPAIR
   SWEEP_ISLES
@@ -824,7 +824,7 @@ enum BarnFacilityStatus {
   CLOSED
 }
 
-union BarnFacilityProfile {
+union BarnFacilityProfile =
     StallProfile
   | PastureProfile
   | ArenaProfile
@@ -839,7 +839,6 @@ union BarnFacilityProfile {
   | TurnoutAreaProfile
   | HayStorageProfile
   | FarrierStationProfile
-}
 
 type StallProfile {
   stallProfileName: String
