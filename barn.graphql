@@ -711,7 +711,7 @@ enum BarnActivityStatus {
 
 ## BarnNotes
 type BarnNotes {
-  notes: [BarnNote]!
+  barnNotes: [BarnNote]!
   lastKey: String
 }
 
@@ -729,8 +729,9 @@ type BarnNote {
 
 input GetBarnNotesInput {
   barnId: ID!
-  subjectId: ID!
   associatedId: ID!
+  horseId: ID
+  facilityId: ID
   barnNoteTypes: [BarnNoteType]
   startKey: String
 }
@@ -753,7 +754,8 @@ enum GetBarnNotesError {
 input CreateBarnNoteInput {
   barnId: ID!
   associatedId: ID!
-  subjectId: ID
+  horseId: ID
+  facilityId: ID
   barnNoteTitle: String
   barnNoteBody: String!
   barnNoteIsPined: Boolean
@@ -767,9 +769,12 @@ enum CreateBarnNoteError {
   NONEXISTENT_ASSOCIATED_ID
   INVALID_ASSOCIATED_ID
   INACTIVE_ASSOCIATED_ID
-  NONEXISTENT_SUBJECT_ID
-  INVALID_SUBJECT_ID
-  INACTIVE_SUBJECT_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_FACILITY_ID
+  INVALID_FACILITY_ID
+  INACTIVE_FACILITY_ID
   PROHIBITED_TITLE_CONTENT
   PROHIBITED_BODY_CONTENT
   SERVICE
@@ -784,8 +789,8 @@ input UpdateBarnNoteInput {
 
 enum UpdateBarnNoteError {
   NOT_AUTHORIZED
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
+  NONEXISTENT_BARN_NOTE_ID
+  INVALID_BARN_NOTE_ID
   INACTIVE_BARN_ID
   NONEXISTENT_ASSOCIATED_ID
   INVALID_ASSOCIATED_ID
@@ -800,8 +805,8 @@ input DeleteBarnNoteInput {
 
 enum DeleteBarnNoteError {
   NOT_AUTHORIZED
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
+  NONEXISTENT_BARN_NOTE_ID
+  INVALID_BARN_NOTE_ID
   INACTIVE_BARN_ID
   NONEXISTENT_ASSOCIATED_ID
   INVALID_ASSOCIATED_ID
@@ -963,4 +968,110 @@ type HayStorageProfile {
 
 type FarrierStationProfile {
   farrierStationProfileName: String
+}
+
+
+## BarnAnnouncements
+type BarnAnnouncements {
+  barnAnnouncements: [BarnAnnouncement]!
+  lastKey: String
+}
+
+type BarnAnnouncement {
+  barnId: ID!
+  barnAnnouncementId: ID!
+  barnAnnouncementAudience: BarnAnnouncementAudience!
+  barnAnnouncementPriority: BarnAnnouncementPriority!
+  barnAnnouncementCreatedOn: AWSDateTime!
+  barnAnnouncementCreatedBy: UserProfilePublic!
+  barnAnnouncementTitle: String
+  barnAnnouncementBody: String!
+}
+
+input GetBarnAnnouncementsInput {
+  barnId: ID!
+  associatedId: ID!
+  startKey: String
+}
+
+enum GetBarnAnnouncementsError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_START_KEY
+  SERVICE
+}
+
+input CreateBarnAnnouncementInput {
+  barnId: ID!
+  associatedId: ID!
+  barnAnnouncementAudience: BarnAnnouncementAudience!
+  barnAnnouncementPriority: BarnAnnouncementPriority!
+  barnNoteTitle: String
+  barnNoteBody: String!
+}
+
+enum CreateBarnAnnouncementError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  SERVICE
+}
+
+
+input UpdateBarnAnnouncementInput {
+  barnAnnouncementId: ID!
+  associatedId: ID!
+  barnAnnouncementPriority: BarnAnnouncementPriority
+}
+
+enum UpdateBarnAnnouncementError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  SERVICE
+}
+
+input DeleteBarnAnnouncementInput {
+  barnAnnouncementId: ID!
+  associatedId: ID!
+}
+
+enum DeleteBarnAnnouncementError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ANNOUNCEMENT_ID
+  INVALID_BARN_ANNOUNCEMENT_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  SERVICE
+}
+
+enum BarnAnnouncementAudience {
+  ALL
+  STAFF
+  PRO
+  BOARDER
+  MEMBER
+  GUEST
+}
+
+enum BarnAnnouncementPriority{
+  URGENT
+  STANDARD
 }
