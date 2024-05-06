@@ -660,6 +660,7 @@ enum CreateBarnActivityError {
   INVALID_ASSIGNED_ID
   INACTIVE_ASSIGNED_ID
   INVALID_DUE_DATE
+  PROHIBITED_CREATE_COMMENT_CONTENT
   EXCEEDED_CREATE_COMMENT_LENGTH
   SERVICE
 }
@@ -687,6 +688,7 @@ enum UpdateBarnActivityError {
   INACTIVE_ASSIGNED_ID
   INVALID_DUE_DATE
   EXCEEDED_COMPLETE_COMMENT_LENGTH
+  PROHIBITED_COMPLETE_COMMENT_CONTENT
   SERVICE
 }
 
@@ -716,7 +718,8 @@ type BarnNotes {
 type BarnNote {
   barnId: ID!
   barnNoteId: ID!
-  subjectId: ID!
+  barnNoteSubjectId: ID!
+  barnNoteType: BarnNoteType!
   barnNoteCreatedOn: AWSDateTime!
   barnNoteCreatedBy: UserProfilePublic!
   barnNoteTitle: String
@@ -728,24 +731,89 @@ input GetBarnNotesInput {
   barnId: ID!
   subjectId: ID!
   associatedId: ID!
+  barnNoteTypes: [BarnNoteType]
   startKey: String
 }
 
+enum GetBarnNotesError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_SUBJECT_ID
+  INVALID_SUBJECT_ID
+  INACTIVE_SUBJECT_ID
+  INVALID_START_KEY
+  SERVICE
+}
+
 input CreateBarnNoteInput {
+  barnId: ID!
+  associatedId: ID!
+  subjectId: ID
   barnNoteTitle: String
   barnNoteBody: String!
   barnNoteIsPined: Boolean
 }
 
+enum CreateBarnNoteError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_SUBJECT_ID
+  INVALID_SUBJECT_ID
+  INACTIVE_SUBJECT_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  SERVICE
+}
+
+
 input UpdateBarnNoteInput {
   barnNoteId: ID!
   associatedId: ID!
-  horseNoteIsPined: Boolean
+  barnNoteIsPined: Boolean
+}
+
+enum UpdateBarnNoteError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  SERVICE
 }
 
 input DeleteBarnNoteInput {
   barnNoteId: ID!
   associatedId: ID!
+}
+
+enum DeleteBarnNoteError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  SERVICE
+}
+
+enum BarnNoteType {
+  BOARD
+  FACILITY
+  EVENT
+  PLAN
 }
 
 ## BarnFacility
