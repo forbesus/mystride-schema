@@ -824,7 +824,7 @@ enum BarnFacilityStatus {
   CLOSED
 }
 
-union BarnFacilityProfile =
+union BarnFacilityProfile {
     StallProfile
   | PastureProfile
   | ArenaProfile
@@ -839,6 +839,7 @@ union BarnFacilityProfile =
   | TurnoutAreaProfile
   | HayStorageProfile
   | FarrierStationProfile
+}
 
 type StallProfile {
   stallProfileName: String
