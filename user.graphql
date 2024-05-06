@@ -68,14 +68,6 @@ enum GetUserProfileError {
   SERVICE
 }
 
-enum GetUserProfileError {
-  NOT_AUTHORIZED = "NOT_AUTHORIZED",
-  NOT_FOUND = "NOT_FOUND",
-  INVALID_USER_ID = "INVALID_USER_ID",
-  INVALID_ASSOCIATED_ID = "INVALID_ASSOCIATED_ID",
-  SERVICE = "SERVICE",
-}
-
 input UpdateUserProfileInput {
   userId: ID!
   userAvatarId: ID
