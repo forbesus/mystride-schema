@@ -20,6 +20,9 @@ type Query {
   getBarnPlanSummaries(input: GetBarnPlanSummariesInput): [BarnPlanSummary]!
   getBarnPlan(input: GetBarnPlanInput): BarnPlan!
 
+  ## BarnAnnouncements
+  getBarnAnnouncements(input: GetBarnAnnouncementsInput): BarnAnnouncements
+
   ## BarnActivities
   getBarnActivities(input: GetBarnActivitiesInput): BarnActivities
 
