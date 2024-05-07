@@ -57,6 +57,10 @@ type Mutation {
   updateBarnFamily(input: UpdateBarnFamilyInput): ID!
   acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): ID!
 
+  ## BarnAnnouncement
+  createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncement!
+  updateBarnAnnouncement(input: UpdateBarnAnnouncementInput): BarnAnnouncement!
+
   ## BarnActivity
   createBarnActivity(input: CreateBarnActivityInput): BarnActivity!
   updateBarnActivity(input: UpdateBarnActivityInput): BarnActivity!
