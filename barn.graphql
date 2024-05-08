@@ -94,6 +94,10 @@ type Subscription {
   subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): ID
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
+  ## BarnAnnouncements
+  subscribeBarnAnnouncementsByBarnId(barnId: ID!): BarnAnnouncement
+    @aws_subscribe(mutations: ["createBarnAnnouncement", "updateBarnAnnouncement"])
+
   ## BarnActivities
   subscribeBarnActivitiesByBarnId(barnId: ID!): BarnActivity
     @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
@@ -537,6 +541,23 @@ input GetBarnFamilyInput {
   associatedId: ID!
 }
 
+enum GetBarnFamilyError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_FAMILY
+  NONEXISTENT_BARN_FAMILY_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID_PHONE_FORMAT
+  INVALID_BARN_FAMILY_ID_PHONE_TYPE
+  INACTIVE_BARN_FAMILY_ID
+  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ASSOCIATED_ID
+  INACTIVE_ASSOCIATED_ID
+  SERVICE
+}
+
 input CreateBarnFamilyInput {
   barnId: ID!
   barnFamilyId: ID
@@ -557,7 +578,6 @@ enum CreateBarnFamilyError {
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  INVALID_DEACTIVATION_DATE_FORMAT
   INVALID_DEACTIVATION_DATE
   SERVICE
 }
@@ -572,6 +592,7 @@ input UpdateBarnFamilyInput {
 enum UpdateBarnFamilyError {
   NOT_AUTHORIZED
   INVALID_STATUS_UPDATE
+  PROHIBITED_SELF_UPDATE
   NONEXISTENT_BARN_FAMILY_ID
   INVALID_BARN_FAMILY_ID
   INACTIVE_BARN_FAMILY_ID
