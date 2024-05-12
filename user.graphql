@@ -84,8 +84,8 @@ input UpdateUserProfileInput {
 }
 
 enum UpdateUserProfileError {
-  NOT_FOUND
   NOT_AUTHORIZED
+  NOT_FOUND
   INVALID_AVATAR_ID
   INVALID_LOCALE
   EXCEEDED_NAME_LENGTH
@@ -153,11 +153,12 @@ input GetUserDevicesInput {
 }
 
 enum GetUserDevicesError {
-  AUTHORIZATION
+  NOT_AUTHORIZED
   SERVICE
 }
 
 input UpsertUserDeviceInput {
+  userId: ID!
   userDeviceId: String!
   userDeviceOperatingSystem: MsOperatingSystem!
   userDeviceOsVersion: String!
@@ -170,6 +171,7 @@ input UpsertUserDeviceInput {
 }
 
 enum UpsertUserDeviceError {
+  NOT_AUTHORIZED
   SERVICE
 }
 
