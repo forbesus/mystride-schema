@@ -20,7 +20,7 @@ type Subscription {
   subscribeUserProfileByUserId(userId: ID!): UserProfile
   @aws_subscribe(mutations: ["updateUserProfile"])
 
-  subscribeUserDevicesByUserId(input: SubscribeUserDevicesByUserIdInput): UserDevice
+  subscribeUserDevicesByUserId(userId: ID!): UserDevice
   @aws_subscribe(mutations: ["upsertUserDevice"])
 }
 
@@ -180,6 +180,7 @@ input SubscribeUserDevicesByUserIdInput {
 }
 
 enum SubscribeUserDevicesByUserIdError {
+  NOT_AUTHORIZED
   SERVICE
 }
 
