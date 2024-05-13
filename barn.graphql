@@ -231,7 +231,7 @@ type BarnProfileSummary {
   barnCity: String
   barnState: String
   barnCountry: String
-  barnCountryCode: String
+  barnCountryCode: MsCountryCode
 }
 
 input GetBarnProfileSummaryInput {
