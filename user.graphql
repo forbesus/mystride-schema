@@ -10,6 +10,7 @@ type Query {
 type Mutation {
   updateUserProfile(input: UpdateUserProfileInput): UserProfile!
   upsertUserDevice(input: UpsertUserDeviceInput): UserDevice!
+  deleteUserDevices(input: DeleteUserDevicesInput): ID! ## returns simple id because mutation resolver forces global logout.
 }
 
 
@@ -20,7 +21,7 @@ type Subscription {
   subscribeUserProfileByUserId(userId: ID!): UserProfile
   @aws_subscribe(mutations: ["updateUserProfile"])
 
-  subscribeUserDevicesByUserId(userId: ID!): UserDevice
+  subscribeUserDevicesByUserId(userId: ID!): UserDevice 
   @aws_subscribe(mutations: ["upsertUserDevice"])
 }
 
@@ -175,8 +176,15 @@ enum UpsertUserDeviceError {
   SERVICE
 }
 
-input SubscribeUserDevicesByUserIdInput {
-  userId: ID!
+
+input DeleteUserDevicesInput {
+  userId: MsId
+}
+
+enum DeleteUserDevicesError {
+  NOT_AUTHORIZED
+  NONEXISTENT_USER
+  SERVICE
 }
 
 enum SubscribeUserDevicesByUserIdError {
