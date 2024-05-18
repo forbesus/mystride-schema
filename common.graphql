@@ -60,6 +60,11 @@ enum MsColorScheme {
   AUTO
 }
 
+enum MsResult {
+  SUCCESS
+  FAILURE
+}
+
 enum MsDiscipline {
   BARREL_RACING,
   BAREBACK_BRONC_RIDING,
