@@ -581,18 +581,13 @@ input CreateBarnFamilyInput {
   barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
-union CreateBarnFamilyResult = CreateBarnFamilySuccess | CreateBarnFamilyError
-
-type CreateBarnFamilySuccess {
-  barnFamilyId: ID!
-  extraDataYouNeed: ExtraData!
+type CreateBarnFamilyResult {
+  result: MsResult!
+  barnFamilyId: ID
+  error: CreateBarnFamilyError
 }
 
-type CreateBarnFamilyError {
-  errorType: CreateBarnFamilyErrorType!
-}
-
-enum CreateBarnFamilyErrorType {
+enum CreateBarnFamilyError {
   NOT_AUTHORIZED
   EXISTING_FAMILY
   PROHIBITED_SELF_CREATE
