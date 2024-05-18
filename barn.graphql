@@ -58,9 +58,9 @@ type Mutation {
   updateBarnPlan(input: UpdateBarnPlanInput): ID!
 
   ## BarnFamily
-  createBarnFamily(input: CreateBarnFamilyInput): CreateBarnFamilyResult!
-  updateBarnFamily(input: UpdateBarnFamilyInput): ID!
-  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): ID!
+  createBarnFamily(input: CreateBarnFamilyInput): UpsertBarnFamilyResult!
+  updateBarnFamily(input: UpdateBarnFamilyInput): UpsertBarnFamilyResult!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
 
   ## BarnAnnouncement
   createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncement!
@@ -93,10 +93,10 @@ type Subscription {
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   ## BarnFamily
-  subscribeBarnFamilyByBarnId(barnId: ID!): ID
+  subscribeBarnFamilyByBarnId(barnId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
-  subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): ID
+  subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): UpsertBarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   ## BarnAnnouncements
@@ -571,16 +571,30 @@ input CreateBarnFamilyInput {
   barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
-type CreateBarnFamilyResult {
-  result: MsResult!
-  barnFamilyId: ID
-  error: CreateBarnFamilyError
+input UpdateBarnFamilyInput {
+  associatedId: ID!
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
-enum CreateBarnFamilyError {
+input AcceptBarnFamilyQrCodeInput {
+  qrCode: ID!
+}
+
+type UpsertBarnFamilyResult {
+  result: MsResult!
+  barnFamilyId: ID
+  error: UpsertBarnFamilyError
+}
+
+enum UpsertBarnFamilyError {
   NOT_AUTHORIZED
   EXISTING_FAMILY
+  INVALID_STATUS_UPDATE
   PROHIBITED_SELF_CREATE
+  PROHIBITED_SELF_UPDATE
   EXCEEDED_BARN_FAMILY_LIMIT
   NONEXISTENT_BARN_FAMILY_ID
   INVALID_BARN_FAMILY_ID
@@ -592,32 +606,6 @@ enum CreateBarnFamilyError {
   INACTIVE_BARN_ID
   INVALID_DEACTIVATION_DATE
   SERVICE
-}
-
-input UpdateBarnFamilyInput {
-  associatedId: ID!
-  barnId: ID!
-  barnFamilyId: ID!
-  barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyAutoDeactivateOn: AWSDateTime
-}
-
-enum UpdateBarnFamilyError {
-  NOT_AUTHORIZED
-  INVALID_STATUS_UPDATE
-  PROHIBITED_SELF_UPDATE
-  NONEXISTENT_BARN_FAMILY_ID
-  INVALID_BARN_FAMILY_ID
-  INACTIVE_BARN_FAMILY_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  INVALID_DEACTIVATION_DATE
-  SERVICE
-}
-
-input AcceptBarnFamilyQrCodeInput {
-  qrCode: ID!
 }
 
 enum AcceptBarnFamilyQrCodeError {
