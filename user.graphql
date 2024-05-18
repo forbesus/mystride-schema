@@ -13,6 +13,19 @@ type Mutation {
   deleteUserDevices(input: DeleteUserDevicesInput): ID! ## returns simple id because mutation resolver forces global logout.
 }
 
+input UpsertUserDeviceInput {
+  userId: ID!
+  userDeviceId: String!
+  userDeviceOperatingSystem: MsOperatingSystem!
+  userDeviceOsVersion: String!
+  userDeviceModel: String!
+  userDeviceModelLocalized: String!
+  userDeviceName: String!
+  userDeviceAppVersion: String!
+  userDeviceAppBuild: String!
+  userDeviceAppId: String!
+}
+
 
 ## Subscriptions
 type Subscription {

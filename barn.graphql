@@ -36,6 +36,11 @@ type Query {
   getBarnFacility(input: GetBarnFacilityInput): BarnFacility!
 }
 
+
+
+
+
+
 ## Mutations
 type Mutation {
   ## Barn
@@ -53,9 +58,19 @@ type Mutation {
   updateBarnPlan(input: UpdateBarnPlanInput): ID!
 
   ## BarnFamily
-  createBarnFamily(input: CreateBarnFamilyInput): ID!
+  createBarnFamily(input: CreateBarnFamilyInput): CreateBarnFamilyResult!
   updateBarnFamily(input: UpdateBarnFamilyInput): ID!
+  upsertUserDevice(input: UpsertUserDeviceInput): UserDevice!
   acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): ID!
+
+  input CreateBarnFamilyInput {
+  associatedId: ID!
+  barnId: ID!
+  barnFamilyId: ID
+  barnFamilyRole: BarnRole!
+  barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
 
   ## BarnAnnouncement
   createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncement!
@@ -566,7 +581,18 @@ input CreateBarnFamilyInput {
   barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
-enum CreateBarnFamilyError {
+union CreateBarnFamilyResult = CreateBarnFamilySuccess | CreateBarnFamilyError
+
+type CreateBarnFamilySuccess {
+  barnFamilyId: ID!
+  extraDataYouNeed: ExtraData!
+}
+
+type CreateBarnFamilyError {
+  errorType: CreateBarnFamilyErrorType!
+}
+
+enum CreateBarnFamilyErrorType {
   NOT_AUTHORIZED
   EXISTING_FAMILY
   PROHIBITED_SELF_CREATE
