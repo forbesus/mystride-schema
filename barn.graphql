@@ -60,7 +60,7 @@ type Mutation {
   ## BarnFamily
   createBarnFamily(input: CreateBarnFamilyInput): UpsertBarnFamilyResult!
   updateBarnFamily(input: UpdateBarnFamilyInput): UpsertBarnFamilyResult!
-  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): UpsertBarnFamilyResult!
 
   ## BarnAnnouncement
   createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncement!
@@ -93,7 +93,7 @@ type Subscription {
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   ## BarnFamily
-  subscribeBarnFamilyByBarnId(barnId: ID!): BarnFamilyResult
+  subscribeBarnFamilyByBarnId(barnId: ID!): UpsertBarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): UpsertBarnFamilyResult
