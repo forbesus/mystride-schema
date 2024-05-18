@@ -60,17 +60,7 @@ type Mutation {
   ## BarnFamily
   createBarnFamily(input: CreateBarnFamilyInput): CreateBarnFamilyResult!
   updateBarnFamily(input: UpdateBarnFamilyInput): ID!
-  upsertUserDevice(input: UpsertUserDeviceInput): UserDevice!
   acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): ID!
-
-  input CreateBarnFamilyInput {
-  associatedId: ID!
-  barnId: ID!
-  barnFamilyId: ID
-  barnFamilyRole: BarnRole!
-  barnFamilyAutoDeactivateOn: AWSDateTime
-}
-
 
   ## BarnAnnouncement
   createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncement!
