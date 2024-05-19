@@ -38,16 +38,13 @@ type Query {
 
 
 
-
-
-
 ## Mutations
 type Mutation {
   ## Barn
   createBarn(input: CreateBarnInput): BarnSummary!
 
   ## BarnProfile
-  updateBarnProfile(input: UpdateBarnProfileInput): BarnProfile!
+  updateBarnProfile(input: UpdateBarnProfileInput): ID!
 
   ## BarnBoard
   createBarnBoard(input: CreateBarnBoardInput): ID!
@@ -82,25 +79,25 @@ type Mutation {
 ## Subscriptions
 type Subscription {
   ## BarnProfile
-  subscribeBarnProfileByBarnId(barnId: ID!): BarnProfile
+  subscribeBarnProfileUpdatesBarnId(barnId: ID!): ID
     @aws_subscribe(mutations: ["updateBarnProfile"])
 
   ## BarnBoard
-  subscribeBarnBoardByBarnId(barnId: ID!): ID
+  subscribeBarnBoardUpdatesBarnId(barnId: ID!): ID
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
-  subscribeBarnBoardByHorseId(horseId: ID!): ID
+  subscribeBarnBoardUpdatesHorseId(horseId: ID!): ID
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   ## BarnFamily
-  subscribeBarnFamilyByBarnId(barnId: ID!): UpsertBarnFamilyResult
+  subscribeBarnFamilyUpdatesBarnId(barnId: ID!): UpsertBarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
-  subscribeBarnFamilyByFamilyId(barnFamilyId: ID!): UpsertBarnFamilyResult
+  subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): UpsertBarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   ## BarnAnnouncements
-  subscribeBarnAnnouncementsByBarnId(barnId: ID!): BarnAnnouncement
+  subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncement
     @aws_subscribe(mutations: ["createBarnAnnouncement", "updateBarnAnnouncement"])
 
   ## BarnActivities
@@ -108,11 +105,11 @@ type Subscription {
     @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
 
   ## BarnNotes
-  subscribeBarnNotesBySubjectId(subjectId: ID!): BarnNote
+  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNote
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
 
   ## BarnFacilities
-  subscribeBarnFacilitiesByBarnId(barnId: ID!): ID
+  subscribeBarnFacilitiesBarnId(barnId: ID!): ID
     @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
 }
 
