@@ -1,0 +1,111 @@
+## Mutations
+type Mutation {
+  ## Barn
+  adminDeleteBarn(input: AdminDeleteBarnInput): AdminDeleteBarnResult!
+  adminDeleteBarnFamily(input: AdminDeleteBarnFamilyInput): AdminDeleteBarnFamilyResult!
+  adminDeleteBarnBoards(input: AdminDeleteBarnBoardsInput): AdminDeleteBarnBoardsResult!
+
+  ## Horse
+
+  ## Marketplace
+
+  ## User
+
+  ## Org
+}
+
+
+## Admin delete barn
+input AdminDeleteBarnInput {
+  adminKey: String
+  barnId: ID!
+}
+
+type AdminDeleteBarnResolverResult {
+  result: MsResult!
+  error: AdminDeleteBarnError
+}
+
+enum AdminDeleteBarnError {
+  NOT_AUTHORIZED
+  INVALID_ADMIN_KEY
+  INVALID_BARN_ID
+  NONEXISTENT_BARN_ID
+  SERVICE
+}
+
+## Admin delete barn boards
+input AdminDeleteBarnBoardsInput {
+  adminKey: String
+  barnId: ID!
+}
+
+type AdminDeleteBarnBoardsResolverResult {
+  result: MsResult!
+  error: AdminDeleteBarnBoardsError
+}
+
+enum AdminDeleteBarnBoardsError {
+  NOT_AUTHORIZED
+  INVALID_ADMIN_KEY
+  INVALID_BARN_ID
+  NONEXISTENT_BARN_ID
+  SERVICE
+}
+
+## Admin delete barn family
+input AdminDeleteBarnFamilyInput {
+  adminKey: String
+  barnId: ID!
+}
+
+type AdminDeleteBarnFamilyResult {
+  result: MsResult!
+  error: AdminDeleteBarnFamilyError
+}
+
+enum AdminDeleteBarnFamilyError {
+  NOT_AUTHORIZED
+  INVALID_ADMIN_KEY
+  INVALID_BARN_ID
+  NONEXISTENT_BARN_ID
+  SERVICE
+}
+
+## Admin delete barn activities
+input AdminDeleteBarnActivitiesInput {
+  adminKey: String
+  barnId: ID!
+}
+
+type AdminDeleteBarnActivitiesResult {
+  result: MsResult!
+  error: AdminDeleteBarnActivitiesError
+}
+
+enum AdminDeleteBarnActivitiesError {
+  NOT_AUTHORIZED
+  INVALID_ADMIN_KEY
+  INVALID_BARN_ID
+  NONEXISTENT_BARN_ID
+  SERVICE
+}
+
+## Admin delete barn notes
+input AdminDeleteBarnNotesInput {
+  adminKey: String
+  barnId: ID!
+}
+
+type AdminDeleteBarnNotesResult {
+  result: MsResult!
+  error: AdminDeleteBarnNotesError
+}
+
+enum AdminDeleteBarnNotesError {
+  NOT_AUTHORIZED
+  INVALID_ADMIN_KEY
+  INVALID_BARN_ID
+  NONEXISTENT_BARN_ID
+  SERVICE
+}
