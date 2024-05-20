@@ -582,6 +582,7 @@ input AcceptBarnFamilyQrCodeInput {
 
 type UpsertBarnFamilyResult {
   result: MsResult!
+  barnId: ID
   barnFamilyId: ID
   error: UpsertBarnFamilyError
 }
