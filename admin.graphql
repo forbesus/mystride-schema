@@ -4,6 +4,7 @@ type Mutation {
   adminDeleteBarn(input: AdminDeleteBarnInput): AdminDeleteBarnResult!
   adminDeleteBarnFamily(input: AdminDeleteBarnFamilyInput): AdminDeleteBarnFamilyResult!
   adminDeleteBarnBoards(input: AdminDeleteBarnBoardsInput): AdminDeleteBarnBoardsResult!
+  adminDeleteBarnBoards(input: AdminDeleteBarnBoardsInput): AdminDeleteBarnNotesResult!
 
   ## Horse
 
@@ -17,11 +18,10 @@ type Mutation {
 
 ## Admin delete barn
 input AdminDeleteBarnInput {
-  adminKey: String
   barnId: ID!
 }
 
-type AdminDeleteBarnResolverResult {
+type AdminDeleteBarnResult {
   result: MsResult!
   error: AdminDeleteBarnError
 }
@@ -36,11 +36,10 @@ enum AdminDeleteBarnError {
 
 ## Admin delete barn boards
 input AdminDeleteBarnBoardsInput {
-  adminKey: String
   barnId: ID!
 }
 
-type AdminDeleteBarnBoardsResolverResult {
+type AdminDeleteBarnBoardsResult {
   result: MsResult!
   error: AdminDeleteBarnBoardsError
 }
@@ -55,7 +54,6 @@ enum AdminDeleteBarnBoardsError {
 
 ## Admin delete barn family
 input AdminDeleteBarnFamilyInput {
-  adminKey: String
   barnId: ID!
 }
 
@@ -74,7 +72,6 @@ enum AdminDeleteBarnFamilyError {
 
 ## Admin delete barn activities
 input AdminDeleteBarnActivitiesInput {
-  adminKey: String
   barnId: ID!
 }
 
@@ -93,7 +90,6 @@ enum AdminDeleteBarnActivitiesError {
 
 ## Admin delete barn notes
 input AdminDeleteBarnNotesInput {
-  adminKey: String
   barnId: ID!
 }
 
