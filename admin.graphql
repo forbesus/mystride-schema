@@ -4,7 +4,7 @@ type Mutation {
   adminDeleteBarn(input: AdminDeleteBarnInput): AdminDeleteBarnResult!
   adminDeleteBarnFamily(input: AdminDeleteBarnFamilyInput): AdminDeleteBarnFamilyResult!
   adminDeleteBarnBoards(input: AdminDeleteBarnBoardsInput): AdminDeleteBarnBoardsResult!
-  adminDeleteBarnBoards(input: AdminDeleteBarnBoardsInput): AdminDeleteBarnNotesResult!
+  adminDeleteBarnNotes(input: AdminDeleteBarnNotesInput): AdminDeleteBarnNotesResult!
 
   ## Horse
 
