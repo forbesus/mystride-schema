@@ -1042,6 +1042,12 @@ input CreateBarnAnnouncementInput {
   barnNoteBody: String!
 }
 
+type CreateBarnAnnouncementResult {
+  result: MsResult!
+  error: CreateBarnAnnouncementError
+}
+
+
 enum CreateBarnAnnouncementError {
   NOT_AUTHORIZED
   NONEXISTENT_BARN_ID
