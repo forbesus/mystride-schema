@@ -430,7 +430,7 @@ type HorseActivity {
   horseActivityCreatedByLabel: String
   horseActivityCreatedOn: AWSDateTime!
   horseActivityDueOn: AWSDateTime
-  horseActivityPeriod: HorseActivityPeriod
+  horseActivityPeriod: MsPeriod
   horseActivityAssignedToName: String
   horseActivityAssignedToLabel: String
   horseActivityAssignedToAvatarId: ID
@@ -492,14 +492,6 @@ enum HorseActivityType {
   RIDE
   HAND_WALK
 }
-
-enum HorseActivityPeriod {
-  BREAKFAST
-  LUNCH
-  DINNER
-  EVENING
-}
-
 
 ## HorseNote
 type HorseNotes {

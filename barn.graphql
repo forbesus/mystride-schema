@@ -1,33 +1,33 @@
 ## Queries
 type Query {
-  ## BarnSummaries
-  getBarnSummaries(input: GetBarnSummariesInput): [BarnSummary]!
+  ## Barn
+  getBarns(input: GetBarnsInput): BarnsResult!
 
   ## BarnProfile
-  getBarnProfile(input: GetBarnProfileInput): BarnProfile!
+  getBarnProfile(input: GetBarnProfileInput): BarnProfileResult!
 
   ## BarnBoard
-  getBarnBoardSummaries(input: GetBarnBoardSummariesInput): [BarnBoardSummary]!
-  getBarnBoard(input: GetBarnBoardInput): BarnBoard!
+  getBarnBoardSummaries(input: GetBarnBoardSummariesInput): BarnBoardSummariesResult!
+  getBarnBoard(input: GetBarnBoardInput): BarnBoardResult!
 
   ## BarnFamily
   getBarnFamilySummaries(
     input: GetBarnFamilySummariesInput
-  ): [BarnFamilySummary]!
-  getBarnFamily(input: GetBarnFamilyInput): BarnFamily!
+  ): BarnFamilySummariesResult!
+  getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult!
 
   ## BarnPlan
-  getBarnPlanSummaries(input: GetBarnPlanSummariesInput): [BarnPlanSummary]!
-  getBarnPlan(input: GetBarnPlanInput): BarnPlan!
+  getBarnPlanSummaries(input: GetBarnPlanSummariesInput): BarnPlanSummariesResult!
+  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult!
 
   ## BarnAnnouncements
-  getBarnAnnouncements(input: GetBarnAnnouncementsInput): BarnAnnouncements
+  getBarnAnnouncements(input: GetBarnAnnouncementsInput): BarnAnnouncementsResult!
 
   ## BarnActivities
-  getBarnActivities(input: GetBarnActivitiesInput): BarnActivities
+  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
 
   ## BarnNotes
-  getBarnNotes(input: GetBarnNotesInput): BarnNotes
+  getBarnNotes(input: GetBarnNotesInput): BarnNotesResult!
 
   ## BarnFacility
   getBarnFacilitySummaries(
@@ -37,83 +37,103 @@ type Query {
 }
 
 
-
 ## Mutations
 type Mutation {
   ## Barn
-  createBarn(input: CreateBarnInput): BarnSummary!
+  createBarn(input: CreateBarnInput): BarnResult!
 
   ## BarnProfile
-  updateBarnProfile(input: UpdateBarnProfileInput): ID!
+  updateBarnProfile(input: UpdateBarnProfileInput): BarnProfileResult!
 
   ## BarnBoard
-  createBarnBoard(input: CreateBarnBoardInput): ID!
-  updateBarnBoard(input: UpdateBarnBoardInput): ID!
+  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult!
+  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult!
 
   ## BarnPlan
-  createBarnPlan(input: CreateBarnPlanInput): ID!
-  updateBarnPlan(input: UpdateBarnPlanInput): ID!
+  createBarnPlan(input: CreateBarnPlanInput): BarnPlanResult!
+  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanResult!
 
   ## BarnFamily
-  createBarnFamily(input: CreateBarnFamilyInput): UpsertBarnFamilyResult!
-  updateBarnFamily(input: UpdateBarnFamilyInput): UpsertBarnFamilyResult!
-  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): UpsertBarnFamilyResult!
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
+  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
 
   ## BarnAnnouncement
-  createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncement!
-  updateBarnAnnouncement(input: UpdateBarnAnnouncementInput): BarnAnnouncement!
+  createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncementResult!
+  updateBarnAnnouncement(input: UpdateBarnAnnouncementInput): BarnAnnouncementResult!
+  deleteBarnAnnouncement(input: UpdateBarnAnnouncementInput): BarnAnnouncementResult!
 
   ## BarnActivity
-  createBarnActivity(input: CreateBarnActivityInput): BarnActivity!
-  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivity!
+  createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult!
+  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult!
+  deleteBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult!
 
   ## BarnNote
-  createBarnNote(input: CreateBarnNoteInput): BarnNote!
-  updateBarnNote(input: UpdateBarnNoteInput): BarnNote!
+  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult!
+  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
+  deleteBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
 
   ## BarnFacility
-  createBarnFacility(input: CreateBarnFacilityInput): ID!
-  updateBarnFacility(input: UpdateBarnFacilityInput): ID!
+  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
+  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Subscriptions
 type Subscription {
   ## BarnProfile
-  subscribeBarnProfileUpdatesBarnId(barnId: ID!): ID
+  subscribeBarnProfileUpdatesBarnId(barnId: ID!): BarnProfileResult
     @aws_subscribe(mutations: ["updateBarnProfile"])
 
   ## BarnBoard
-  subscribeBarnBoardUpdatesBarnId(barnId: ID!): ID
+  subscribeBarnBoardUpdatesBarnId(barnId: ID!): BarnBoardResult
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
-  subscribeBarnBoardUpdatesHorseId(horseId: ID!): ID
+  subscribeBarnBoardUpdatesHorseId(horseId: ID!): BarnBoardResult
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
 
   ## BarnFamily
-  subscribeBarnFamilyUpdatesBarnId(barnId: ID!): UpsertBarnFamilyResult
+  subscribeBarnFamilyUpdatesBarnId(barnId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
-  subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): UpsertBarnFamilyResult
+  subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
   ## BarnAnnouncements
-  subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncement
+  subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncementResult
     @aws_subscribe(mutations: ["createBarnAnnouncement", "updateBarnAnnouncement"])
 
   ## BarnActivities
-  subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivity
+  subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
     @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
 
   ## BarnNotes
-  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNote
+  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
 
   ## BarnFacilities
-  subscribeBarnFacilitiesBarnId(barnId: ID!): ID
+  subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
     @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
 }
 
 ## Barn
+type Barn {
+  barnId: ID!
+  barnRole: BarnRole!
+  barnFamilySummary: BarnFamilySummary
+  barnProfileSummary: BarnProfileSummary
+}
+
+input GetBarnsInput {
+  actingId: ID!
+}
+
+type BarnsResult {
+  result: MsResult!
+  barns: [Barn]
+  lastKey: String
+  error: BarnError
+}
+
 input CreateBarnInput {
   barnOwnerId: ID!
   barnDisplayName: String!
@@ -121,27 +141,26 @@ input CreateBarnInput {
   barnAddressInput: UpsertMsAddressInput!
 }
 
-enum CreateBarnError {
+input DeleteBarnInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+type BarnResult {
+  result: MsResult!
+  barn: Barn
+  error: BarnError
+}
+
+enum BarnError {
   NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
   EXCEEDED_NAME_LENGTH
   EXCEEDED_BARN_LIMIT
-  SERVICE
-}
-
-type BarnSummary {
-  barnId: ID!
-  barnRole: BarnRole!
-  barnFamilySummary: BarnFamilySummary
-  barnProfileSummary: BarnProfileSummary!
-}
-
-input GetBarnSummariesInput {
-  associatedId: ID!
-}
-
-enum GetBarnSummariesError {
-  NOT_AUTHORIZED
-  NONEXISTENT_ASSOCIATED_ID
+  INVALID_ADDRESS
   SERVICE
 }
 
@@ -185,17 +204,12 @@ type BarnProfile {
 }
 
 input GetBarnProfileInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
-}
-
-enum GetBarnProfileError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
 }
 
 input UpdateBarnProfileInput {
+  actingId: ID!
   barnId: ID!
   barnAvatarId: ID
   barnDisplayName: String
@@ -207,21 +221,6 @@ input UpdateBarnProfileInput {
   barnAddress: UpsertMsAddressInput
 }
 
-enum UpdateBarnProfileError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  INVALID_PHONE_FORMAT
-  INVALID_EMAIL_FORMAT
-  INVALID_AVATAR_ID
-  INVALID_ADDRESS
-  EXCEEDED_DISPLAY_NAME_LENGTH
-  EXCEEDED_LEGAL_NAME_LENGTH
-  EXCEEDED_WELCOME_MESSAGE_LENGTH
-  EXCEEDED_BIO_LENGTH
-  SERVICE
-}
-
-## BarnProfileSummary
 type BarnProfileSummary {
   barnId: ID!
   barnOwner: UserProfilePublic!
@@ -236,17 +235,6 @@ type BarnProfileSummary {
   barnCountryCode: MsCountryCode
 }
 
-input GetBarnProfileSummaryInput {
-  barnId: ID!
-  associatedId: ID!
-}
-
-enum GetBarnProfileSummaryError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
-}
-
 type BarnProfilePublic {
   barnId: ID!
   barnType: BarnType!
@@ -256,6 +244,31 @@ type BarnProfilePublic {
   barnState: String
   barnCountry: String
   barnCountryCode: String
+}
+
+type BarnProfileResult {
+  result: MsResult!
+  error: BarnProfileError
+}
+
+enum BarnProfileError {
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NOT_AUTHORIZED
+  NOT_FOUND
+  INVALID_PHONE_FORMAT
+  INVALID_EMAIL_FORMAT
+  INVALID_AVATAR_ID
+  INVALID_ADDRESS
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  EXCEEDED_LEGAL_NAME_LENGTH
+  EXCEEDED_WELCOME_MESSAGE_LENGTH
+  EXCEEDED_BIO_LENGTH
+  SERVICE
 }
 
 enum BarnType {
@@ -313,29 +326,31 @@ type BarnBoardSummary {
 }
 
 input GetBarnBoardSummariesInput {
-  barnId: ID!
-  associatedId: ID!
+  actingId: ID!
+  barnId: ID
+  horseId: ID
+  startKey: String
+}
+
+type BarnBoardSummariesResult {
+  result: MsResult!
+  barnBoardSummaries: [BarnBoardSummary]
+  lastKey: String
+  error: BarnBoardError
 }
 
 input GetBarnBoardInput {
+  actingId: ID!
   barnId: ID!
   horseId: ID!
   associatedId: ID!
 }
 
 input CreateBarnBoardInput {
+  actingId: ID!
   barnId: ID!
   horseId: ID!
   barnBoardRequestedPlanId: ID
-}
-
-enum CreateBarnBoardError {
-  NOT_AUTHORIZED
-  EXISTING_BOARD
-  EXCEEDED_BARN_BOARD_LIMIT
-  NONEXISTENT_BARN_ID
-  NONEXISTENT_HORSE_ID
-  SERVICE
 }
 
 input UpdateBarnBoardInput {
@@ -346,15 +361,33 @@ input UpdateBarnBoardInput {
   barnBoardPlanId: ID
 }
 
-enum UpdateBarnBoardError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
+type BarnBoardResult {
+  result: MsResult!
+  barnBoard: BarnBoard
+  error: BarnBoardError
 }
 
-enum BarnBoardType {
-  STALL
-  PASTURE
+enum BarnBoardError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_BARN_PLAN_ID
+  INVALID_BARN_PLAN_ID
+  NONEXISTENT_BARN_FACILITY_ID
+  INVALID_BARN_FACILITY_ID
+  MISSING_REQUIRED_ID
+  INVALID_STATUS_CHANGE
+  EXISTING_BOARD
+  EXCEEDED_BARN_BOARD_LIMIT
+  NONEXISTENT_BARN_ID
+  SERVICE
 }
 
 enum BarnBoardStatus {
@@ -408,22 +441,27 @@ type BarnPlanSummary {
 }
 
 input GetBarnPlanSummariesInput {
+  actingId: ID!
   barnId: ID!
   associatedId: ID!
 }
 
+type BarnPlanSummariesResult {
+  result: MsResult!
+  barnPlanSummaries: [BarnPlanSummary]
+  lastKey: String
+  error: BarnPlanError
+}
+
 input GetBarnPlanInput {
+  actingId: ID!
   barnPlanId: ID!
   associatedId: ID!
 }
 
-enum GetBarnPlanError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
-}
-
 input CreateBarnPlanInput {
+  actingId: ID!
+  barnId: ID!
   barnPlanName: String
   barnPlanType: BarnPlanType!
   barnPlanPrice: Int
@@ -446,12 +484,10 @@ input CreateBarnPlanInput {
   barnPlanBlanketing: Boolean
 }
 
-enum CreateBarnPlanError {
-  NOT_AUTHORIZED
-  SERVICE
-}
-
 input UpdateBarnPlanInput {
+  actingId: ID!
+  barnId: ID!
+  barnPlanId: ID!
   barnPlanName: String
   barnPlanStatus: BarnPlanStatus
   barnPlanPrice: Int
@@ -469,13 +505,31 @@ input UpdateBarnPlanInput {
   barnPlanMedication: Boolean
   barnPlanTurnout: Boolean
   barnPlanTurnoutPeriods: [HorseActivityPeriod]
+  barnPlanTurnoutFacility: [HorseActivityPeriod]
   barnPlanTurnoutDuration: [Int]
   barnPlanBlanketing: Boolean
 }
 
-enum UpdateBarnPlanError {
+type BarnPlanResult {
+  result: MsResult!
+  barnPlan: BarnPlan
+  lastKey: String
+  error: BarnPlanError
+}
+
+enum BarnPlanError {
   NOT_AUTHORIZED
-  NOT_FOUND
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_BARN_PLAN_ID
+  INVALID_BARN_PLAN_ID
+  INVALID_STATUS_UPDATE
+  EXCEEDED_BARN_PLAN_LIMIT
+  INVALID_DEACTIVATION_DATE
   SERVICE
 }
 
@@ -493,8 +547,6 @@ enum BarnPlanStatus {
   ACTIVE
   INACTIVE
 }
-
-union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
 
 ## BarnFamily
 type BarnFamily {
@@ -533,43 +585,35 @@ type BarnFamilySummary {
 }
 
 input GetBarnFamilySummariesInput {
-  barnId: ID!
-  associatedId: ID!
+  actingId: ID!
+  barnId: ID
+  barnFamilyId: ID
+  startKey: String
+}
+
+type BarnFamilySummariesResult {
+  result: MsResult!
+  barnFamilySummaries: [BarnFamilySummary]
+  lastKey: String
+  error: BarnFamilyError
 }
 
 input GetBarnFamilyInput {
+  actingId: ID!
   barnId: ID!
   barnFamilyId: ID!
-  associatedId: ID!
-}
-
-enum GetBarnFamilyError {
-  NOT_AUTHORIZED
-  NONEXISTENT_BARN_FAMILY
-  NONEXISTENT_BARN_FAMILY_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  INVALID_BARN_FAMILY_ID
-  INVALID_BARN_FAMILY_ID_PHONE_FORMAT
-  INVALID_BARN_FAMILY_ID_PHONE_TYPE
-  INACTIVE_BARN_FAMILY_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  SERVICE
 }
 
 input CreateBarnFamilyInput {
-  associatedId: ID!
-  barnId: ID!
-  barnFamilyId: ID
+  actingId: ID!
+  barnId: ID
+  barnFamilyId: ID!
   barnFamilyRole: BarnRole!
   barnFamilyAutoDeactivateOn: AWSDateTime
 }
 
 input UpdateBarnFamilyInput {
-  associatedId: ID!
+  actingId: ID!
   barnId: ID!
   barnFamilyId: ID!
   barnFamilyStatus: BarnFamilyStatus!
@@ -577,31 +621,35 @@ input UpdateBarnFamilyInput {
 }
 
 input AcceptBarnFamilyQrCodeInput {
-  qrCode: ID!
+  actingId: ID!
+  barnQrCode: ID!
 }
 
-type UpsertBarnFamilyResult {
+type BarnFamilyResult {
   result: MsResult!
-  barnId: ID
-  barnFamilyId: ID
-  error: UpsertBarnFamilyError
+  barnFamily: BarnFamily
+  error: BarFamilyError
 }
 
-enum UpsertBarnFamilyError {
+enum BarnFamilyError {
   NOT_AUTHORIZED
-  EXISTING_FAMILY
-  INVALID_STATUS_UPDATE
-  PROHIBITED_SELF_CREATE
-  PROHIBITED_SELF_UPDATE
-  EXCEEDED_BARN_FAMILY_LIMIT
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
   NONEXISTENT_BARN_FAMILY_ID
   INVALID_BARN_FAMILY_ID
   INVALID_BARN_FAMILY_ID_PHONE_FORMAT
   INVALID_BARN_FAMILY_ID_PHONE_TYPE
   INACTIVE_BARN_FAMILY_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
+  MISSING_REQUIRED_ID
+  EXISTING_FAMILY
+  INVALID_STATUS_UPDATE
+  PROHIBITED_SELF_CREATE
+  PROHIBITED_SELF_UPDATE
+  EXCEEDED_BARN_FAMILY_LIMIT
   INVALID_DEACTIVATION_DATE
   SERVICE
 }
@@ -624,12 +672,9 @@ enum BarnFamilyStatus {
   DECLINED
 }
 
-## BarnActivity
-type BarnActivities {
-  lastKey: String
-  activities: [BarnActivity]!
-}
+union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
 
+## BarnActivity
 type BarnActivity {
   barnId: ID!
   barnActivityId: ID!
@@ -646,55 +691,31 @@ type BarnActivity {
 }
 
 input GetBarnActivitiesInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   activityStatus: BarnActivityStatus
   startKey: String
 }
 
-enum GetBarnActivitiesError {
-  NOT_AUTHORIZED
-  INVALID_STATUS_UPDATE
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  INVALID_START_KEY
-  SERVICE
+type BarnActivitiesResult {
+  result: MsResult!
+  activities: [BarnActivity]
+  lastKey: String
+  error: BarnActivityError
 }
 
-
 input CreateBarnActivityInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   barnActivityType: BarnActivityType!
   barnActivityCompleteBy: AWSDateTime
   barnActivityAssignedTo: ID
   barnActivityCreateComment: String
 }
 
-enum CreateBarnActivityError {
-  NOT_AUTHORIZED
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_ASSIGNED_ID
-  INVALID_ASSIGNED_ID
-  INACTIVE_ASSIGNED_ID
-  INVALID_DUE_DATE
-  PROHIBITED_CREATE_COMMENT_CONTENT
-  EXCEEDED_CREATE_COMMENT_LENGTH
-  SERVICE
-}
-
 input UpdateBarnActivityInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   barnActivityId: ID!
   barnActivityStatus: BarnActivityStatus
   barnActivityDueDate: AWSDateTime
@@ -702,20 +723,34 @@ input UpdateBarnActivityInput {
   barnActivityCompleteComment: String
 }
 
-enum UpdateBarnActivityError {
+input DeleteBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+}
+
+input BarnActivityResult {
+  result: MsResult!
+  barnActivity: BarnActivity
+  error: BarnActivityError
+}
+
+enum BarnActivityError {
   NOT_AUTHORIZED
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  NONEXISTENT_ASSIGNED_ID
-  INVALID_ASSIGNED_ID
-  INACTIVE_ASSIGNED_ID
+  NONEXISTENT_ASSIGNED_TO_ID
+  INVALID_ASSIGNED_TO_ID
+  INACTIVE_ASSIGNED_TO_ID
   INVALID_DUE_DATE
-  EXCEEDED_COMPLETE_COMMENT_LENGTH
-  PROHIBITED_COMPLETE_COMMENT_CONTENT
+  PROHIBITED_CREATE_COMMENT_CONTENT
+  EXCEEDED_CREATE_COMMENT_LENGTH
+  INVALID_STATUS_UPDATE
+  INVALID_START_KEY
   SERVICE
 }
 
@@ -737,11 +772,6 @@ enum BarnActivityStatus {
 }
 
 ## BarnNotes
-type BarnNotes {
-  barnNotes: [BarnNote]!
-  lastKey: String
-}
-
 type BarnNote {
   barnId: ID!
   barnNoteId: ID!
@@ -755,32 +785,23 @@ type BarnNote {
 }
 
 input GetBarnNotesInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   horseId: ID
-  facilityId: ID
-  barnNoteTypes: [BarnNoteType]
+  barnFacilityId: ID
   startKey: String
 }
 
-enum GetBarnNotesError {
-  NOT_AUTHORIZED
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_SUBJECT_ID
-  INVALID_SUBJECT_ID
-  INACTIVE_SUBJECT_ID
-  INVALID_START_KEY
-  SERVICE
+type BarnNotesResult {
+  result: MsResult!
+  barnNotes: [BarnNote]
+  lastKey: String
+  error: BarnNoteError
 }
 
 input CreateBarnNoteInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   horseId: ID
   facilityId: ID
   barnNoteTitle: String
@@ -788,14 +809,32 @@ input CreateBarnNoteInput {
   barnNoteIsPined: Boolean
 }
 
-enum CreateBarnNoteError {
+input UpdateBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  barnNoteId: ID!
+  barnNoteIsPined: Boolean
+}
+
+input DeleteBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  barnNoteId: ID!
+}
+
+type BarnNoteResult {
+  result: MsResult!
+  error: BarnNoteError
+}
+
+enum BarnNoteError {
   NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
   NONEXISTENT_HORSE_ID
   INVALID_HORSE_ID
   INACTIVE_HORSE_ID
@@ -805,47 +844,6 @@ enum CreateBarnNoteError {
   PROHIBITED_TITLE_CONTENT
   PROHIBITED_BODY_CONTENT
   SERVICE
-}
-
-
-input UpdateBarnNoteInput {
-  barnNoteId: ID!
-  associatedId: ID!
-  barnNoteIsPined: Boolean
-}
-
-enum UpdateBarnNoteError {
-  NOT_AUTHORIZED
-  NONEXISTENT_BARN_NOTE_ID
-  INVALID_BARN_NOTE_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  SERVICE
-}
-
-input DeleteBarnNoteInput {
-  barnNoteId: ID!
-  associatedId: ID!
-}
-
-enum DeleteBarnNoteError {
-  NOT_AUTHORIZED
-  NONEXISTENT_BARN_NOTE_ID
-  INVALID_BARN_NOTE_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  SERVICE
-}
-
-enum BarnNoteType {
-  BOARD
-  FACILITY
-  EVENT
-  PLAN
 }
 
 ## BarnFacility
@@ -874,17 +872,18 @@ type BarnFacilitySummary {
 }
 
 input GetBarnFacilitySummariesInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
 }
 
 input GetBarnFacilityInput {
+  actingId: ID!
   barnId: ID!
   barnFacilityId: ID!
-  associatedId: ID!
 }
 
 input CreateBarnFacilityInput {
+  actingId: ID!
   barnId: ID!
   barnFacilityType: BarnFacilityType!
   BarnFacilityName: String
@@ -894,12 +893,46 @@ input CreateBarnFacilityInput {
 }
 
 input UpdateBarnFacilityInput {
+  actingId: ID!
   barnId: ID!
   barnFacilityId: ID!
   barnFacilityStatus: BarnFacilityStatus
   barnFacilityName: String
   barnFacilityDescription: String
   barnFacilityManagerId: ID
+}
+
+input DeleteBarnFacilityInput {
+  actingId: ID!
+  barnId: ID!
+  barnFacilityId: ID!
+}
+
+type BarnFacilityResult {
+  result: MsResult!
+  error: BarnFacilityError
+}
+
+enum BarnFacilityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_FACILITY_ID
+  INVALID_FACILITY_ID
+  INVALID_STATUS_CHANGE
+  NONEXISTENT_MANAGER_ID
+  INVALID_MANAGER_ID
+  INACTIVE_MANAGER_ID
+  EXISTING_DUPLICATE_NAME
+  EXCEEDED_NAME_LENGTH
+  EXCEEDED_DESCRIPTION_LENGTH
+  PROHIBITED_NAME_CONTENT
+  PROHIBITED_DESCRIPTION_CONTENT
+  SERVICE
 }
 
 enum BarnFacilityType {
@@ -998,12 +1031,7 @@ type FarrierStationProfile {
 }
 
 
-## BarnAnnouncements
-type BarnAnnouncements {
-  barnAnnouncements: [BarnAnnouncement]!
-  lastKey: String
-}
-
+## BarnAnnouncement
 type BarnAnnouncement {
   barnId: ID!
   barnAnnouncementId: ID!
@@ -1016,82 +1044,62 @@ type BarnAnnouncement {
 }
 
 input GetBarnAnnouncementsInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   startKey: String
 }
 
-enum GetBarnAnnouncementsError {
-  NOT_AUTHORIZED
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  INVALID_START_KEY
-  SERVICE
+type BarnAnnouncementsResult {
+  result: MsResult!
+  barnAnnouncements: [BarnAnnouncement]
+  lastKey: String
+  error: BarnAnnouncementError
+}
+
+input GetBarnAnnouncementInput {
+  actingId: ID!
+  barnId: ID!
+  startKey: String
 }
 
 input CreateBarnAnnouncementInput {
+  actingId: ID!
   barnId: ID!
-  associatedId: ID!
   barnAnnouncementAudience: BarnAnnouncementAudience!
   barnAnnouncementPriority: BarnAnnouncementPriority!
-  barnNoteTitle: String
-  barnNoteBody: String!
+  barnAnnouncementTitle: String
+  barnAnnouncementBody: String!
 }
-
-type CreateBarnAnnouncementResult {
-  result: MsResult!
-  error: CreateBarnAnnouncementError
-}
-
-
-enum CreateBarnAnnouncementError {
-  NOT_AUTHORIZED
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  PROHIBITED_TITLE_CONTENT
-  PROHIBITED_BODY_CONTENT
-  SERVICE
-}
-
 
 input UpdateBarnAnnouncementInput {
+  actingId: ID!
   barnAnnouncementId: ID!
-  associatedId: ID!
   barnAnnouncementPriority: BarnAnnouncementPriority
 }
 
-enum UpdateBarnAnnouncementError {
+input DeleteBarnAnnouncementInput {
+  actingId: ID!
+  barnAnnouncementId: ID!
+}
+
+type BarnAnnouncementResult {
+  result: MsResult!
+  announcement: BarnAnnouncement
+  error: BarnAnnouncementError
+}
+
+enum BarnAnnouncementError {
   NOT_AUTHORIZED
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
-  SERVICE
-}
-
-input DeleteBarnAnnouncementInput {
-  barnAnnouncementId: ID!
-  associatedId: ID!
-}
-
-enum DeleteBarnAnnouncementError {
-  NOT_AUTHORIZED
-  NONEXISTENT_BARN_ANNOUNCEMENT_ID
-  INVALID_BARN_ANNOUNCEMENT_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_ASSOCIATED_ID
-  INVALID_ASSOCIATED_ID
-  INACTIVE_ASSOCIATED_ID
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  EXCEEDED_TITLE_LENGTH
+  EXCEEDED_BODY_LENGTH
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
   SERVICE
 }
 
