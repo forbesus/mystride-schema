@@ -560,6 +560,12 @@ input UpdateBarnPlanInput {
   barnPlanBlanketType: MsBlanketType
 }
 
+input DeleteBarnPlanInput {
+  actingId: ID!
+  barnId: ID!
+  barnPlanId: ID!
+}
+
 type BarnPlanResult {
   result: MsResult!
   barnPlan: BarnPlan
