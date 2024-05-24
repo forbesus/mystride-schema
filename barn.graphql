@@ -32,8 +32,8 @@ type Query {
   ## BarnFacility
   getBarnFacilitySummaries(
     input: GetBarnFacilitySummariesInput
-  ): [BarnFacilitySummary]!
-  getBarnFacility(input: GetBarnFacilityInput): BarnFacility!
+  ): BarnFacilitySummariesResult!
+  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult!
 }
 
 
@@ -52,6 +52,7 @@ type Mutation {
   ## BarnPlan
   createBarnPlan(input: CreateBarnPlanInput): BarnPlanResult!
   updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanResult!
+  deleteBarnPlan(input: UpdateBarnFacilityInput): BarnPlanResult!
 
   ## BarnFamily
   createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
@@ -76,6 +77,7 @@ type Mutation {
   ## BarnFacility
   createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
   updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
+  deleteBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Subscriptions
@@ -248,6 +250,7 @@ type BarnProfilePublic {
 
 type BarnProfileResult {
   result: MsResult!
+  barnProfile: BarnProfile
   error: BarnProfileError
 }
 
@@ -914,6 +917,13 @@ input GetBarnFacilitySummariesInput {
   barnId: ID!
 }
 
+type BarnFacilitySummariesResult {
+  result: MsResult!
+  barnFacilitySummaries: [BarnFacilitySummary]
+  lastKey: String
+  error: BarnNoteError
+}
+
 input GetBarnFacilityInput {
   actingId: ID!
   barnId: ID!
@@ -948,6 +958,7 @@ input DeleteBarnFacilityInput {
 
 type BarnFacilityResult {
   result: MsResult!
+  barnFacility: BarnFacility
   error: BarnFacilityError
 }
 
