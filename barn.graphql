@@ -386,7 +386,6 @@ enum BarnBoardError {
   INVALID_STATUS_CHANGE
   EXISTING_BOARD
   EXCEEDED_BARN_BOARD_LIMIT
-  NONEXISTENT_BARN_ID
   SERVICE
 }
 
@@ -816,7 +815,6 @@ type BarnNote {
   barnId: ID!
   barnNoteId: ID!
   barnNoteSubjectId: ID!
-  barnNoteType: BarnNoteType!
   barnNoteCreatedOn: AWSDateTime!
   barnNoteCreatedBy: UserProfilePublic!
   barnNoteTitle: String
@@ -990,6 +988,7 @@ enum BarnFacilityType {
   RUN
   HAY_STORAGE
   FARRIER_STATION
+  EXAM_AREA
 }
 
 enum BarnFacilityStatus {
