@@ -54,17 +54,6 @@ input UpsertMsLocaleInput {
   localeTimezone: MsTimezone
 }
 
-enum MsTimeUnit {
-  MILLISECONDS
-  SECONDS
-  MINUTES
-  HOURS
-  DAYS
-  WEEKS
-  MONTHS
-  YEARS
-}
-
 enum MsColorScheme {
   LIGHT
   DARK
