@@ -1,0 +1,210 @@
+## Queries
+type Query {
+  ## Barn
+  getBarns(input: GetBarnsInput): BarnsResult!
+
+  ## BarnProfile
+  getBarnProfile(input: GetBarnProfileInput): BarnProfileResult!
+
+
+}
+
+## Mutations
+type Mutation {
+  ## Barn
+  createBarn(input: CreateBarnInput): BarnResult!
+
+  ## BarnProfile
+  updateBarnProfile(input: UpdateBarnProfileInput): BarnProfileResult!
+
+ 
+}
+
+## Subscriptions
+type Subscription {
+  ## BarnProfile
+  subscribeBarnProfileUpdatesBarnId(barnId: ID!): BarnProfileResult
+    @aws_subscribe(mutations: ["updateBarnProfile"])
+
+}
+
+## Barn
+type Barn {
+  barnId: ID!
+  barnRole: BarnRole!
+  barnFamilySummary: BarnFamilySummary
+  barnProfileSummary: BarnProfileSummary!
+}
+
+input GetBarnsInput {
+  actingId: ID!
+  startKey: String
+}
+
+type BarnsResult {
+  result: MsResult!
+  barns: [Barn]
+  lastKey: String
+  error: BarnError
+}
+
+input CreateBarnInput {
+  barnOwnerId: ID!
+  barnDisplayName: String!
+  barnType: BarnType!
+  barnAddressInput: UpsertMsAddressInput!
+}
+
+input DeleteBarnInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+type BarnResult {
+  result: MsResult!
+  barn: Barn
+  error: BarnError
+}
+
+enum BarnError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  EXCEEDED_NAME_LENGTH
+  EXCEEDED_BARN_LIMIT
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  INVALID_ADDRESS
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  SERVICE
+}
+
+enum BarnRole {
+  OWNER
+  MANAGER
+  STAFF
+  PRO
+  BOARDER
+  MEMBER
+  GUEST
+  HORSE
+}
+
+## BarnProfile
+type BarnProfile {
+  barnId: ID!
+  barnOwner: UserProfilePublic!
+  barnPhoneId: ID
+  barnEmailId: ID
+  barnType: BarnType!
+  barnGeohash: String!
+  barnStatus: BarnStatus!
+  barnDisplayName: String!
+  barnCreatedOn: AWSDateTime!
+  barnCreatedBy: UserProfilePublic!
+  barnModifiedOn: AWSDateTime
+  barnModifiedBy: UserProfilePublic
+  barnSuspendedOn: AWSDateTime
+  barnSuspendedBy: UserProfilePublic
+  barnDeactivatedOn: AWSDateTime
+  barnDeactivatedBy: UserProfilePublic
+  barnDeactivationReason: BarnDeactivationReason
+  barnDeactivationComment: String
+  barnTimezone: MsTimezone!
+  barnAvatarId: ID!
+  barnAddress: MsAddress!
+  barnLegalName: String
+  barnWelcomeMessage: String
+  barnBio: String
+}
+
+input GetBarnProfileInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+input UpdateBarnProfileInput {
+  actingId: ID!
+  barnId: ID!
+  barnAvatarId: ID
+  barnDisplayName: String
+  barnPhoneId: String
+  barnEmailId: String
+  barnLegalName: String
+  barnTimezone: MsTimezone
+  barnWelcomeMessage: String
+  barnAddress: UpsertMsAddressInput
+}
+
+type BarnProfileSummary {
+  barnId: ID!
+  barnOwner: UserProfilePublic!
+  barnType: BarnType!
+  barnStatus: BarnStatus!
+  barnDisplayName: String!
+  barnTimezone: MsTimezone!
+  barnAvatarId: ID!
+  barnCity: String
+  barnState: String
+  barnCountry: String
+  barnCountryCode: MsCountryCode
+}
+
+type BarnProfilePublic {
+  barnId: ID!
+  barnType: BarnType!
+  barnDisplayName: String!
+  barnAvatarId: ID!
+  barnCity: String
+  barnState: String
+  barnCountry: String
+  barnCountryCode: String
+}
+
+type BarnProfileResult {
+  result: MsResult!
+  barnProfile: BarnProfile
+  error: BarnProfileError
+}
+
+enum BarnProfileError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_PHONE_FORMAT
+  INVALID_EMAIL_FORMAT
+  INVALID_AVATAR_ID
+  INVALID_ADDRESS
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  EXCEEDED_LEGAL_NAME_LENGTH
+  EXCEEDED_WELCOME_MESSAGE_LENGTH
+  EXCEEDED_BIO_LENGTH
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  PROHIBITED_LEGAL_NAME_CONTENT
+  PROHIBITED_WELCOME_MESSAGE_CONTENT
+  PROHIBITED_BIO_CONTENT
+  SERVICE
+}
+
+enum BarnType {
+  COMMERCIAL
+  PERSONAL
+}
+
+enum BarnStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}
+
+enum BarnDeactivationReason {
+  OWNER
+  INACTIVITY
+  VIOLATION
+}
+
