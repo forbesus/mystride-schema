@@ -120,7 +120,7 @@ type Barn {
   barnId: ID!
   barnRole: BarnRole!
   barnFamilySummary: BarnFamilySummary
-  barnProfileSummary: BarnProfileSummary
+  barnProfileSummary: BarnProfileSummary!
 }
 
 input GetBarnsInput {
@@ -469,19 +469,31 @@ input CreateBarnPlanInput {
   barnPlanDescription: String
   barnPlanForage: Boolean
   barnPlanForageType: ForageType
-  barnPlanHForagePeriods: [HorseActivityPeriod]
+  barnPlanHForagePeriods: [MsServicePeriod]
   barnPlanForageSupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
-  barnPlanGrainPeriods: [HorseActivityPeriod]
+  barnPlanGrainPeriods: [MsServicePeriod]
   barnPlanGrainSupplier: BarnPlanSupplier
   barnPlanSupplement: Boolean
-  barnPlanSupplementPeriods: [HorseActivityPeriod]
+  barnPlanSupplementPeriods: [MsServicePeriod]
   barnPlanSupplementSupplier: BarnPlanSupplier
   barnPlanMedication: Boolean
   barnPlanTurnout: Boolean
-  barnPlanTurnoutPeriods: [HorseActivityPeriod]
-  barnPlanTurnoutDuration: [Int]
+  barnPlanTurnoutPeriods: [MsServicePeriod]
+  barnPlanTurnoutBreakfastFacility: ID
+  barnPlanTurnoutLunchFacilityId: ID
+  barnPlanTurnoutDinnerFacilityId: ID
+  barnPlanTurnoutEveningFacilityId: ID
+  barnPlanTurnoutBreakfastDuration: Int
+  barnPlanTurnoutBreakfastDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutLunchDuration: Int
+  barnPlanTurnoutLunchDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutDinnerDuration: Int
+  barnPlanTurnoutDinnerDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutEveningDuration: Int
+  barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
   barnPlanBlanketing: Boolean
+  barnPlanBlanketType: MsBlanketType
 }
 
 input UpdateBarnPlanInput {
@@ -494,19 +506,29 @@ input UpdateBarnPlanInput {
   barnPlanDescription: String
   barnPlanForage: Boolean
   barnPlanForageType: ForageType
-  barnPlanForagePeriods: [HorseActivityPeriod]
+  barnPlanForagePeriods: [MsServicePeriod]
   barnPlanForageSupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
-  barnPlanGrainPeriods: [HorseActivityPeriod]
+  barnPlanGrainPeriods: [MsServicePeriod]
   barnPlanGrainSupplier: BarnPlanSupplier
   barnPlanSupplement: Boolean
-  barnPlanSupplementPeriods: [HorseActivityPeriod]
+  barnPlanSupplementPeriods: [MsServicePeriod]
   barnPlanSupplementSupplier: BarnPlanSupplier
   barnPlanMedication: Boolean
   barnPlanTurnout: Boolean
-  barnPlanTurnoutPeriods: [HorseActivityPeriod]
-  barnPlanTurnoutFacility: [HorseActivityPeriod]
-  barnPlanTurnoutDuration: [Int]
+  barnPlanTurnoutPeriods: [MsServicePeriod]
+  barnPlanTurnoutBreakfastFacility: ID
+  barnPlanTurnoutLunchFacilityId: ID
+  barnPlanTurnoutDinnerFacilityId: ID
+  barnPlanTurnoutEveningFacilityId: ID
+  barnPlanTurnoutBreakfastDuration: Int
+  barnPlanTurnoutBreakfastDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutLunchDuration: Int
+  barnPlanTurnoutLunchDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutDinnerDuration: Int
+  barnPlanTurnoutDinnerDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutEveningDuration: Int
+  barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
   barnPlanBlanketing: Boolean
 }
 
@@ -534,8 +556,8 @@ enum BarnPlanError {
 }
 
 enum BarnPlanType {
-  GROUP
-  INDIVIDUAL
+  PACKAGE
+  CUSTOM
 }
 
 enum BarnPlanSupplier {
@@ -546,6 +568,11 @@ enum BarnPlanSupplier {
 enum BarnPlanStatus {
   ACTIVE
   INACTIVE
+}
+
+enum MsTurnoutDurationUnit {
+  MINUTES
+  HOURS
 }
 
 ## BarnFamily
