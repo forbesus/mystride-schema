@@ -100,7 +100,6 @@ enum GetHorseSummariesError {
 input CreateHorseInput {
   horseDisplayName: String!
   horseAvatarId: ID!
-  horseBoard: CreateBarnBoardInput
 }
 
 enum HorseRole {

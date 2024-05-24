@@ -32,7 +32,6 @@ type Subscription {
 type Barn {
   barnId: ID!
   barnRole: BarnRole!
-  barnFamilySummary: BarnFamilySummary
   barnProfileSummary: BarnProfileSummary!
 }
 
@@ -119,24 +118,6 @@ type BarnProfile {
   barnBio: String
 }
 
-input GetBarnProfileInput {
-  actingId: ID!
-  barnId: ID!
-}
-
-input UpdateBarnProfileInput {
-  actingId: ID!
-  barnId: ID!
-  barnAvatarId: ID
-  barnDisplayName: String
-  barnPhoneId: String
-  barnEmailId: String
-  barnLegalName: String
-  barnTimezone: MsTimezone
-  barnWelcomeMessage: String
-  barnAddress: UpsertMsAddressInput
-}
-
 type BarnProfileSummary {
   barnId: ID!
   barnOwner: UserProfilePublic!
@@ -160,6 +141,24 @@ type BarnProfilePublic {
   barnState: String
   barnCountry: String
   barnCountryCode: String
+}
+
+input GetBarnProfileInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+input UpdateBarnProfileInput {
+  actingId: ID!
+  barnId: ID!
+  barnAvatarId: ID
+  barnDisplayName: String
+  barnPhoneId: String
+  barnEmailId: String
+  barnLegalName: String
+  barnTimezone: MsTimezone
+  barnWelcomeMessage: String
+  barnAddress: UpsertMsAddressInput
 }
 
 type BarnProfileResult {
