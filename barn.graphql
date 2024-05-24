@@ -6,7 +6,23 @@ type Query {
   ## BarnProfile
   getBarnProfile(input: GetBarnProfileInput): BarnProfileResult!
 
+  ## BarnBoard
+  getBarnBoardSummaries(
+    input: GetBarnBoardSummariesInput
+  ): BarnBoardSummariesResult!
+  getBarnBoard(input: GetBarnBoardInput): BarnBoardResult!
 
+    ## BarnPlan
+  getBarnPlanSummaries(
+    input: GetBarnPlanSummariesInput
+  ): BarnPlanSummariesResult!
+  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult!
+
+  ## BarnFamily
+  getBarnFamilySummaries(
+    input: GetBarnFamilySummariesInput
+  ): BarnFamilySummariesResult!
+  getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult!
 }
 
 ## Mutations
@@ -17,7 +33,19 @@ type Mutation {
   ## BarnProfile
   updateBarnProfile(input: UpdateBarnProfileInput): BarnProfileResult!
 
- 
+  ## BarnBoard
+  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult!
+  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult!
+
+  ## BarnPlan
+  createBarnPlan(input: CreateBarnPlanInput): BarnPlanResult!
+  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanResult!
+  deleteBarnPlan(input: DeleteBarnPlanInput): BarnPlanResult!
+
+  ## BarnFamily
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
+  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
 }
 
 ## Subscriptions
@@ -26,12 +54,26 @@ type Subscription {
   subscribeBarnProfileUpdatesBarnId(barnId: ID!): BarnProfileResult
     @aws_subscribe(mutations: ["updateBarnProfile"])
 
+  ## BarnBoard
+  subscribeBarnBoardUpdatesBarnId(barnId: ID!): BarnBoardResult
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
+
+  subscribeBarnBoardUpdatesHorseId(horseId: ID!): BarnBoardResult
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"])
+
+  ## BarnFamily
+  subscribeBarnFamilyUpdatesBarnId(barnId: ID!): BarnFamilyResult
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
+
+  subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): BarnFamilyResult
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 }
 
 ## Barn
 type Barn {
   barnId: ID!
   barnRole: BarnRole!
+  barnFamilySummary: BarnFamilySummary
   barnProfileSummary: BarnProfileSummary!
 }
 
@@ -118,6 +160,24 @@ type BarnProfile {
   barnBio: String
 }
 
+input GetBarnProfileInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+input UpdateBarnProfileInput {
+  actingId: ID!
+  barnId: ID!
+  barnAvatarId: ID
+  barnDisplayName: String
+  barnPhoneId: String
+  barnEmailId: String
+  barnLegalName: String
+  barnTimezone: MsTimezone
+  barnWelcomeMessage: String
+  barnAddress: UpsertMsAddressInput
+}
+
 type BarnProfileSummary {
   barnId: ID!
   barnOwner: UserProfilePublic!
@@ -141,24 +201,6 @@ type BarnProfilePublic {
   barnState: String
   barnCountry: String
   barnCountryCode: String
-}
-
-input GetBarnProfileInput {
-  actingId: ID!
-  barnId: ID!
-}
-
-input UpdateBarnProfileInput {
-  actingId: ID!
-  barnId: ID!
-  barnAvatarId: ID
-  barnDisplayName: String
-  barnPhoneId: String
-  barnEmailId: String
-  barnLegalName: String
-  barnTimezone: MsTimezone
-  barnWelcomeMessage: String
-  barnAddress: UpsertMsAddressInput
 }
 
 type BarnProfileResult {
@@ -207,3 +249,432 @@ enum BarnDeactivationReason {
   VIOLATION
 }
 
+## BarnBoard
+type BarnBoard {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardHorse: HorseProfilePublic!
+  barnBoardBarn: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
+  barnBoardPlan: BarnPlan
+  barnBoardInitiatedBy: UserProfilePublic
+  barnBoardInitiatedOn: AWSDateTime!
+  barnBoardModifiedBy: UserProfilePublic
+  barnBoardModifiedOn: AWSDateTime
+  barnBoardAcceptedBy: UserProfilePublic
+  barnBoardAcceptedOn: AWSDateTime
+  barnBoardDeclinedBy: UserProfilePublic
+  barnBoardDeclinedOn: AWSDateTime
+  barnBoardWhitelistedBy: UserProfilePublic
+  barnBoardWaitlistedOn: AWSDateTime
+  barnBoardSuspendedBy: UserProfilePublic
+  barnBoardSuspendedOn: AWSDateTime
+  barnBoardDeactivatedBy: UserProfilePublic
+  barnBoardDeactivatedOn: AWSDateTime
+  barnBoardAutoDeactivateSetBy: UserProfilePublic
+  barnBoardAutoDeactivateOn: AWSDateTime
+  barnBoardComment: String
+}
+
+type BarnBoardSummary {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardHorseSummary: HorseProfilePublic!
+  barnBoardBarnSummary: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
+}
+
+input GetBarnBoardSummariesInput {
+  actingId: ID!
+  barnId: ID
+  horseId: ID
+  startKey: String
+}
+
+type BarnBoardSummariesResult {
+  result: MsResult!
+  barnBoardSummaries: [BarnBoardSummary]
+  lastKey: String
+  error: BarnBoardError
+}
+
+input GetBarnBoardInput {
+  actingId: ID!
+  barnId: ID!
+  horseId: ID!
+  associatedId: ID!
+}
+
+input CreateBarnBoardInput {
+  actingId: ID!
+  barnId: ID!
+  horseId: ID!
+  barnBoardRequestedPlanId: ID
+}
+
+input UpdateBarnBoardInput {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus
+  barnBoardFacilityId: ID
+  barnBoardPlanId: ID
+}
+
+type BarnBoardResult {
+  result: MsResult!
+  barnBoard: BarnBoard
+  error: BarnBoardError
+}
+
+enum BarnBoardError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_BARN_PLAN_ID
+  INVALID_BARN_PLAN_ID
+  NONEXISTENT_BARN_FACILITY_ID
+  INVALID_BARN_FACILITY_ID
+  MISSING_REQUIRED_ID
+  INVALID_STATUS_CHANGE
+  EXISTING_BOARD
+  EXCEEDED_BARN_BOARD_LIMIT
+  SERVICE
+}
+
+enum BarnBoardStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+  REQUESTED
+  WAITLISTED
+  DECLINED
+}
+
+## BarnPlan
+type BarnPlan {
+  barnPlanId: ID!
+  barnPlanType: BarnPlanType!
+  barnPlanStatus: BarnPlanStatus!
+  barnPlanCreatedOn: AWSDateTime!
+  barnPlanCreatedBy: UserProfilePublic!
+  barnPlanModifiedOn: AWSDateTime
+  barnPlanModifiedBy: UserProfilePublic
+  barnPlanName: String
+  barnPlanPrice: Int
+  barnPlanCurrency: MsCurrencyCode
+  barnPlanDescription: String
+  barnPlanForage: Boolean
+  barnPlanHayType: ForageType
+  barnPlanHayPeriods: [MsServicePeriod]
+  barnPlanHaySupplier: BarnPlanSupplier
+  barnPlanGrain: Boolean
+  barnPlanGrainPeriods: [MsServicePeriod]
+  barnPlanGrainSupplier: BarnPlanSupplier
+  barnPlanSupplement: Boolean
+  barnPlanSupplementPeriods: [MsServicePeriod]
+  barnPlanSupplementSupplier: BarnPlanSupplier
+  barnPlanMedication: Boolean
+  barnPlanTurnout: Boolean
+  barnPlanTurnoutPeriods: [MsServicePeriod]
+  barnPlanTurnoutBreakfastFacility: ID
+  barnPlanTurnoutLunchFacilityId: ID
+  barnPlanTurnoutDinnerFacilityId: ID
+  barnPlanTurnoutEveningFacilityId: ID
+  barnPlanTurnoutBreakfastDuration: Int
+  barnPlanTurnoutBreakfastDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutLunchDuration: Int
+  barnPlanTurnoutLunchDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutDinnerDuration: Int
+  barnPlanTurnoutDinnerDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutEveningDuration: Int
+  barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
+  barnPlanBlanketing: Boolean
+  barnPlanBlanketType: MsBlanketType
+}
+
+type BarnPlanSummary {
+  barnPlanId: ID!
+  barnPlanType: BarnPlanType!
+  barnPlanStatus: BarnPlanStatus!
+  barnPlanName: String
+  barnPlanPrice: Int
+  barnPlanCurrency: MsCurrencyCode
+  barnPlanDescription: String
+}
+
+input GetBarnPlanSummariesInput {
+  actingId: ID!
+  barnId: ID!
+  associatedId: ID!
+}
+
+type BarnPlanSummariesResult {
+  result: MsResult!
+  barnPlanSummaries: [BarnPlanSummary]
+  lastKey: String
+  error: BarnPlanError
+}
+
+input GetBarnPlanInput {
+  actingId: ID!
+  barnPlanId: ID!
+  associatedId: ID!
+}
+
+input CreateBarnPlanInput {
+  actingId: ID!
+  barnId: ID!
+  barnPlanName: String
+  barnPlanType: BarnPlanType!
+  barnPlanPrice: Int
+  barnPlanCurrency: MsCurrencyCode
+  barnPlanDescription: String
+  barnPlanForage: Boolean
+  barnPlanForageType: ForageType
+  barnPlanHForagePeriods: [MsServicePeriod]
+  barnPlanForageSupplier: BarnPlanSupplier
+  barnPlanGrain: Boolean
+  barnPlanGrainPeriods: [MsServicePeriod]
+  barnPlanGrainSupplier: BarnPlanSupplier
+  barnPlanSupplement: Boolean
+  barnPlanSupplementPeriods: [MsServicePeriod]
+  barnPlanSupplementSupplier: BarnPlanSupplier
+  barnPlanMedication: Boolean
+  barnPlanTurnout: Boolean
+  barnPlanTurnoutPeriods: [MsServicePeriod]
+  barnPlanTurnoutBreakfastFacility: ID
+  barnPlanTurnoutLunchFacilityId: ID
+  barnPlanTurnoutDinnerFacilityId: ID
+  barnPlanTurnoutEveningFacilityId: ID
+  barnPlanTurnoutBreakfastDuration: Int
+  barnPlanTurnoutBreakfastDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutLunchDuration: Int
+  barnPlanTurnoutLunchDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutDinnerDuration: Int
+  barnPlanTurnoutDinnerDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutEveningDuration: Int
+  barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
+  barnPlanBlanketing: Boolean
+  barnPlanBlanketType: MsBlanketType
+}
+
+input UpdateBarnPlanInput {
+  actingId: ID!
+  barnId: ID!
+  barnPlanId: ID!
+  barnPlanName: String
+  barnPlanStatus: BarnPlanStatus
+  barnPlanPrice: Int
+  barnPlanDescription: String
+  barnPlanForage: Boolean
+  barnPlanForageType: ForageType
+  barnPlanForagePeriods: [MsServicePeriod]
+  barnPlanForageSupplier: BarnPlanSupplier
+  barnPlanGrain: Boolean
+  barnPlanGrainPeriods: [MsServicePeriod]
+  barnPlanGrainSupplier: BarnPlanSupplier
+  barnPlanSupplement: Boolean
+  barnPlanSupplementPeriods: [MsServicePeriod]
+  barnPlanSupplementSupplier: BarnPlanSupplier
+  barnPlanMedication: Boolean
+  barnPlanTurnout: Boolean
+  barnPlanTurnoutPeriods: [MsServicePeriod]
+  barnPlanTurnoutBreakfastFacility: ID
+  barnPlanTurnoutLunchFacilityId: ID
+  barnPlanTurnoutDinnerFacilityId: ID
+  barnPlanTurnoutEveningFacilityId: ID
+  barnPlanTurnoutBreakfastDuration: Int
+  barnPlanTurnoutBreakfastDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutLunchDuration: Int
+  barnPlanTurnoutLunchDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutDinnerDuration: Int
+  barnPlanTurnoutDinnerDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutEveningDuration: Int
+  barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
+  barnPlanBlanketing: Boolean
+  barnPlanBlanketType: MsBlanketType
+}
+
+input DeleteBarnPlanInput {
+  actingId: ID!
+  barnId: ID!
+  barnPlanId: ID!
+}
+
+type BarnPlanResult {
+  result: MsResult!
+  barnPlan: BarnPlan
+  lastKey: String
+  error: BarnPlanError
+}
+
+enum BarnPlanError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_BARN_PLAN_ID
+  INVALID_BARN_PLAN_ID
+  INVALID_STATUS_UPDATE
+  EXCEEDED_BARN_PLAN_LIMIT
+  INVALID_DEACTIVATION_DATE
+  SERVICE
+}
+
+enum BarnPlanType {
+  PACKAGE
+  CUSTOM
+}
+
+enum BarnPlanSupplier {
+  BARN
+  BOARDER
+}
+
+enum BarnPlanStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum MsTurnoutDurationUnit {
+  MINUTES
+  HOURS
+}
+
+## BarnFamily
+type BarnFamily {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyRole: BarnRole!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyProfile: BarnFamilyProfile!
+  barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyInvitedBy: UserProfilePublic!
+  barnFamilyAcceptedOn: AWSDateTime
+  barnFamilyDeclinedOn: AWSDateTime
+  barnFamilySuspendedOn: AWSDateTime
+  barnFamilySuspendedBy: UserProfilePublic
+  barnFamilyDeactivatedOn: AWSDateTime
+  barnFamilyDeactivatedBy: UserProfilePublic
+  barnFamilyAutoDeactivateOn: AWSDateTime
+  barnFamilyAutoDeactivateSetBy: UserProfilePublic
+  barnFamilyIsAnonymous: Boolean
+}
+
+type BarnFamilySummary {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyProfile: BarnFamilyProfile!
+  barnFamilyRole: BarnRole!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyInvitedBy: UserProfilePublic!
+  barnFamilyAcceptedOn: AWSDateTime
+  barnFamilyDeclinedOn: AWSDateTime
+  barnFamilySuspendedOn: AWSDateTime
+  barnFamilyDeactivatedOn: AWSDateTime
+  barnFamilyAutoDeactivateOn: AWSDateTime
+  barnFamilyIsAnonymous: Boolean
+}
+
+input GetBarnFamilySummariesInput {
+  actingId: ID!
+  barnId: ID
+  barnFamilyId: ID
+  startKey: String
+}
+
+type BarnFamilySummariesResult {
+  result: MsResult!
+  barnFamilySummaries: [BarnFamilySummary]
+  lastKey: String
+  error: BarnFamilyError
+}
+
+input GetBarnFamilyInput {
+  actingId: ID!
+  barnId: ID!
+  barnFamilyId: ID!
+}
+
+input CreateBarnFamilyInput {
+  actingId: ID!
+  barnId: ID
+  barnFamilyId: ID!
+  barnFamilyRole: BarnRole!
+  barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
+input UpdateBarnFamilyInput {
+  actingId: ID!
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
+input AcceptBarnFamilyQrCodeInput {
+  actingId: ID!
+  barnQrCode: ID!
+}
+
+type BarnFamilyResult {
+  result: MsResult!
+  barnFamily: BarnFamily
+  error: BarnFamilyError
+}
+
+enum BarnFamilyError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID_PHONE_FORMAT
+  INVALID_BARN_FAMILY_ID_PHONE_TYPE
+  INACTIVE_BARN_FAMILY_ID
+  MISSING_REQUIRED_ID
+  EXISTING_FAMILY
+  INVALID_STATUS_UPDATE
+  PROHIBITED_SELF_CREATE
+  PROHIBITED_SELF_UPDATE
+  EXCEEDED_BARN_FAMILY_LIMIT
+  INVALID_DEACTIVATION_DATE
+  SERVICE
+}
+
+enum AcceptBarnFamilyQrCodeError {
+  EXISTING_OWNER
+  EXISTING_FAMILY
+  PROHIBITED_SELF_CREATE
+  EXCEEDED_BARN_FAMILY_LIMIT
+  NONEXISTENT_QR_CODE
+  INVALID_QR_CODE
+  SERVICE
+}
+
+enum BarnFamilyStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+  INVITED
+  DECLINED
+}
+
+union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
