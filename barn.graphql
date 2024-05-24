@@ -7,7 +7,9 @@ type Query {
   getBarnProfile(input: GetBarnProfileInput): BarnProfileResult!
 
   ## BarnBoard
-  getBarnBoardSummaries(input: GetBarnBoardSummariesInput): BarnBoardSummariesResult!
+  getBarnBoardSummaries(
+    input: GetBarnBoardSummariesInput
+  ): BarnBoardSummariesResult!
   getBarnBoard(input: GetBarnBoardInput): BarnBoardResult!
 
   ## BarnFamily
@@ -17,11 +19,15 @@ type Query {
   getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult!
 
   ## BarnPlan
-  getBarnPlanSummaries(input: GetBarnPlanSummariesInput): BarnPlanSummariesResult!
+  getBarnPlanSummaries(
+    input: GetBarnPlanSummariesInput
+  ): BarnPlanSummariesResult!
   getBarnPlan(input: GetBarnPlanInput): BarnPlanResult!
 
   ## BarnAnnouncements
-  getBarnAnnouncements(input: GetBarnAnnouncementsInput): BarnAnnouncementsResult!
+  getBarnAnnouncements(
+    input: GetBarnAnnouncementsInput
+  ): BarnAnnouncementsResult!
 
   ## BarnActivities
   getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
@@ -35,7 +41,6 @@ type Query {
   ): BarnFacilitySummariesResult!
   getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult!
 }
-
 
 ## Mutations
 type Mutation {
@@ -52,7 +57,7 @@ type Mutation {
   ## BarnPlan
   createBarnPlan(input: CreateBarnPlanInput): BarnPlanResult!
   updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanResult!
-  deleteBarnPlan(input: UpdateBarnFacilityInput): BarnPlanResult!
+  deleteBarnPlan(input: DeleteBarnPlanInput): BarnPlanResult!
 
   ## BarnFamily
   createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
@@ -60,24 +65,30 @@ type Mutation {
   acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
 
   ## BarnAnnouncement
-  createBarnAnnouncement(input: CreateBarnAnnouncementInput): BarnAnnouncementResult!
-  updateBarnAnnouncement(input: UpdateBarnAnnouncementInput): BarnAnnouncementResult!
-  deleteBarnAnnouncement(input: UpdateBarnAnnouncementInput): BarnAnnouncementResult!
+  createBarnAnnouncement(
+    input: CreateBarnAnnouncementInput
+  ): BarnAnnouncementResult!
+  updateBarnAnnouncement(
+    input: UpdateBarnAnnouncementInput
+  ): BarnAnnouncementResult!
+  deleteBarnAnnouncement(
+    input: DeleteBarnAnnouncementInput
+  ): BarnAnnouncementResult!
 
   ## BarnActivity
   createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult!
   updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult!
-  deleteBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult!
+  deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult!
 
   ## BarnNote
   createBarnNote(input: CreateBarnNoteInput): BarnNoteResult!
   updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
-  deleteBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
+  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult!
 
   ## BarnFacility
   createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
   updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
-  deleteBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
+  deleteBarnFacility(input: DeleteBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Subscriptions
@@ -102,7 +113,9 @@ type Subscription {
 
   ## BarnAnnouncements
   subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncementResult
-    @aws_subscribe(mutations: ["createBarnAnnouncement", "updateBarnAnnouncement"])
+    @aws_subscribe(
+      mutations: ["createBarnAnnouncement", "updateBarnAnnouncement"]
+    )
 
   ## BarnActivities
   subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
@@ -127,6 +140,7 @@ type Barn {
 
 input GetBarnsInput {
   actingId: ID!
+  startKey: String
 }
 
 type BarnsResult {
@@ -401,7 +415,6 @@ enum BarnBoardStatus {
   DECLINED
 }
 
-
 ## BarnPlan
 type BarnPlan {
   barnPlanId: ID!
@@ -596,7 +609,7 @@ type BarnFamily {
   barnFamilyId: ID!
   barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyProfile:  BarnFamilyProfile!
+  barnFamilyProfile: BarnFamilyProfile!
   barnFamilyInvitedOn: AWSDateTime!
   barnFamilyInvitedBy: UserProfilePublic!
   barnFamilyAcceptedOn: AWSDateTime
@@ -613,7 +626,7 @@ type BarnFamily {
 type BarnFamilySummary {
   barnId: ID!
   barnFamilyId: ID!
-  barnFamilyProfile:  BarnFamilyProfile!
+  barnFamilyProfile: BarnFamilyProfile!
   barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
   barnFamilyInvitedOn: AWSDateTime!
@@ -978,6 +991,7 @@ enum BarnFacilityError {
   INACTIVE_MANAGER_ID
   EXISTING_DUPLICATE_NAME
   EXCEEDED_NAME_LENGTH
+  PROHIBITED_DUPLICATE_NAME
   EXCEEDED_DESCRIPTION_LENGTH
   PROHIBITED_NAME_CONTENT
   PROHIBITED_DESCRIPTION_CONTENT
@@ -1080,7 +1094,6 @@ type FarrierStationProfile {
   farrierStationProfileName: String
 }
 
-
 ## BarnAnnouncement
 type BarnAnnouncement {
   barnId: ID!
@@ -1162,7 +1175,7 @@ enum BarnAnnouncementAudience {
   GUEST
 }
 
-enum BarnAnnouncementPriority{
+enum BarnAnnouncementPriority {
   URGENT
   STANDARD
 }
