@@ -1,46 +1,4 @@
-## Queries
-type Query {
-  ## Barn
-  getBarns(input: GetBarnsInput): BarnsResult!
 
-  ## BarnProfile
-  getBarnProfile(input: GetBarnProfileInput): BarnProfileResult!
-
-  ## BarnBoard
-  getBarnBoardSummaries(
-    input: GetBarnBoardSummariesInput
-  ): BarnBoardSummariesResult!
-  getBarnBoard(input: GetBarnBoardInput): BarnBoardResult!
-
-  ## BarnFamily
-  getBarnFamilySummaries(
-    input: GetBarnFamilySummariesInput
-  ): BarnFamilySummariesResult!
-  getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult!
-
-  ## BarnPlan
-  getBarnPlanSummaries(
-    input: GetBarnPlanSummariesInput
-  ): BarnPlanSummariesResult!
-  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult!
-
-  ## BarnAnnouncements
-  getBarnAnnouncements(
-    input: GetBarnAnnouncementsInput
-  ): BarnAnnouncementsResult!
-
-  ## BarnActivities
-  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
-
-  ## BarnNotes
-  getBarnNotes(input: GetBarnNotesInput): BarnNotesResult!
-
-  ## BarnFacility
-  getBarnFacilitySummaries(
-    input: GetBarnFacilitySummariesInput
-  ): BarnFacilitySummariesResult!
-  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult!
-}
 
 ## Barn
 type Barn {
