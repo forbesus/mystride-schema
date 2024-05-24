@@ -114,20 +114,43 @@ type Subscription {
   ## BarnAnnouncements
   subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncementResult
     @aws_subscribe(
-      mutations: ["createBarnAnnouncement", "updateBarnAnnouncement"]
+      mutations: [
+        "createBarnAnnouncement"
+        "updateBarnAnnouncement"
+        "deleteBarnAnnouncement"
+      ]
     )
 
   ## BarnActivities
   subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
-    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity"])
+    @aws_subscribe(
+      mutations: [
+        "createBarnActivity"
+        "updateBarnActivity"
+        "deleteBarnActivity"
+      ]
+    )
 
   ## BarnNotes
+  subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
+    @aws_subscribe(
+      mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]
+    )
+
   subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
-    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote"])
+    @aws_subscribe(
+      mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]
+    )
 
   ## BarnFacilities
   subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
-    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility"])
+    @aws_subscribe(
+      mutations: [
+        "createBarnFacility"
+        "updateBarnFacility"
+        "deleteBarnFacility"
+      ]
+    )
 }
 
 ## Barn
@@ -176,7 +199,9 @@ enum BarnError {
   NONEXISTENT_BARN_ID
   EXCEEDED_NAME_LENGTH
   EXCEEDED_BARN_LIMIT
+  EXCEEDED_DISPLAY_NAME_LENGTH
   INVALID_ADDRESS
+  PROHIBITED_DISPLAY_NAME_CONTENT
   SERVICE
 }
 
@@ -269,14 +294,13 @@ type BarnProfileResult {
 }
 
 enum BarnProfileError {
+  NOT_AUTHORIZED
   NONEXISTENT_ACTING_ID
   INVALID_ACTING_ID
   INACTIVE_ACTING_ID
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  NOT_AUTHORIZED
-  NOT_FOUND
   INVALID_PHONE_FORMAT
   INVALID_EMAIL_FORMAT
   INVALID_AVATAR_ID
@@ -285,6 +309,10 @@ enum BarnProfileError {
   EXCEEDED_LEGAL_NAME_LENGTH
   EXCEEDED_WELCOME_MESSAGE_LENGTH
   EXCEEDED_BIO_LENGTH
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  PROHIBITED_LEGAL_NAME_CONTENT
+  PROHIBITED_WELCOME_MESSAGE_CONTENT
+  PROHIBITED_BIO_CONTENT
   SERVICE
 }
 
@@ -1104,7 +1132,7 @@ type FarrierStationProfile {
 type BarnAnnouncement {
   barnId: ID!
   barnAnnouncementId: ID!
-  barnAnnouncementAudience: BarnAnnouncementAudience!
+  barnAnnouncementAudience: [BarnRole!]!
   barnAnnouncementPriority: BarnAnnouncementPriority!
   barnAnnouncementCreatedOn: AWSDateTime!
   barnAnnouncementCreatedBy: UserProfilePublic!
@@ -1134,7 +1162,7 @@ input GetBarnAnnouncementInput {
 input CreateBarnAnnouncementInput {
   actingId: ID!
   barnId: ID!
-  barnAnnouncementAudience: BarnAnnouncementAudience!
+  barnAnnouncementAudience: [BarnRole!]!
   barnAnnouncementPriority: BarnAnnouncementPriority!
   barnAnnouncementTitle: String
   barnAnnouncementBody: String!
@@ -1143,6 +1171,7 @@ input CreateBarnAnnouncementInput {
 input UpdateBarnAnnouncementInput {
   actingId: ID!
   barnAnnouncementId: ID!
+  barnAnnouncementAudience: [BarnRole!]
   barnAnnouncementPriority: BarnAnnouncementPriority
 }
 
@@ -1170,15 +1199,6 @@ enum BarnAnnouncementError {
   PROHIBITED_TITLE_CONTENT
   PROHIBITED_BODY_CONTENT
   SERVICE
-}
-
-enum BarnAnnouncementAudience {
-  ALL
-  STAFF
-  PRO
-  BOARDER
-  MEMBER
-  GUEST
 }
 
 enum BarnAnnouncementPriority {

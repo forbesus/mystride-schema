@@ -1,10 +1,7 @@
 ## Mutations
 type Mutation {
   ## Barn
-  adminDeleteBarn(input: AdminDeleteBarnInput): AdminDeleteBarnResult!
-  adminDeleteBarnFamily(input: AdminDeleteBarnFamilyInput): AdminDeleteBarnFamilyResult!
-  adminDeleteBarnBoards(input: AdminDeleteBarnBoardsInput): AdminDeleteBarnBoardsResult!
-  adminDeleteBarnNotes(input: AdminDeleteBarnNotesInput): AdminDeleteBarnNotesResult!
+  adminDeleteBarn(input: AdminDeleteBarnInput): AdminBarnResult!
 
   ## Horse
 
@@ -21,84 +18,12 @@ input AdminDeleteBarnInput {
   barnId: ID!
 }
 
-type AdminDeleteBarnResult {
+type AdminBarnResult {
   result: MsResult!
   error: AdminDeleteBarnError
 }
 
-enum AdminDeleteBarnError {
-  NOT_AUTHORIZED
-  INVALID_ADMIN_KEY
-  INVALID_BARN_ID
-  NONEXISTENT_BARN_ID
-  SERVICE
-}
-
-## Admin delete barn boards
-input AdminDeleteBarnBoardsInput {
-  barnId: ID!
-}
-
-type AdminDeleteBarnBoardsResult {
-  result: MsResult!
-  error: AdminDeleteBarnBoardsError
-}
-
-enum AdminDeleteBarnBoardsError {
-  NOT_AUTHORIZED
-  INVALID_ADMIN_KEY
-  INVALID_BARN_ID
-  NONEXISTENT_BARN_ID
-  SERVICE
-}
-
-## Admin delete barn family
-input AdminDeleteBarnFamilyInput {
-  barnId: ID!
-}
-
-type AdminDeleteBarnFamilyResult {
-  result: MsResult!
-  error: AdminDeleteBarnFamilyError
-}
-
-enum AdminDeleteBarnFamilyError {
-  NOT_AUTHORIZED
-  INVALID_ADMIN_KEY
-  INVALID_BARN_ID
-  NONEXISTENT_BARN_ID
-  SERVICE
-}
-
-## Admin delete barn activities
-input AdminDeleteBarnActivitiesInput {
-  barnId: ID!
-}
-
-type AdminDeleteBarnActivitiesResult {
-  result: MsResult!
-  error: AdminDeleteBarnActivitiesError
-}
-
-enum AdminDeleteBarnActivitiesError {
-  NOT_AUTHORIZED
-  INVALID_ADMIN_KEY
-  INVALID_BARN_ID
-  NONEXISTENT_BARN_ID
-  SERVICE
-}
-
-## Admin delete barn notes
-input AdminDeleteBarnNotesInput {
-  barnId: ID!
-}
-
-type AdminDeleteBarnNotesResult {
-  result: MsResult!
-  error: AdminDeleteBarnNotesError
-}
-
-enum AdminDeleteBarnNotesError {
+enum AdminBarnError {
   NOT_AUTHORIZED
   INVALID_ADMIN_KEY
   INVALID_BARN_ID
