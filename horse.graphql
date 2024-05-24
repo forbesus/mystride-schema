@@ -552,7 +552,7 @@ enum DeleteHorseNoteError {
 type HorseServing {
   horseId: ID!
   horseServingId: ID!
-  HorseServingPeriod: HorseActivityPeriod!
+  HorseServingPeriod: MsServicePeriod!
   horseServingProductSummary: ProductSummary!
   horseServingQuantity: Int!
   horseServingUnit: HorseServingUnit!

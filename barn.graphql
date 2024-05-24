@@ -667,7 +667,7 @@ input AcceptBarnFamilyQrCodeInput {
 type BarnFamilyResult {
   result: MsResult!
   barnFamily: BarnFamily
-  error: BarFamilyError
+  error: BarnFamilyError
 }
 
 enum BarnFamilyError {
