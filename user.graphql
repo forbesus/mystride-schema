@@ -62,7 +62,6 @@ type UserProfile {
   userLastName: String
   userBio: String
   userAddress: MsAddress
-  userPrimaryBarn: BarnProfilePublic
   userPrimaryDiscipline: MsDiscipline
   userSecondaryDisciplines: [MsDiscipline]
   userMainMount: HorseProfilePublic
@@ -122,7 +121,6 @@ type UserProfileSummary {
   userFirstName: String
   userLastName: String
   userPrimaryDiscipline: MsDiscipline
-  userPrimaryBarn: BarnProfilePublic
   userMainMount: HorseProfilePublic
 }
 
