@@ -256,7 +256,6 @@ type BarnBoard {
   barnBoardStatus: BarnBoardStatus!
   barnBoardHorse: HorseProfilePublic!
   barnBoardBarn: BarnProfilePublic!
-  barnBoardFacilitySummary: BarnFacilitySummary
   barnBoardPlan: BarnPlan
   barnBoardInitiatedBy: UserProfilePublic
   barnBoardInitiatedOn: AWSDateTime!
@@ -283,7 +282,6 @@ type BarnBoardSummary {
   barnBoardStatus: BarnBoardStatus!
   barnBoardHorseSummary: HorseProfilePublic!
   barnBoardBarnSummary: BarnProfilePublic!
-  barnBoardFacilitySummary: BarnFacilitySummary
 }
 
 input GetBarnBoardSummariesInput {
