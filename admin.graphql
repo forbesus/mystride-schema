@@ -20,7 +20,7 @@ input AdminDeleteBarnInput {
 
 type AdminBarnResult {
   result: MsResult!
-  error: AdminDeleteBarnError
+  error: AdminBarnError
 }
 
 enum AdminBarnError {
