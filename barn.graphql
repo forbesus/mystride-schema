@@ -415,19 +415,31 @@ type BarnPlan {
   barnPlanDescription: String
   barnPlanForage: Boolean
   barnPlanHayType: ForageType
-  barnPlanHayPeriods: [HorseActivityPeriod]
+  barnPlanHayPeriods: [MsServicePeriod]
   barnPlanHaySupplier: BarnPlanSupplier
   barnPlanGrain: Boolean
-  barnPlanGrainPeriods: [HorseActivityPeriod]
+  barnPlanGrainPeriods: [MsServicePeriod]
   barnPlanGrainSupplier: BarnPlanSupplier
   barnPlanSupplement: Boolean
-  barnPlanSupplementPeriods: [HorseActivityPeriod]
+  barnPlanSupplementPeriods: [MsServicePeriod]
   barnPlanSupplementSupplier: BarnPlanSupplier
   barnPlanMedication: Boolean
   barnPlanTurnout: Boolean
-  barnPlanTurnoutPeriods: [HorseActivityPeriod]
-  barnPlanTurnoutDuration: [Int]
+  barnPlanTurnoutPeriods: [MsServicePeriod]
+  barnPlanTurnoutBreakfastFacility: ID
+  barnPlanTurnoutLunchFacilityId: ID
+  barnPlanTurnoutDinnerFacilityId: ID
+  barnPlanTurnoutEveningFacilityId: ID
+  barnPlanTurnoutBreakfastDuration: Int
+  barnPlanTurnoutBreakfastDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutLunchDuration: Int
+  barnPlanTurnoutLunchDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutDinnerDuration: Int
+  barnPlanTurnoutDinnerDurationUnit: MsTurnoutDurationUnit
+  barnPlanTurnoutEveningDuration: Int
+  barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
   barnPlanBlanketing: Boolean
+  barnPlanBlanketType: MsBlanketType
 }
 
 type BarnPlanSummary {
@@ -530,6 +542,7 @@ input UpdateBarnPlanInput {
   barnPlanTurnoutEveningDuration: Int
   barnPlanTurnoutEveningDurationUnit: MsTurnoutDurationUnit
   barnPlanBlanketing: Boolean
+  barnPlanBlanketType: MsBlanketType
 }
 
 type BarnPlanResult {
