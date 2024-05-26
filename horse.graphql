@@ -2,24 +2,24 @@
 ## Queries
 type Query {
 
-  ## HorseSummaries
-  getHorseSummaries(input: GetHorseSummariesInput): [HorseSummary]!
+  ## Horse
+  getHorses(input: GetHorsesInput): HorsesResult!
 
   ## HorseProfile
-  getHorseProfile(input: GetHorseProfileInput): HorseProfile!
+  getHorseProfile(input: GetHorseProfileInput): HorseProfileResult!
 
   ## HorseShare
-  getHorseShareSummaries(input: GetHorseShareSummariesInput): [HorseShareSummary]!
-  getHorseShare(input: GetHorseShareInput): HorseShare!
+  getHorseShareSummaries(input: GetHorseShareSummariesInput): HorseShareSummariesResult!
+  getHorseShare(input: GetHorseShareInput): HorseShareResult!
 
-  ## HorseActivities
-  getHorseActivities(input: GetHorseActivitiesInput): HorseActivities!
+  ## HorseActivity
+  getHorseActivities(input: GetHorseActivitiesInput): HorseActivitiesResult!
 
-  ## HorseNotes
-  getHorseNotes(input: GetHorseNotesInput): HorseNotes!
+  ## HorseNote
+  getHorseNotes(input: GetHorseNotesInput): HorseNotesResult!
 
-  ## HorseServings
-  getHorseServings(input: GetHorseServingsInput): [HorseServing]!
+  ## HorseServing
+  getHorseServings(input: GetHorseServingsInput): HorseServingsResult!
 }
 
 
@@ -27,27 +27,27 @@ type Query {
 type Mutation {
 
   ## Horse
-  createHorse(input: CreateHorseInput): ID!
+  createHorse(input: CreateHorseInput): HorseResult!
   
   ## HorseProfile
-  updateHorseProfile(input: UpdateHorseProfileInput): HorseProfile!
+  updateHorseProfile(input: UpdateHorseProfileInput): HorseProfileResult!
 
   ## HorseShare
-  createHorseShare(input: CreateHorseShareInput): ID!
-  updateHorseShare(input: UpdateHorseShareInput): ID!
-  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): ID!
+  createHorseShare(input: CreateHorseShareInput): HorseShareResult!
+  updateHorseShare(input: UpdateHorseShareInput): HorseShareResult!
+  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareResult!
   
-  ## HorseActivities
-  createHorseActivity(input: CreateHorseActivityInput): HorseActivity!
-  updateHorseActivity(input: UpdateHorseActivityInput): HorseActivity!
+  ## HorseActivity
+  createHorseActivity(input: CreateHorseActivityInput): HorseActivityResult!
+  updateHorseActivity(input: UpdateHorseActivityInput): HorseActivityResult!
 
-  ## HorseNotes
-  createHorseNote(input: CreateHorseNoteInput): HorseNote!
-  updateHorseNote(input: UpdateHorseNoteInput): HorseNote!
+  ## HorseNote
+  createHorseNote(input: CreateHorseNoteInput): HorseNoteResult!
+  updateHorseNote(input: UpdateHorseNoteInput): HorseNoteResult!
 
-  ## HorseServings
-  createHorseServing(input: CreateHorseServingInput): HorseServing!
-  updateHorseServing(input: UpdateHorseServingInput): HorseServing!
+  ## HorseServing
+  createHorseServing(input: CreateHorseServingInput): HorseServingResult!
+  updateHorseServing(input: UpdateHorseServingInput): HorseServingResult!
 }
 
 
@@ -55,52 +55,83 @@ type Mutation {
 type Subscription {
 
   ## HorseProfile
-  subscribeHorseProfile(horseId: ID!): HorseProfile
+  subscribeHorseProfile(horseId: ID!): HorseProfileResult
   @aws_subscribe(mutations: ["updateHorseProfile"])
 
   ## HorseShare
-  subscribeHorseSharesByHorseId(horseId: ID!): ID
+  subscribeHorseSharesByHorseId(horseId: ID!): HorseShareResult
   @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
-  subscribeHorseSharesByShareId(horseShareId: ID!): ID
+  subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareResult
   @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
 
-  ## HorseActivities
-  subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivity
+  ## HorseActivity
+  subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivityResult
   @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
 
-  subscribeHorseActivitiesByAssignedId(horseActivityAssignedToId: ID!): HorseActivity
+  subscribeHorseActivitiesByAssignedId(horseActivityAssignedToId: ID!): HorseActivityResult
   @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
 
-  ## HorseNotes
-  subscribeHorseNotesByHorseId(horseId: ID!): HorseNote
-  @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote"])
+  ## HorseNote
+  subscribeHorseNotesByHorseId(horseId: ID!): HorseNoteResult
+  @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote", "deleteHorseNote"])
 
-  ## HorseServings
-  subscribeHorseServingsByHorseId(horseId: ID!): HorseServing
+  ## HorseServing
+  subscribeHorseServingsByHorseId(horseId: ID!): HorseServingResult
   @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"])
 }
 
 ## Horse
-type HorseSummary {
+type Horse {
   horseId: ID!
   horseRole: HorseRole!
+  horseProfileSummary: HorseProfileSummary!
   horseShareSummary: HorseShareSummary
-  horseProfileSummary: HorseProfileSummary
 }
 
-input GetHorseSummariesInput {
-  horseShareId: ID
+input GetHorsesInput {
+  actingId: ID!
+  startKey: String
 }
 
-enum GetHorseSummariesError {
-  SERVICE
+input DeleteHorseInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+type HorsesResult {
+  result: MsResult!
+  horses: [Horse]
+  lastKey: String
+  error: HorseError
 }
 
 input CreateHorseInput {
+  actingId: ID!
   horseDisplayName: String!
   horseAvatarId: ID!
   horseBoard: CreateBarnBoardInput
+}
+
+type HorseResult {
+  result: MsResult!
+  horse: Horse
+  horseBoard: HorseBoardSummary
+  error: HorseError
+}
+
+enum HorseError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_AVATAR_ID
+  EXCEEDED_HORSE_LIMIT
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  INVALID_START_KEY
+  SERVICE
 }
 
 enum HorseRole {
@@ -166,23 +197,42 @@ type HorseProfilePublic {
 }
 
 input GetHorseProfileInput {
+  actingId: ID!
   horseId: ID!
   horseShareId: ID
 }
 
-enum GetHorseProfileError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
-}
-
 input UpdateHorseProfileInput {
+  actingId: ID!
   horseDisplayName: String!
 }
 
-enum UpdateHorseProfileError {
+type HorseProfileResult {
+  result: MsResult!
+  horseProfile: HorseProfile
+  error: HorseProfileError
+}
+
+enum HorseProfileError {
   NOT_AUTHORIZED
-  NOT_FOUND
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_PHONE_FORMAT
+  INVALID_EMAIL_FORMAT
+  INVALID_AVATAR_ID
+  INVALID_ADDRESS
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  EXCEEDED_LEGAL_NAME_LENGTH
+  EXCEEDED_WELCOME_MESSAGE_LENGTH
+  EXCEEDED_BIO_LENGTH
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  PROHIBITED_LEGAL_NAME_CONTENT
+  PROHIBITED_WELCOME_MESSAGE_CONTENT
+  PROHIBITED_BIO_CONTENT
   SERVICE
 }
 
@@ -309,7 +359,7 @@ union HorseShareProfile = UserProfilePublic | ProProfilePublic
 type HorseShare {
   horseId: ID!
   horseShareId: ID!
-  horseShareType: HorseShareType!
+  horseShareRole: HorseRole!
   horseShareStatus: HorseShareStatus!
   horseShareProfile: HorseShareProfile!
   horseShareInvitedBy: UserProfilePublic!
@@ -324,7 +374,6 @@ type HorseShare {
   horseShareAutoDeactivateSetBy: UserProfilePublic
   horseShareComment: String
 }
-
 
 type HorseShareSummary {
   horseId: ID!
@@ -344,142 +393,143 @@ type HorseShareSummary {
 }
 
 input GetHorseShareSummariesInput {
-  horseId: ID!
+  actingId: ID!
+  horseShareId: ID
+  horseId: ID
+  startKey: String
 }
 
-enum GetHorseShareSummariesError {
-  NOT_AUTHORIZED
-  SERVICE
-}
-
-input GetHorseShareInput {
-  horseId: ID!
-  horseShareId: ID!
-}
-
-enum GetHorseShareError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
+type HorseShareSummariesResult {
+  result: MsResult!
+  horseShareSummaries: [HorseShareSummary]
+  lastKey: String
+  error: HorseShareError
 }
 
 input CreateHorseShareInput {
+  actingId: ID!
   horseId: ID!
   horseShareId: ID!
   horseShareType: HorseShareType!
   horseShareStatus: HorseShareStatus!
 }
 
-enum CreateHorseShareError {
-  NOT_AUTHORIZED
-  NONEXISTENT_HORSE_ID
-  NONEXISTENT_HORSE_SHARE_ID
-  SERVICE
-}
-
 input AcceptHorseShareQrCodeInput {
-  qrCode: ID!
+  horseQrCode: ID!
 }
 
 input UpdateHorseShareInput {
+  actingId: ID!
   horseId: ID!
   horseShareId: ID!
   horseShareStatus: HorseShareStatus!
 }
 
-enum UpdateHorseShareError {
-  NOT_FOUND
+type HorseShareResult {
+  result: MsResult!
+  horseShareSummary: HorseShareSummary
+  error: HorseShareError
+}
+
+enum HorseShareError {
   NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_HORSE_SHARE_ID
+  INVALID_HORSE_SHARE_ID
+  INVALID_HORSE_SHARE_ID_PHONE_FORMAT
+  INVALID_HORSE_SHARE_ID_PHONE_TYPE
+  INACTIVE_HORSE_SHARE_ID
+  MISSING_REQUIRED_ID
+  EXISTING_SHARE
+  INVALID_STATUS_UPDATE
+  PROHIBITED_SELF_CREATE
+  PROHIBITED_SELF_UPDATE
+  EXCEEDED_HORSE_SHARE_LIMIT
+  INVALID_DEACTIVATION_DATE
+  INVALID_START_KEY
   SERVICE
-}
-
-input AcceptHorseShareCodeInput {
-  horseCode: ID!
-}
-
-enum HorseShareType {
-  CO_OWNER
-  LESSEE
-  PRO
-  RIDER
 }
 
 enum HorseShareStatus {
   ACTIVE
   SUSPENDED
-  DEACTIVATED
+  INACTIVE
   INVITED
   DECLINED
 }
 
 
 ## HorseActivity
-type HorseActivities {
-  lastKey: String
-  activities: [HorseActivity]!
-}
-
 type HorseActivity {
   horseId: ID!
   horseActivityId: ID!
-  horseActivityUserAssignment: UserProfilePublic
-  horseActivityBarnAssignment: BarnProfilePublic
+  horseActivityAssignedToUser: UserProfilePublic
+  horseActivityAssignedToBarn: BarnProfilePublic
   horseActivityType: HorseActivityType!
-  horseActivityCreatedById: ID!
-  horseActivityCreatedByName: String
-  horseActivityCreatedByLabel: String
+  horseActivityCreatedBy: UserProfilePublic!
   horseActivityCreatedOn: AWSDateTime!
   horseActivityDueOn: AWSDateTime
   horseActivityPeriod: MsServicePeriod
-  horseActivityAssignedToName: String
-  horseActivityAssignedToLabel: String
-  horseActivityAssignedToAvatarId: ID
   horseActivityCompletedOn: AWSDateTime
-  horseActivityCompletedById: ID
-  horseActivityCompletedByName: String
-  horseActivityCompletedByLabel: String
-  horseActivityCompletedByAvatarId: ID
+  horseActivityCompletedBy: UserProfilePublic
   horseActivityCreateComment: String
   horseActivityCompleteComment: String
 }
 
 input GetHorseActivitiesInput {
+  actingId: ID!
   horseId: ID!
-  horseShareId: ID
+  horseActivityTypes: [HorseActivityType]
   startKey: String
 }
 
-enum GetHorseActivitiesError {
-  NOT_AUTHORIZED
-  NONEXISTENT_HORSE_ID
-  INVALID_START_KEY
-  SERVICE
+type HorseActivitiesResult {
+  result: MsResult!
+  horseActivities: [HorseActivity]
+  lastKey: String
+  error: HorseActivityError
 }
 
 input CreateHorseActivityInput {
+  actingId: ID!
   horseId: ID!
-  horseBarnId: ID
+  barnId: ID
   horseActivityType: HorseActivityType!
   horseActivityAssignedTo: ID
   horseActivityCompleteBy: AWSDateTime
   horseActivityCreateComment: String
 }
 
-enum CreateHorseActivityError {
-  NOT_AUTHORIZED
-  NOT_FOUND
-  SERVICE
-}
-
 input UpdateHorseActivityInput {
+  actingId: ID!
   horseId: ID!
   barnId: ID
   horseActivityCompleteComment: String
 }
 
-enum UpdateHorseActivityError {
+type HorseActivityResult {
+  result: MsResult!
+  horseActivity: HorseActivity
+  error: HorseActivityError
+}
+
+enum HorseActivityError {
   NOT_AUTHORIZED
-  NOT_FOUND
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_START_KEY
   SERVICE
 }
 
@@ -494,11 +544,6 @@ enum HorseActivityType {
 }
 
 ## HorseNote
-type HorseNotes {
-  lastKey: String
-  notes: [HorseNote]!
-}
-
 type HorseNote {
   horseId: ID!
   horseNoteId: ID!
@@ -509,42 +554,58 @@ type HorseNote {
   horseNoteIsPined: Boolean
 }
 
+type HorseNotesResult {
+  result: MsResult!
+  horseNotes: [HorseNote]
+  lastKey: String
+  error: HorseNoteError
+}
+
 input GetHorseNotesInput {
+  actingId: ID!
   horseId: ID!
-  horseShareId: ID
   startKey: String
 }
 
-enum GetHorseNotesError {
-  NOT_AUTHORIZED
-  NONEXISTENT_HORSE_ID
-  INVALID_START_KEY
-  SERVICE
-}
-
 input CreateHorseNoteInput {
+  actingId: ID!
+  horseId: ID!
   horseNoteTitle: String
   horseNoteBody: String!
   horseNoteIsPined: Boolean
 }
 
-enum CreateHorseNoteError {
-  NOT_AUTHORIZED
-  SERVICE
-}
-
 input UpdateHorseNoteInput {
+  actingId: ID!
+  horseId: ID!
   horseNoteId: ID!
-  associatedId: ID!
   horseNoteIsPined: Boolean
 }
 
 input DeleteHorseNoteInput {
+  actingId: ID!
+  horseId: ID!
   horseNoteId: ID!
 }
 
-enum DeleteHorseNoteError {
+type HorseNoteResult {
+  result: MsResult!
+  horseNote: HorseNote
+  error: HorseNoteError
+}
+
+enum HorseNoteError {
   NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_HORSE_NOTE_ID
+  INVALID_HORSE_NOTE_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
   SERVICE
 }
 
@@ -552,33 +613,80 @@ enum DeleteHorseNoteError {
 type HorseServing {
   horseId: ID!
   horseServingId: ID!
+  horseServingStatus: HorseServingStatus!
   HorseServingPeriod: MsServicePeriod!
   horseServingProductSummary: NutritionProductSummary!
   horseServingQuantity: Int!
   horseServingUnit: HorseServingUnit!
   horseServingFrequency: HorseServingFrequency!
+  horseServingStartedOn: AWSDateTime!
+  horseStartedBy: UserProfilePublic!
+  horseServingAutoEndOn: AWSDateTime
+  horseAutoEndSetBy: UserProfilePublic
+  horseServingEndedOn: AWSDateTime
+  horseServingEndedBy: UserProfilePublic
 }
 
 input GetHorseServingsInput {
+  actingId: ID!
   horseId: ID!
-  associatedId: ID!
+  horseServingStatus: [HorseServingStatus]
+}
+
+type HorseServingsResult {
+  result: MsResult!
+  horseServings: [HorseServing]
+  lastKey: String
+  error: HorseServingError
 }
 
 input CreateHorseServingInput {
+  actingId: ID!
   horseId: ID!
-  horseServingProductId: ID!
+  horseServingNutritionProductId: ID!
   horseServingQuantity: Int!
   horseServingUnit: HorseServingUnit!
-  horseServingFrequency: HorseServingFrequency
+  horseServingFrequency: HorseServingFrequency!
   horseServingDays: HorseServingDays
+  horseServingAutoEndOn: AWSDateTime
+  horseServingComment: String
 }
 
 input UpdateHorseServingInput {
+  actingId: ID!
   horseId: ID!
   horseServingId: ID!
+  horseServingStatus: HorseServingStatus
   horseServingQuantity: Int
   horseServingUnit: HorseServingUnit
   horseServingFrequency: HorseServingFrequency
+  horseServingAutoEndOn: AWSDateTime
+  horseServingStatus: HorseServingStatus
+  horseServingComment: String
+}
+
+type HorseServingResult {
+  result: MsResult!
+  horseServing: HorseServing
+  error: HorseServingError
+}
+
+enum HorseServingError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_HORSE_SERVING_ID
+  INVALID_HORSE_SERVING_ID
+  INACTIVE_HORSE_SERVING_ID
+  INVALID_STATUS_CHANGE
+  EXCEEDED_COMMENT_LENGTH
+  PROHIBITED_COMMENT_CONTENT
+  INVALID_SPECIFIC_DAYS
+  SERVICE
 }
 
 enum HorseServingUnit {
@@ -619,3 +727,9 @@ enum HorseServingDays {
   FRIDAY
   SATURDAY
 }
+
+enum HorseServingStatus {
+  ACTIVE
+  ENDED
+}
+

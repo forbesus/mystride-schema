@@ -2,8 +2,8 @@
 ## Queries
 type Query {
   ## Barn
-  getBands(input: GetBrandsInput): BrandsResult!
-  getBand(input: GetBrandInput): BrandResult!
+  getBrands(input: GetBrandsInput): BrandsResult!
+  getBrand(input: GetBrandInput): BrandResult!
 }
 
 ## Mutations

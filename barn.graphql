@@ -137,8 +137,8 @@ type Subscription {
 type Barn {
   barnId: ID!
   barnRole: BarnRole!
-  barnFamilySummary: BarnFamilySummary
   barnProfileSummary: BarnProfileSummary!
+  barnFamilySummary: BarnFamilySummary
 }
 
 input GetBarnsInput {
@@ -177,7 +177,6 @@ enum BarnError {
   INVALID_ACTING_ID
   INACTIVE_ACTING_ID
   NONEXISTENT_BARN_ID
-  EXCEEDED_NAME_LENGTH
   EXCEEDED_BARN_LIMIT
   EXCEEDED_DISPLAY_NAME_LENGTH
   INVALID_ADDRESS
@@ -864,8 +863,7 @@ type BarnNote {
 input GetBarnNotesInput {
   actingId: ID!
   barnId: ID!
-  horseId: ID
-  barnFacilityId: ID
+  subjectId: ID!
   startKey: String
 }
 
@@ -879,8 +877,7 @@ type BarnNotesResult {
 input CreateBarnNoteInput {
   actingId: ID!
   barnId: ID!
-  horseId: ID
-  facilityId: ID
+  subjectId: ID!
   barnNoteTitle: String
   barnNoteBody: String!
   barnNoteIsPined: Boolean
@@ -915,9 +912,9 @@ enum BarnNoteError {
   NONEXISTENT_HORSE_ID
   INVALID_HORSE_ID
   INACTIVE_HORSE_ID
-  NONEXISTENT_FACILITY_ID
-  INVALID_FACILITY_ID
-  INACTIVE_FACILITY_ID
+  NONEXISTENT_SUBJECT_ID
+  INVALID_SUBJECT_ID
+  INACTIVE_SUBJECT_ID
   PROHIBITED_TITLE_CONTENT
   PROHIBITED_BODY_CONTENT
   SERVICE
