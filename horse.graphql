@@ -553,7 +553,7 @@ type HorseServing {
   horseId: ID!
   horseServingId: ID!
   HorseServingPeriod: MsServicePeriod!
-  horseServingProductSummary: ProductSummary!
+  horseServingProductSummary: NutritionProductSummary!
   horseServingQuantity: Int!
   horseServingUnit: HorseServingUnit!
   horseServingFrequency: HorseServingFrequency!

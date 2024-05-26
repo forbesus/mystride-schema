@@ -80,13 +80,14 @@ type NutritionProduct {
   nutritionProductId: ID!
   brand: Brand!
   nutritionProductType: NutritionProductType!
-  nutritionProductProfile: ProductProfile!
+  nutritionProductProfile: NutritionProductProfile!
 }
 
 type NutritionProductSummary {
   nutritionProductId: ID!
   brandSummary: BrandSummary!
-  nutritionProductProfileSummary: ProductProfileSummary!
+  nutritionProductType: NutritionProductType!
+  nutritionProductProfileSummary: NutritionProductProfileSummary!
 }
 
 enum NutritionProductType {
