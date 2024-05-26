@@ -119,11 +119,7 @@ type Subscription {
     @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"])
 
   ## BarnNotes
-    subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
-    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
-    
-  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
-    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
+
 
   ## BarnFacilities
   subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
