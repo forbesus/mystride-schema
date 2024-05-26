@@ -117,7 +117,6 @@ type Subscription {
 
   ## BarnActivities
 
-
   ## BarnNotes
     subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
@@ -741,7 +740,102 @@ enum BarnFamilyStatus {
 union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
 
 ## BarnActivity
+type BarnActivity {
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityStatus: BarnActivityStatus!
+  barnActivityCreatedOn: AWSDateTime!
+  barnActivityCreatedBy: UserProfilePublic!
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: UserProfilePublic
+  barnActivityCompletedOn: AWSDateTime
+  barnActivityCompletedBy: UserProfilePublic
+  barnActivityCreateComment: String
+  barnActivityCompleteComment: String
+}
 
+input GetBarnActivitiesInput {
+  actingId: ID!
+  barnId: ID!
+  activityStatus: BarnActivityStatus
+  startKey: String
+}
+
+type BarnActivitiesResult {
+  result: MsResult!
+  activities: [BarnActivity]
+  lastKey: String
+  error: BarnActivityError
+}
+
+input CreateBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityDueBy: AWSDateTime
+  barnActivityAssignedTo: ID
+  barnActivityCreateComment: String
+}
+
+input UpdateBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityStatus: BarnActivityStatus
+  barnActivityDueBy: AWSDateTime
+  barnActivityAssignedTo: ID
+  barnActivityCompletedOn: AWSDateTime
+  barnActivityCompleteComment: String
+}
+
+input DeleteBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+}
+
+input BarnActivityResult {
+  result: MsResult!
+  barnActivity: BarnActivity
+  error: BarnActivityError
+}
+
+enum BarnActivityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSIGNED_TO_ID
+  INVALID_ASSIGNED_TO_ID
+  INACTIVE_ASSIGNED_TO_ID
+  INVALID_DUE_DATE
+  PROHIBITED_CREATE_COMMENT_CONTENT
+  EXCEEDED_CREATE_COMMENT_LENGTH
+  INVALID_STATUS_UPDATE
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum BarnActivityType {
+  EMPTY_TRASH
+  RESTOCK_SUPPLIES
+  WASH_BLANKETS
+  WASH_TROUGHS
+  SCRUB_FEED_BUCKETS
+  CLEAN_TACK
+  REPAIR
+  SWEEP_ISLES
+  MOP_FLOORS
+}
+
+enum BarnActivityStatus {
+  COMPLETE
+  INCOMPLETE
+}
 
 ## BarnNotes
 type BarnNote {
