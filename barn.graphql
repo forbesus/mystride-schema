@@ -30,10 +30,10 @@ type Query {
   ): BarnAnnouncementsResult!
 
   ## BarnActivities
-  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
+
 
   ## BarnNotes
-
+  getBarnNotes(input: GetBarnNotesInput): BarnNotesResult!
 
   ## BarnFacility
   getBarnFacilitySummaries(
@@ -76,11 +76,12 @@ type Mutation {
   ): BarnAnnouncementResult!
 
   ## BarnActivity
-  createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult!
-  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult!
-  deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult!
+
 
   ## BarnNote
+  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult!
+  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
+  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult!
 
   ## BarnFacility
   createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
@@ -115,11 +116,14 @@ type Subscription {
     )
 
   ## BarnActivities
-  subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
-    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"])
+
 
   ## BarnNotes
-
+    subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
+    
+  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
 
   ## BarnFacilities
   subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
@@ -737,67 +741,64 @@ enum BarnFamilyStatus {
 union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
 
 ## BarnActivity
-type BarnActivity {
+
+
+## BarnNotes
+type BarnNote {
   barnId: ID!
-  barnActivityId: ID!
-  barnActivityType: BarnActivityType!
-  barnActivityStatus: BarnActivityStatus!
-  barnActivityCreatedOn: AWSDateTime!
-  barnActivityCreatedBy: UserProfilePublic!
-  barnActivityDueDate: AWSDateTime
-  barnActivityAssignedTo: UserProfilePublic
-  barnActivityCompletedOn: AWSDateTime
-  barnActivityCompletedBy: UserProfilePublic
-  barnActivityCreateComment: String
-  barnActivityCompleteComment: String
+  barnNoteId: ID!
+  barnNoteSubjectId: ID!
+  barnNoteCreatedOn: AWSDateTime!
+  barnNoteCreatedBy: UserProfilePublic!
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
 }
 
-input GetBarnActivitiesInput {
+input GetBarnNotesInput {
   actingId: ID!
   barnId: ID!
-  activityStatus: BarnActivityStatus
+  horseId: ID
+  barnFacilityId: ID
   startKey: String
 }
 
-type BarnActivitiesResult {
+type BarnNotesResult {
   result: MsResult!
-  activities: [BarnActivity]
+  barnNotes: [BarnNote]
   lastKey: String
-  error: BarnActivityError
+  error: BarnNoteError
 }
 
-input CreateBarnActivityInput {
+input CreateBarnNoteInput {
   actingId: ID!
   barnId: ID!
-  barnActivityType: BarnActivityType!
-  barnActivityCompleteBy: AWSDateTime
-  barnActivityAssignedTo: ID
-  barnActivityCreateComment: String
+  horseId: ID
+  facilityId: ID
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
 }
 
-input UpdateBarnActivityInput {
+input UpdateBarnNoteInput {
   actingId: ID!
   barnId: ID!
-  barnActivityId: ID!
-  barnActivityStatus: BarnActivityStatus
-  barnActivityDueDate: AWSDateTime
-  barnActivityAssignedTo: ID
-  barnActivityCompleteComment: String
+  barnNoteId: ID!
+  barnNoteIsPined: Boolean
 }
 
-input DeleteBarnActivityInput {
+input DeleteBarnNoteInput {
   actingId: ID!
   barnId: ID!
-  barnActivityId: ID!
+  barnNoteId: ID!
 }
 
-input BarnActivityResult {
+type BarnNoteResult {
   result: MsResult!
-  barnActivity: BarnActivity
-  error: BarnActivityError
+  error: BarnNoteError
 }
 
-enum BarnActivityError {
+enum BarnNoteError {
   NOT_AUTHORIZED
   NONEXISTENT_ACTING_ID
   INVALID_ACTING_ID
@@ -805,36 +806,16 @@ enum BarnActivityError {
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  NONEXISTENT_ASSIGNED_TO_ID
-  INVALID_ASSIGNED_TO_ID
-  INACTIVE_ASSIGNED_TO_ID
-  INVALID_DUE_DATE
-  PROHIBITED_CREATE_COMMENT_CONTENT
-  EXCEEDED_CREATE_COMMENT_LENGTH
-  INVALID_STATUS_UPDATE
-  INVALID_START_KEY
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_FACILITY_ID
+  INVALID_FACILITY_ID
+  INACTIVE_FACILITY_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
   SERVICE
 }
-
-enum BarnActivityType {
-  EMPTY_TRASH
-  RESTOCK_SUPPLIES
-  WASH_BLANKETS
-  WASH_TROUGHS
-  SCRUB_FEED_BUCKETS
-  CLEAN_TACK
-  REPAIR
-  SWEEP_ISLES
-  MOP_FLOORS
-}
-
-enum BarnActivityStatus {
-  COMPLETE
-  INCOMPLETE
-}
-
-## BarnNotes
-
 
 ## BarnFacility
 type BarnFacility {
@@ -1034,7 +1015,7 @@ type FarrierStationProfile {
 type BarnAnnouncement {
   barnId: ID!
   barnAnnouncementId: ID!
-  barnAnnouncementAudience: [BarnRole]!
+  barnAnnouncementAudience: [BarnRole!]!
   barnAnnouncementPriority: BarnAnnouncementPriority!
   barnAnnouncementCreatedOn: AWSDateTime!
   barnAnnouncementCreatedBy: UserProfilePublic!
@@ -1064,7 +1045,7 @@ input GetBarnAnnouncementInput {
 input CreateBarnAnnouncementInput {
   actingId: ID!
   barnId: ID!
-  barnAnnouncementAudience: [BarnRole]!
+  barnAnnouncementAudience: [BarnRole!]!
   barnAnnouncementPriority: BarnAnnouncementPriority!
   barnAnnouncementTitle: String
   barnAnnouncementBody: String!
@@ -1073,7 +1054,7 @@ input CreateBarnAnnouncementInput {
 input UpdateBarnAnnouncementInput {
   actingId: ID!
   barnAnnouncementId: ID!
-  barnAnnouncementAudience: [BarnRole]
+  barnAnnouncementAudience: [BarnRole!]
   barnAnnouncementPriority: BarnAnnouncementPriority
 }
 
