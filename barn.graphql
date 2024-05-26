@@ -36,10 +36,6 @@ type Query {
   getBarnNotes(input: GetBarnNotesInput): BarnNotesResult!
 
   ## BarnFacility
-  getBarnFacilitySummaries(
-    input: GetBarnFacilitySummariesInput
-  ): BarnFacilitySummariesResult!
-  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Mutations
@@ -125,8 +121,6 @@ type Subscription {
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
 
   ## BarnFacilities
-  subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
-    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility", "deleteBarnFacility"])
 }
 
 ## Barn
