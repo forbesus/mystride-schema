@@ -870,7 +870,7 @@ type BarnFacilitySummariesResult {
   result: MsResult!
   barnFacilitySummaries: [BarnFacilitySummary]
   lastKey: String
-  error: BarnNoteError
+  error: BarnFacilityError
 }
 
 input GetBarnFacilityInput {
