@@ -33,9 +33,13 @@ type Query {
   getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
 
   ## BarnNotes
-  getBarnNotes(input: GetBarnNotesInput): BarnNotesResult!
+
 
   ## BarnFacility
+  getBarnFacilitySummaries(
+    input: GetBarnFacilitySummariesInput
+  ): BarnFacilitySummariesResult!
+  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Mutations
@@ -56,7 +60,9 @@ type Mutation {
   deleteBarnPlan(input: DeleteBarnPlanInput): BarnPlanResult!
 
   ## BarnFamily
-
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
+  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult!
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
 
   ## BarnAnnouncement
   createBarnAnnouncement(
@@ -75,12 +81,11 @@ type Mutation {
   deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult!
 
   ## BarnNote
-  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult!
-  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
-  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult!
 
   ## BarnFacility
-
+  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
+  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
+  deleteBarnFacility(input: DeleteBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Subscriptions
@@ -116,11 +121,13 @@ type Subscription {
   ## BarnNotes
     subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
-
+    
   subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
 
   ## BarnFacilities
+  subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
+    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility", "deleteBarnFacility"])
 }
 
 ## Barn
@@ -310,6 +317,7 @@ type BarnBoard {
   barnBoardStatus: BarnBoardStatus!
   barnBoardHorse: HorseProfilePublic!
   barnBoardBarn: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
   barnBoardPlan: BarnPlan
   barnBoardInitiatedBy: UserProfilePublic
   barnBoardInitiatedOn: AWSDateTime!
@@ -336,6 +344,7 @@ type BarnBoardSummary {
   barnBoardStatus: BarnBoardStatus!
   barnBoardHorseSummary: HorseProfilePublic!
   barnBoardBarnSummary: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
 }
 
 input GetBarnBoardSummariesInput {
@@ -829,61 +838,84 @@ enum BarnActivityStatus {
 }
 
 ## BarnNotes
-type BarnNote {
+
+
+## BarnFacility
+type BarnFacility {
   barnId: ID!
-  barnNoteId: ID!
-  barnNoteSubjectId: ID!
-  barnNoteCreatedOn: AWSDateTime!
-  barnNoteCreatedBy: UserProfilePublic!
-  barnNoteTitle: String
-  barnNoteBody: String!
-  barnNoteIsPined: Boolean
+  barnFacilityId: ID!
+  barnFacilityType: BarnFacilityType!
+  barnFacilityStatus: BarnFacilityStatus!
+  barnFacilityName: String
+  barnFacilityNumber: Float
+  barnFacilityDescription: String
+  barnFacilityManager: UserProfilePublic
+  barnFacilityCreatedOn: AWSDateTime!
+  barnFacilityCreatedBy: UserProfilePublic
+  barnFacilityModifiedOn: AWSDateTime
+  barnFacilityModifiedBy: UserProfilePublic
 }
 
-input GetBarnNotesInput {
+type BarnFacilitySummary {
+  barnId: ID!
+  barnFacilityId: ID!
+  barnFacilityType: BarnFacilityType!
+  barnFacilityStatus: BarnFacilityStatus!
+  BarnFacilityName: String
+  BarnFacilityNumber: Float
+}
+
+input GetBarnFacilitySummariesInput {
   actingId: ID!
   barnId: ID!
-  horseId: ID
-  barnFacilityId: ID
-  startKey: String
 }
 
-type BarnNotesResult {
+type BarnFacilitySummariesResult {
   result: MsResult!
-  barnNotes: [BarnNote]
+  barnFacilitySummaries: [BarnFacilitySummary]
   lastKey: String
   error: BarnNoteError
 }
 
-input CreateBarnNoteInput {
+input GetBarnFacilityInput {
   actingId: ID!
   barnId: ID!
-  horseId: ID
-  facilityId: ID
-  barnNoteTitle: String
-  barnNoteBody: String!
-  barnNoteIsPined: Boolean
+  barnFacilityId: ID!
 }
 
-input UpdateBarnNoteInput {
+input CreateBarnFacilityInput {
   actingId: ID!
   barnId: ID!
-  barnNoteId: ID!
-  barnNoteIsPined: Boolean
+  barnFacilityType: BarnFacilityType!
+  BarnFacilityName: String
+  BarnFacilityNumber: Float
+  BarnFacilityDescription: String
+  barnFacilityManagerId: ID
 }
 
-input DeleteBarnNoteInput {
+input UpdateBarnFacilityInput {
   actingId: ID!
   barnId: ID!
-  barnNoteId: ID!
+  barnFacilityId: ID!
+  barnFacilityStatus: BarnFacilityStatus
+  barnFacilityName: String
+  barnFacilityDescription: String
+  barnFacilityManagerId: ID
 }
 
-type BarnNoteResult {
+input DeleteBarnFacilityInput {
+  actingId: ID!
+  barnId: ID!
+  barnFacilityId: ID!
+}
+
+type BarnFacilityResult {
   result: MsResult!
-  error: BarnNoteError
+  barnFacility: BarnFacility
+  error: BarnFacilityError
 }
 
-enum BarnNoteError {
+enum BarnFacilityError {
   NOT_AUTHORIZED
   NONEXISTENT_ACTING_ID
   INVALID_ACTING_ID
@@ -891,25 +923,122 @@ enum BarnNoteError {
   NONEXISTENT_BARN_ID
   INVALID_BARN_ID
   INACTIVE_BARN_ID
-  NONEXISTENT_HORSE_ID
-  INVALID_HORSE_ID
-  INACTIVE_HORSE_ID
   NONEXISTENT_FACILITY_ID
   INVALID_FACILITY_ID
-  INACTIVE_FACILITY_ID
-  PROHIBITED_TITLE_CONTENT
-  PROHIBITED_BODY_CONTENT
+  INVALID_STATUS_CHANGE
+  NONEXISTENT_MANAGER_ID
+  INVALID_MANAGER_ID
+  INACTIVE_MANAGER_ID
+  EXISTING_DUPLICATE_NAME
+  EXCEEDED_NAME_LENGTH
+  PROHIBITED_DUPLICATE_NAME
+  EXCEEDED_DESCRIPTION_LENGTH
+  PROHIBITED_NAME_CONTENT
+  PROHIBITED_DESCRIPTION_CONTENT
   SERVICE
 }
 
-## BarnFacility
+enum BarnFacilityType {
+  STALL
+  PASTURE
+  ARENA
+  TRAIL
+  WASH_BAY
+  TACK_ROOM
+  FEED_ROOM
+  PEN
+  OBSERVATION_AREA
+  LOUNGE
+  TURNOUT_AREA
+  RUN
+  HAY_STORAGE
+  FARRIER_STATION
+  EXAM_AREA
+}
 
+enum BarnFacilityStatus {
+  IN_SERVICE
+  OUT_OF_SERVICE
+  CLOSED
+}
+
+union BarnFacilityProfile =
+    StallProfile
+  | PastureProfile
+  | ArenaProfile
+  | TrailProfile
+  | WashBayProfile
+  | TackRoomProfile
+  | FeedRoomProfile
+  | PenProfile
+  | ObservationAreaProfile
+  | LoungeProfile
+  | RunProfile
+  | TurnoutAreaProfile
+  | HayStorageProfile
+  | FarrierStationProfile
+
+type StallProfile {
+  stallProfileName: String
+}
+
+type PastureProfile {
+  pastureProfileName: String
+}
+
+type ArenaProfile {
+  arenaProfileName: String
+}
+
+type TrailProfile {
+  trailProfileName: String
+}
+
+type WashBayProfile {
+  washBayProfileName: String
+}
+
+type TackRoomProfile {
+  tackRoomProfileName: String
+}
+
+type FeedRoomProfile {
+  feedRoomProfileName: String
+}
+
+type PenProfile {
+  penProfileName: String
+}
+
+type ObservationAreaProfile {
+  observationAreaProfileName: String
+}
+
+type LoungeProfile {
+  loungeOfficeProfileName: String
+}
+
+type TurnoutAreaProfile {
+  turnoutAreaProfileName: String
+}
+
+type RunProfile {
+  turnoutAreaProfileName: String
+}
+
+type HayStorageProfile {
+  hayStorageProfileName: String
+}
+
+type FarrierStationProfile {
+  farrierStationProfileName: String
+}
 
 ## BarnAnnouncement
 type BarnAnnouncement {
   barnId: ID!
   barnAnnouncementId: ID!
-  barnAnnouncementAudience: [BarnRole!]!
+  barnAnnouncementAudience: [BarnRole]!
   barnAnnouncementPriority: BarnAnnouncementPriority!
   barnAnnouncementCreatedOn: AWSDateTime!
   barnAnnouncementCreatedBy: UserProfilePublic!
@@ -939,7 +1068,7 @@ input GetBarnAnnouncementInput {
 input CreateBarnAnnouncementInput {
   actingId: ID!
   barnId: ID!
-  barnAnnouncementAudience: [BarnRole!]!
+  barnAnnouncementAudience: [BarnRole]!
   barnAnnouncementPriority: BarnAnnouncementPriority!
   barnAnnouncementTitle: String
   barnAnnouncementBody: String!
@@ -948,7 +1077,7 @@ input CreateBarnAnnouncementInput {
 input UpdateBarnAnnouncementInput {
   actingId: ID!
   barnAnnouncementId: ID!
-  barnAnnouncementAudience: [BarnRole!]
+  barnAnnouncementAudience: [BarnRole]
   barnAnnouncementPriority: BarnAnnouncementPriority
 }
 
