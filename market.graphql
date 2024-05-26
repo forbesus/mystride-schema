@@ -1,50 +1,103 @@
 
 ## Queries
-
+type Query {
+  ## Barn
+  getBands(input: GetBrandsInput): BrandsResult!
+  getBand(input: GetBrandInput): BrandResult!
+}
 
 ## Mutations
 
-
-## Subscriptions
 
 
 ## Brand
 type Brand {
   brandId: ID!
   brandOrgId: ID!
+  brandAvatarId: ID!
   brandName: String!
+  brandStatus: BrandStatus!
+  brandNameLocalized: String
+  brandProductCategories: [BrandProductCategory]!
 }
 
 type BrandSummary {
   brandId: ID!
   brandOrgId: ID!
+  brandAvatarId: ID!
   brandName: String!
+  brandStatus: BrandStatus!
+  brandNameLocalized: String
 }
 
-## Product
-type Product {
-  productId: ID!
-  productBrandSummary: BrandSummary
-  productType: ProductType!
-  productProfile: ProductProfile!
+input GetBrandsInput {
+  actingId: ID!
+  brandOrgId: ID
+  brandProductCategories: [BrandProductCategory!]
+  startKey: String
 }
 
-type ProductSummary {
-  productId: ID!
-  productBrandId: BrandSummary
-  productType: ProductType!
-  productProfileSummary: ProductProfileSummary!
+type BrandsResult {
+  result: MsResult!
+  brandSummaries: [BrandSummary]
+  lastKey: String
+  error: BrandError
 }
 
-enum ProductType {
+input GetBrandInput {
+  actingId: ID!
+  brandId: ID!
+}
+
+type BrandResult {
+  result: MsResult!
+  brand: Brand!
+  error: BrandError
+}
+
+enum BrandProductCategory {
+ NUTRITION
+ PHARMACEUTICAL
+}
+
+enum BrandError {
+ NOT_AUTHORIZED
+ NONEXISTENT_ACTING_ID
+ INVALID_ACTING_ID
+ INACTIVE_ACTING_ID
+ NONEXISTENT_BRAND_ID
+ INVALID_BRAND_ID
+}
+
+enum BrandStatus {
+ ACTIVE
+ INACTIVE
+}
+
+
+## NutritionProduct
+type NutritionProduct {
+  nutritionProductId: ID!
+  brand: Brand!
+  nutritionProductType: NutritionProductType!
+  nutritionProductProfile: ProductProfile!
+}
+
+type NutritionProductSummary {
+  nutritionProductId: ID!
+  brandSummary: BrandSummary!
+  nutritionProductProfileSummary: ProductProfileSummary!
+}
+
+enum NutritionProductType {
  FORAGE
  GRAIN
  SUPPLEMENT
 }
 
-union ProductProfile = ForageProfile | GrainProfile | SupplementProfile
+union NutritionProductProfile = ForageProfile | GrainProfile | SupplementProfile
 
-union ProductProfileSummary = ForageProfileSummary | GrainProfileSummary | SupplementProfileSummary
+union NutritionProductProfileSummary = ForageProfileSummary | GrainProfileSummary | SupplementProfileSummary
 
 ## Forage
 type ForageProfile {
@@ -91,17 +144,26 @@ enum ForageColor {
 ## Grain
 type GrainProfile {
   grainName: String!
+  grainNameLocalized: String
+  grainAvatarId: ID!
 }
 
 type GrainProfileSummary {
   grainName: String!
+  grainNameLocalized: String
+  grainAvatarId: ID!
 }
+
 
 # Supplement
 type SupplementProfile {
   supplementName: String!
+  supplementNameLocalized: String
+  supplementAvatarId: ID!
 }
 
 type SupplementProfileSummary {
   supplementName: String!
+  supplementNameLocalized: String
+  supplementAvatarId: ID!
 }
