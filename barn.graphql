@@ -12,18 +12,22 @@ type Query {
   ): BarnBoardSummariesResult!
   getBarnBoard(input: GetBarnBoardInput): BarnBoardResult!
 
-    ## BarnPlan
-  getBarnPlanSummaries(
-    input: GetBarnPlanSummariesInput
-  ): BarnPlanSummariesResult!
-  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult!
-
   ## BarnFamily
   getBarnFamilySummaries(
     input: GetBarnFamilySummariesInput
   ): BarnFamilySummariesResult!
   getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult!
 
+  ## BarnPlan
+  getBarnPlanSummaries(
+    input: GetBarnPlanSummariesInput
+  ): BarnPlanSummariesResult!
+  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult!
+
+  ## BarnAnnouncements
+  getBarnAnnouncements(
+    input: GetBarnAnnouncementsInput
+  ): BarnAnnouncementsResult!
 
   ## BarnActivities
   getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
@@ -56,10 +60,18 @@ type Mutation {
   deleteBarnPlan(input: DeleteBarnPlanInput): BarnPlanResult!
 
   ## BarnFamily
-  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
-  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult!
-  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
 
+
+  ## BarnAnnouncement
+  createBarnAnnouncement(
+    input: CreateBarnAnnouncementInput
+  ): BarnAnnouncementResult!
+  updateBarnAnnouncement(
+    input: UpdateBarnAnnouncementInput
+  ): BarnAnnouncementResult!
+  deleteBarnAnnouncement(
+    input: DeleteBarnAnnouncementInput
+  ): BarnAnnouncementResult!
 
   ## BarnActivity
   createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult!
@@ -72,9 +84,7 @@ type Mutation {
   deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult!
 
   ## BarnFacility
-  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
-  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
-  deleteBarnFacility(input: DeleteBarnFacilityInput): BarnFacilityResult!
+
 }
 
 ## Subscriptions
@@ -97,12 +107,18 @@ type Subscription {
   subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
 
+  ## BarnAnnouncements
+  subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncementResult
+    @aws_subscribe(
+      mutations: ["createBarnAnnouncement", "updateBarnAnnouncement", "deleteBarnAnnouncement"]
+    )
+
   ## BarnActivities
   subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
     @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"])
 
   ## BarnNotes
-    subscribeBarnNotesBarnId(Id: ID!): BarnNoteResult
+    subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
     @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
 
   subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
@@ -895,198 +911,7 @@ enum BarnNoteError {
 }
 
 ## BarnFacility
-type BarnFacility {
-  barnId: ID!
-  barnFacilityId: ID!
-  barnFacilityType: BarnFacilityType!
-  barnFacilityStatus: BarnFacilityStatus!
-  barnFacilityName: String
-  barnFacilityNumber: Float
-  barnFacilityDescription: String
-  barnFacilityManager: UserProfilePublic
-  barnFacilityCreatedOn: AWSDateTime!
-  barnFacilityCreatedBy: UserProfilePublic
-  barnFacilityModifiedOn: AWSDateTime
-  barnFacilityModifiedBy: UserProfilePublic
-}
 
-type BarnFacilitySummary {
-  barnId: ID!
-  barnFacilityId: ID!
-  barnFacilityType: BarnFacilityType!
-  barnFacilityStatus: BarnFacilityStatus!
-  BarnFacilityName: String
-  BarnFacilityNumber: Float
-}
-
-input GetBarnFacilitySummariesInput {
-  actingId: ID!
-  barnId: ID!
-}
-
-type BarnFacilitySummariesResult {
-  result: MsResult!
-  barnFacilitySummaries: [BarnFacilitySummary]
-  lastKey: String
-  error: BarnNoteError
-}
-
-input GetBarnFacilityInput {
-  actingId: ID!
-  barnId: ID!
-  barnFacilityId: ID!
-}
-
-input CreateBarnFacilityInput {
-  actingId: ID!
-  barnId: ID!
-  barnFacilityType: BarnFacilityType!
-  BarnFacilityName: String
-  BarnFacilityNumber: Float
-  BarnFacilityDescription: String
-  barnFacilityManagerId: ID
-}
-
-input UpdateBarnFacilityInput {
-  actingId: ID!
-  barnId: ID!
-  barnFacilityId: ID!
-  barnFacilityStatus: BarnFacilityStatus
-  barnFacilityName: String
-  barnFacilityDescription: String
-  barnFacilityManagerId: ID
-}
-
-input DeleteBarnFacilityInput {
-  actingId: ID!
-  barnId: ID!
-  barnFacilityId: ID!
-}
-
-type BarnFacilityResult {
-  result: MsResult!
-  barnFacility: BarnFacility
-  error: BarnFacilityError
-}
-
-enum BarnFacilityError {
-  NOT_AUTHORIZED
-  NONEXISTENT_ACTING_ID
-  INVALID_ACTING_ID
-  INACTIVE_ACTING_ID
-  NONEXISTENT_BARN_ID
-  INVALID_BARN_ID
-  INACTIVE_BARN_ID
-  NONEXISTENT_FACILITY_ID
-  INVALID_FACILITY_ID
-  INVALID_STATUS_CHANGE
-  NONEXISTENT_MANAGER_ID
-  INVALID_MANAGER_ID
-  INACTIVE_MANAGER_ID
-  EXISTING_DUPLICATE_NAME
-  EXCEEDED_NAME_LENGTH
-  PROHIBITED_DUPLICATE_NAME
-  EXCEEDED_DESCRIPTION_LENGTH
-  PROHIBITED_NAME_CONTENT
-  PROHIBITED_DESCRIPTION_CONTENT
-  SERVICE
-}
-
-enum BarnFacilityType {
-  STALL
-  PASTURE
-  ARENA
-  TRAIL
-  WASH_BAY
-  TACK_ROOM
-  FEED_ROOM
-  PEN
-  OBSERVATION_AREA
-  LOUNGE
-  TURNOUT_AREA
-  RUN
-  HAY_STORAGE
-  FARRIER_STATION
-  EXAM_AREA
-}
-
-enum BarnFacilityStatus {
-  IN_SERVICE
-  OUT_OF_SERVICE
-  CLOSED
-}
-
-union BarnFacilityProfile =
-    StallProfile
-  | PastureProfile
-  | ArenaProfile
-  | TrailProfile
-  | WashBayProfile
-  | TackRoomProfile
-  | FeedRoomProfile
-  | PenProfile
-  | ObservationAreaProfile
-  | LoungeProfile
-  | RunProfile
-  | TurnoutAreaProfile
-  | HayStorageProfile
-  | FarrierStationProfile
-
-type StallProfile {
-  stallProfileName: String
-}
-
-type PastureProfile {
-  pastureProfileName: String
-}
-
-type ArenaProfile {
-  arenaProfileName: String
-}
-
-type TrailProfile {
-  trailProfileName: String
-}
-
-type WashBayProfile {
-  washBayProfileName: String
-}
-
-type TackRoomProfile {
-  tackRoomProfileName: String
-}
-
-type FeedRoomProfile {
-  feedRoomProfileName: String
-}
-
-type PenProfile {
-  penProfileName: String
-}
-
-type ObservationAreaProfile {
-  observationAreaProfileName: String
-}
-
-type LoungeProfile {
-  loungeOfficeProfileName: String
-}
-
-type TurnoutAreaProfile {
-  turnoutAreaProfileName: String
-}
-
-type RunProfile {
-  turnoutAreaProfileName: String
-}
-
-type HayStorageProfile {
-  hayStorageProfileName: String
-}
-
-type FarrierStationProfile {
-  farrierStationProfileName: String
-}
 
 ## BarnAnnouncement
 type BarnAnnouncement {
