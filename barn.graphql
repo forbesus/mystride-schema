@@ -23,6 +23,19 @@ type Query {
     input: GetBarnFamilySummariesInput
   ): BarnFamilySummariesResult!
   getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult!
+
+
+  ## BarnActivities
+  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult!
+
+  ## BarnNotes
+  getBarnNotes(input: GetBarnNotesInput): BarnNotesResult!
+
+  ## BarnFacility
+  getBarnFacilitySummaries(
+    input: GetBarnFacilitySummariesInput
+  ): BarnFacilitySummariesResult!
+  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Mutations
@@ -46,6 +59,22 @@ type Mutation {
   createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult!
   updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult!
   acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult!
+
+
+  ## BarnActivity
+  createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult!
+  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult!
+  deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult!
+
+  ## BarnNote
+  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult!
+  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult!
+  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult!
+
+  ## BarnFacility
+  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult!
+  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult!
+  deleteBarnFacility(input: DeleteBarnFacilityInput): BarnFacilityResult!
 }
 
 ## Subscriptions
@@ -67,6 +96,21 @@ type Subscription {
 
   subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"])
+
+  ## BarnActivities
+  subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
+    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"])
+
+  ## BarnNotes
+    subscribeBarnNotesBarnId(Id: ID!): BarnNoteResult
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
+
+  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"])
+
+  ## BarnFacilities
+  subscribeBarnFacilitiesBarnId(barnId: ID!): BarnFacilityResult
+    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility", "deleteBarnFacility"])
 }
 
 ## Barn
@@ -256,6 +300,7 @@ type BarnBoard {
   barnBoardStatus: BarnBoardStatus!
   barnBoardHorse: HorseProfilePublic!
   barnBoardBarn: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
   barnBoardPlan: BarnPlan
   barnBoardInitiatedBy: UserProfilePublic
   barnBoardInitiatedOn: AWSDateTime!
@@ -282,6 +327,7 @@ type BarnBoardSummary {
   barnBoardStatus: BarnBoardStatus!
   barnBoardHorseSummary: HorseProfilePublic!
   barnBoardBarnSummary: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
 }
 
 input GetBarnBoardSummariesInput {
@@ -676,3 +722,446 @@ enum BarnFamilyStatus {
 }
 
 union BarnFamilyProfile = UserProfilePublic | ProProfilePublic
+
+## BarnActivity
+type BarnActivity {
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityStatus: BarnActivityStatus!
+  barnActivityCreatedOn: AWSDateTime!
+  barnActivityCreatedBy: UserProfilePublic!
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: UserProfilePublic
+  barnActivityCompletedOn: AWSDateTime
+  barnActivityCompletedBy: UserProfilePublic
+  barnActivityCreateComment: String
+  barnActivityCompleteComment: String
+}
+
+input GetBarnActivitiesInput {
+  actingId: ID!
+  barnId: ID!
+  activityStatus: BarnActivityStatus
+  startKey: String
+}
+
+type BarnActivitiesResult {
+  result: MsResult!
+  activities: [BarnActivity]
+  lastKey: String
+  error: BarnActivityError
+}
+
+input CreateBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityCompleteBy: AWSDateTime
+  barnActivityAssignedTo: ID
+  barnActivityCreateComment: String
+}
+
+input UpdateBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityStatus: BarnActivityStatus
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: ID
+  barnActivityCompleteComment: String
+}
+
+input DeleteBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+}
+
+input BarnActivityResult {
+  result: MsResult!
+  barnActivity: BarnActivity
+  error: BarnActivityError
+}
+
+enum BarnActivityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSIGNED_TO_ID
+  INVALID_ASSIGNED_TO_ID
+  INACTIVE_ASSIGNED_TO_ID
+  INVALID_DUE_DATE
+  PROHIBITED_CREATE_COMMENT_CONTENT
+  EXCEEDED_CREATE_COMMENT_LENGTH
+  INVALID_STATUS_UPDATE
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum BarnActivityType {
+  EMPTY_TRASH
+  RESTOCK_SUPPLIES
+  WASH_BLANKETS
+  WASH_TROUGHS
+  SCRUB_FEED_BUCKETS
+  CLEAN_TACK
+  REPAIR
+  SWEEP_ISLES
+  MOP_FLOORS
+}
+
+enum BarnActivityStatus {
+  COMPLETE
+  INCOMPLETE
+}
+
+## BarnNotes
+type BarnNote {
+  barnId: ID!
+  barnNoteId: ID!
+  barnNoteSubjectId: ID!
+  barnNoteCreatedOn: AWSDateTime!
+  barnNoteCreatedBy: UserProfilePublic!
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
+}
+
+input GetBarnNotesInput {
+  actingId: ID!
+  barnId: ID!
+  horseId: ID
+  barnFacilityId: ID
+  startKey: String
+}
+
+type BarnNotesResult {
+  result: MsResult!
+  barnNotes: [BarnNote]
+  lastKey: String
+  error: BarnNoteError
+}
+
+input CreateBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  horseId: ID
+  facilityId: ID
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
+}
+
+input UpdateBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  barnNoteId: ID!
+  barnNoteIsPined: Boolean
+}
+
+input DeleteBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  barnNoteId: ID!
+}
+
+type BarnNoteResult {
+  result: MsResult!
+  error: BarnNoteError
+}
+
+enum BarnNoteError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_FACILITY_ID
+  INVALID_FACILITY_ID
+  INACTIVE_FACILITY_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  SERVICE
+}
+
+## BarnFacility
+type BarnFacility {
+  barnId: ID!
+  barnFacilityId: ID!
+  barnFacilityType: BarnFacilityType!
+  barnFacilityStatus: BarnFacilityStatus!
+  barnFacilityName: String
+  barnFacilityNumber: Float
+  barnFacilityDescription: String
+  barnFacilityManager: UserProfilePublic
+  barnFacilityCreatedOn: AWSDateTime!
+  barnFacilityCreatedBy: UserProfilePublic
+  barnFacilityModifiedOn: AWSDateTime
+  barnFacilityModifiedBy: UserProfilePublic
+}
+
+type BarnFacilitySummary {
+  barnId: ID!
+  barnFacilityId: ID!
+  barnFacilityType: BarnFacilityType!
+  barnFacilityStatus: BarnFacilityStatus!
+  BarnFacilityName: String
+  BarnFacilityNumber: Float
+}
+
+input GetBarnFacilitySummariesInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+type BarnFacilitySummariesResult {
+  result: MsResult!
+  barnFacilitySummaries: [BarnFacilitySummary]
+  lastKey: String
+  error: BarnNoteError
+}
+
+input GetBarnFacilityInput {
+  actingId: ID!
+  barnId: ID!
+  barnFacilityId: ID!
+}
+
+input CreateBarnFacilityInput {
+  actingId: ID!
+  barnId: ID!
+  barnFacilityType: BarnFacilityType!
+  BarnFacilityName: String
+  BarnFacilityNumber: Float
+  BarnFacilityDescription: String
+  barnFacilityManagerId: ID
+}
+
+input UpdateBarnFacilityInput {
+  actingId: ID!
+  barnId: ID!
+  barnFacilityId: ID!
+  barnFacilityStatus: BarnFacilityStatus
+  barnFacilityName: String
+  barnFacilityDescription: String
+  barnFacilityManagerId: ID
+}
+
+input DeleteBarnFacilityInput {
+  actingId: ID!
+  barnId: ID!
+  barnFacilityId: ID!
+}
+
+type BarnFacilityResult {
+  result: MsResult!
+  barnFacility: BarnFacility
+  error: BarnFacilityError
+}
+
+enum BarnFacilityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_FACILITY_ID
+  INVALID_FACILITY_ID
+  INVALID_STATUS_CHANGE
+  NONEXISTENT_MANAGER_ID
+  INVALID_MANAGER_ID
+  INACTIVE_MANAGER_ID
+  EXISTING_DUPLICATE_NAME
+  EXCEEDED_NAME_LENGTH
+  PROHIBITED_DUPLICATE_NAME
+  EXCEEDED_DESCRIPTION_LENGTH
+  PROHIBITED_NAME_CONTENT
+  PROHIBITED_DESCRIPTION_CONTENT
+  SERVICE
+}
+
+enum BarnFacilityType {
+  STALL
+  PASTURE
+  ARENA
+  TRAIL
+  WASH_BAY
+  TACK_ROOM
+  FEED_ROOM
+  PEN
+  OBSERVATION_AREA
+  LOUNGE
+  TURNOUT_AREA
+  RUN
+  HAY_STORAGE
+  FARRIER_STATION
+  EXAM_AREA
+}
+
+enum BarnFacilityStatus {
+  IN_SERVICE
+  OUT_OF_SERVICE
+  CLOSED
+}
+
+union BarnFacilityProfile =
+    StallProfile
+  | PastureProfile
+  | ArenaProfile
+  | TrailProfile
+  | WashBayProfile
+  | TackRoomProfile
+  | FeedRoomProfile
+  | PenProfile
+  | ObservationAreaProfile
+  | LoungeProfile
+  | RunProfile
+  | TurnoutAreaProfile
+  | HayStorageProfile
+  | FarrierStationProfile
+
+type StallProfile {
+  stallProfileName: String
+}
+
+type PastureProfile {
+  pastureProfileName: String
+}
+
+type ArenaProfile {
+  arenaProfileName: String
+}
+
+type TrailProfile {
+  trailProfileName: String
+}
+
+type WashBayProfile {
+  washBayProfileName: String
+}
+
+type TackRoomProfile {
+  tackRoomProfileName: String
+}
+
+type FeedRoomProfile {
+  feedRoomProfileName: String
+}
+
+type PenProfile {
+  penProfileName: String
+}
+
+type ObservationAreaProfile {
+  observationAreaProfileName: String
+}
+
+type LoungeProfile {
+  loungeOfficeProfileName: String
+}
+
+type TurnoutAreaProfile {
+  turnoutAreaProfileName: String
+}
+
+type RunProfile {
+  turnoutAreaProfileName: String
+}
+
+type HayStorageProfile {
+  hayStorageProfileName: String
+}
+
+type FarrierStationProfile {
+  farrierStationProfileName: String
+}
+
+## BarnAnnouncement
+type BarnAnnouncement {
+  barnId: ID!
+  barnAnnouncementId: ID!
+  barnAnnouncementAudience: [BarnRole!]!
+  barnAnnouncementPriority: BarnAnnouncementPriority!
+  barnAnnouncementCreatedOn: AWSDateTime!
+  barnAnnouncementCreatedBy: UserProfilePublic!
+  barnAnnouncementTitle: String
+  barnAnnouncementBody: String!
+}
+
+input GetBarnAnnouncementsInput {
+  actingId: ID!
+  barnId: ID!
+  startKey: String
+}
+
+type BarnAnnouncementsResult {
+  result: MsResult!
+  barnAnnouncements: [BarnAnnouncement]
+  lastKey: String
+  error: BarnAnnouncementError
+}
+
+input GetBarnAnnouncementInput {
+  actingId: ID!
+  barnId: ID!
+  startKey: String
+}
+
+input CreateBarnAnnouncementInput {
+  actingId: ID!
+  barnId: ID!
+  barnAnnouncementAudience: [BarnRole!]!
+  barnAnnouncementPriority: BarnAnnouncementPriority!
+  barnAnnouncementTitle: String
+  barnAnnouncementBody: String!
+}
+
+input UpdateBarnAnnouncementInput {
+  actingId: ID!
+  barnAnnouncementId: ID!
+  barnAnnouncementAudience: [BarnRole!]
+  barnAnnouncementPriority: BarnAnnouncementPriority
+}
+
+input DeleteBarnAnnouncementInput {
+  actingId: ID!
+  barnAnnouncementId: ID!
+}
+
+type BarnAnnouncementResult {
+  result: MsResult!
+  announcement: BarnAnnouncement
+  error: BarnAnnouncementError
+}
+
+enum BarnAnnouncementError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  EXCEEDED_TITLE_LENGTH
+  EXCEEDED_BODY_LENGTH
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  SERVICE
+}
+
+enum BarnAnnouncementPriority {
+  URGENT
+  STANDARD
+}
