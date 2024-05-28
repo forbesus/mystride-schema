@@ -674,7 +674,6 @@ input UpdateHorseServingInput {
   horseServingUnit: HorseServingUnit
   horseServingFrequency: HorseServingFrequency
   horseServingAutoEndOn: AWSDateTime
-  horseServingStatus: HorseServingStatus
   horseServingComment: String
 }
 
