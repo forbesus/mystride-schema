@@ -3,23 +3,23 @@
 type Query {
 
   ## Horse
-  getHorses(input: GetHorsesInput): HorsesResult!
+  getHorses(input: GetHorsesInput): HorsesResult! ## Contains Horses w/ SUCCESS
 
   ## HorseProfile
-  getHorseProfile(input: GetHorseProfileInput): HorseProfileResult!
+  getHorseProfile(input: GetHorseProfileInput): HorseProfileResult! ## Contains HorseProfile w/ SUCCESS
 
   ## HorseShare
-  getHorseShareSummaries(input: GetHorseShareSummariesInput): HorseShareSummariesResult!
-  getHorseShare(input: GetHorseShareInput): HorseShareResult!
+  getHorseShareSummaries(input: GetHorseShareSummariesInput): HorseShareSummariesResult! ## Contains HorseShareSummaries w/ SUCCESS
+  getHorseShare(input: GetHorseShareInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
 
   ## HorseActivity
-  getHorseActivities(input: GetHorseActivitiesInput): HorseActivitiesResult!
+  getHorseActivities(input: GetHorseActivitiesInput): HorseActivitiesResult! ## Contains HorseActivities w/ SUCCESS
 
   ## HorseNote
-  getHorseNotes(input: GetHorseNotesInput): HorseNotesResult!
+  getHorseNotes(input: GetHorseNotesInput): HorseNotesResult! ## Contains HorseNotes w/ SUCCESS
 
   ## HorseServing
-  getHorseServings(input: GetHorseServingsInput): HorseServingsResult!
+  getHorseServings(input: GetHorseServingsInput): HorseServingsResult! ## Contains NULL BarnServings w/ SUCCESS
 }
 
 
@@ -27,27 +27,28 @@ type Query {
 type Mutation {
 
   ## Horse
-  createHorse(input: CreateHorseInput): HorseResult!
+  createHorse(input: CreateHorseInput): HorseResult! ## Contains Horse w/ SUCCESS
   
   ## HorseProfile
-  updateHorseProfile(input: UpdateHorseProfileInput): HorseProfileResult!
+  updateHorseProfile(input: UpdateHorseProfileInput): HorseProfileResult! ## Contains HorseProfile w/ SUCCESS
 
   ## HorseShare
-  createHorseShare(input: CreateHorseShareInput): HorseShareResult!
-  updateHorseShare(input: UpdateHorseShareInput): HorseShareResult!
-  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareResult!
+  createHorseShare(input: CreateHorseShareInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShare
+  updateHorseShare(input: UpdateHorseShareInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShare
+  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
   
   ## HorseActivity
-  createHorseActivity(input: CreateHorseActivityInput): HorseActivityResult!
-  updateHorseActivity(input: UpdateHorseActivityInput): HorseActivityResult!
+  createHorseActivity(input: CreateHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
+  updateHorseActivity(input: UpdateHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
+  deleteHorseActivity(input: DeHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
 
   ## HorseNote
-  createHorseNote(input: CreateHorseNoteInput): HorseNoteResult!
-  updateHorseNote(input: UpdateHorseNoteInput): HorseNoteResult!
+  createHorseNote(input: CreateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
+  updateHorseNote(input: UpdateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
 
   ## HorseServing
-  createHorseServing(input: CreateHorseServingInput): HorseServingResult!
-  updateHorseServing(input: UpdateHorseServingInput): HorseServingResult!
+  createHorseServing(input: CreateHorseServingInput): HorseServingResult! ## Contains HorseServing w/ SUCCESS
+  updateHorseServing(input: UpdateHorseServingInput): HorseServingResult! ## Contains HorseServing w/ SUCCESS
 }
 
 
@@ -56,29 +57,29 @@ type Subscription {
 
   ## HorseProfile
   subscribeHorseProfile(horseId: ID!): HorseProfileResult
-  @aws_subscribe(mutations: ["updateHorseProfile"])
+  @aws_subscribe(mutations: ["updateHorseProfile"]) ## Contains HorseProfile w/ SUCCESS
 
   ## HorseShare
   subscribeHorseSharesByHorseId(horseId: ID!): HorseShareResult
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShares
 
   subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareResult
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"])
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShares
 
   ## HorseActivity
   subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivityResult
-  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
+  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"]) ## Contains HorseActivity || NULL w/ SUCCESS - trigger getHorseActivities if NULL
 
   subscribeHorseActivitiesByAssignedId(horseActivityAssignedToId: ID!): HorseActivityResult
-  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"])
+  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"]) ## Contains HorseActivity || NULL w/ SUCCESS - trigger getHorseActivities if NULL
 
   ## HorseNote
   subscribeHorseNotesByHorseId(horseId: ID!): HorseNoteResult
-  @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote", "deleteHorseNote"])
+  @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote", "deleteHorseNote"]) ## Contains HorseNote || NULL w/ SUCCESS - trigger getHorseNotes if NULL
 
   ## HorseServing
   subscribeHorseServingsByHorseId(horseId: ID!): HorseServingResult
-  @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"])
+  @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"]) ## Contains HorseServing || NULL w/ SUCCESS - trigger getHorseServings if NULL
 }
 
 ## Horse

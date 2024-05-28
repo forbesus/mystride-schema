@@ -1,36 +1,36 @@
 ## Queries
 type Query {
   ## Barn
-  getBarns(input: GetBarnsInput): BarnsResult! ## Contains Barns in SUCCESS case
+  getBarns(input: GetBarnsInput): BarnsResult! ## Contains Barns w/ SUCCESS
 
   ## BarnProfile
-  getBarnProfile(input: GetBarnProfileInput): BarnProfileResult! ## Contains BarnProfile in SUCCESS case
+  getBarnProfile(input: GetBarnProfileInput): BarnProfileResult! ## Contains BarnProfile w/ SUCCESS
 
   ## BarnBoard
   getBarnBoardSummaries(
     input: GetBarnBoardSummariesInput
   ): BarnBoardSummariesResult! ## Contains BarnBoardSummaries in SUCCESS case
-  getBarnBoard(input: GetBarnBoardInput): BarnBoardResult! ## Contains BarnBoard in SUCCESS case
+  getBarnBoard(input: GetBarnBoardInput): BarnBoardResult! ## Contains BarnBoard w/ SUCCESS
 
   ## BarnFamily
   getBarnFamilySummaries(
     input: GetBarnFamilySummariesInput
   ): BarnFamilySummariesResult! ## Contains BarnFamilySummaries in SUCCESS case
-  getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult! ## Contains BarnFamily in SUCCESS case
+  getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult! ## Contains BarnFamily w/ SUCCESS
 
   ## BarnPlan
   getBarnPlanSummaries(
     input: GetBarnPlanSummariesInput
   ): BarnPlanSummariesResult! ## Contains BarnPlanSummaries in SUCCESS case
-  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult! ## Contains BarnPlan in SUCCESS case
+  getBarnPlan(input: GetBarnPlanInput): BarnPlanResult! ## Contains BarnPlan w/ SUCCESS
 
   ## BarnAnnouncements
   getBarnAnnouncements(
     input: GetBarnAnnouncementsInput
-  ): BarnAnnouncementsResult!
+  ): BarnAnnouncementsResult! ## Contains BarnAnnouncements w/ SUCCESS 
 
   ## BarnActivities
-  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult! ## Contains BarnActivities in SUCCESS case
+  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult! ## Contains BarnActivities w/ SUCCESS
 
   ## BarnNotes
   getBarnNotes(input: GetBarnNotesInput): BarnNotesResult! ## Contains BarnNotes in SUCCESS case
@@ -38,99 +38,99 @@ type Query {
   ## BarnFacility
   getBarnFacilitySummaries(
     input: GetBarnFacilitySummariesInput
-  ): BarnFacilitySummariesResult! ## Contains BarnFacilitySummaries in SUCCESS case
-  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult! ## Contains BarnFacility in SUCCESS case
+  ): BarnFacilitySummariesResult! ## Contains BarnFacilitySummaries w/ SUCCESS
+  getBarnFacility(input: GetBarnFacilityInput): BarnFacilityResult! ## Contains BarnFacility w/ SUCCESS
 }
 
 ## Mutations
 type Mutation {
   ## Barn 
-  createBarn(input: CreateBarnInput): BarnResult! ## Contains Barn object in SUCCESS case
+  createBarn(input: CreateBarnInput): BarnResult! ## Contains Barn object w/ SUCCESS
 
   ## BarnProfile
-  updateBarnProfile(input: UpdateBarnProfileInput): BarnProfileResult! ## Contains BarnProfile in SUCCESS case
+  updateBarnProfile(input: UpdateBarnProfileInput): BarnProfileResult! ## Contains BarnProfile w/ SUCCESS
 
   ## BarnBoard
-  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard in SUCCESS case - trigger getBarnBoard
-  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard in SUCCESS case - trigger getBarnBoard
+  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoard
+  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoard
 
   ## BarnPlan
-  createBarnPlan(input: CreateBarnPlanInput): BarnPlanResult! ## Contains BarnPlan in SUCCESS case
-  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanResult! ## Contains BarnPlan in SUCCESS case
-  deleteBarnPlan(input: DeleteBarnPlanInput): BarnPlanResult! ## Contains NULL BarnPlan in SUCCESS case to indicate deletion
+  createBarnPlan(input: CreateBarnPlanInput): BarnPlanResult! ## Contains BarnPlan w/ SUCCESS
+  updateBarnPlan(input: UpdateBarnPlanInput): BarnPlanResult! ## Contains BarnPlan w/ SUCCESS
+  deleteBarnPlan(input: DeleteBarnPlanInput): BarnPlanResult! ## Contains NULL BarnPlan w/ SUCCESS to indicate deletion
 
   ## BarnFamily
-  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult! ## Contains NULL BarnFamily in SUCCESS case - trigger getBarnFamily
-  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult! ## Contains NULL BarnFamily in SUCCESS case - trigger getBarnFamily
-  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult! ## Contains NULL BarnFamily in SUCCESS case - trigger getBarnFamily
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult! ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamily
+  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult! ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamily
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult! ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamily
 
   ## BarnAnnouncement
   createBarnAnnouncement(
     input: CreateBarnAnnouncementInput
-  ): BarnAnnouncementResult! 
+  ): BarnAnnouncementResult! ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements
   updateBarnAnnouncement(
     input: UpdateBarnAnnouncementInput
-  ): BarnAnnouncementResult!
+  ): BarnAnnouncementResult! ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements
   deleteBarnAnnouncement(
     input: DeleteBarnAnnouncementInput
-  ): BarnAnnouncementResult!
+  ): BarnAnnouncementResult! ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements
 
   ## BarnActivity
-  createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult! ## Contains BarnActivity in SUCCESS case
-  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult! ## Contains BarnActivity in SUCCESS case
-  deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult! ## Contains NULL BarnActivity in SUCCESS case to indicate deletion
+  createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult! ## Contains BarnActivity w/ SUCCESS
+  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult! ## Contains BarnActivity w/ SUCCESS
+  deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult! ## Contains NULL BarnActivity w/ SUCCESS to indicate deletion
 
   ## BarnNote
-  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult! ## Contains BarnNote in SUCCESS case
-  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult! ## Contains BarnNote in SUCCESS case
-  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult! ## Contains NULL BarnNote in SUCCESS case to indicate deletion
+  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult! ## Contains BarnNote w/ SUCCESS
+  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult! ## Contains BarnNote w/ SUCCESS
+  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult! ## Contains NULL BarnNote w/ SUCCESS to indicate deletion
 
   ## BarnFacility
-  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult! ## Contains NULL BarnFacility in SUCCESS case - trigger getBarnFacility
-  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult! ## Contains NULL BarnFacility in SUCCESS case - trigger getBarnFacility
-  deleteBarnFacility(input: DeleteBarnFacilityInput): BarnFacilityResult! ## Contains NULL BarnFacility in SUCCESS case - trigger getBarnFacility
+  createBarnFacility(input: CreateBarnFacilityInput): BarnFacilityResult! ## Contains NULL BarnFacility w/ SUCCESS - trigger getBarnFacility
+  updateBarnFacility(input: UpdateBarnFacilityInput): BarnFacilityResult! ## Contains NULL BarnFacility w/ SUCCESS - trigger getBarnFacility
+  deleteBarnFacility(input: DeleteBarnFacilityInput): BarnFacilityResult! ## Contains NULL BarnFacility w/ SUCCESS - trigger getBarnFacility
 }
 
 ## Subscriptions
 type Subscription {
   ## BarnProfile
   subscribeBarnProfileUpdatesBarnId(barnId: ID!): BarnProfileResult
-    @aws_subscribe(mutations: ["updateBarnProfile"]) ## Contains BarnProfile in SUCCESS case
+    @aws_subscribe(mutations: ["updateBarnProfile"]) ## Contains BarnProfile w/ SUCCESS
 
   ## BarnBoard
   subscribeBarnBoardUpdatesBarnId(barnId: ID!): BarnBoardResult
-    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains NULL BarnBoard in SUCCESS case - trigger getBarnBoardSummaries
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
 
   subscribeBarnBoardUpdatesHorseId(horseId: ID!): BarnBoardResult
-    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains NULL BarnBoard in SUCCESS case - trigger getBarnBoardSummaries
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
 
   ## BarnFamily
   subscribeBarnFamilyUpdatesBarnId(barnId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"]) ## Contains NULL BarnFamily in SUCCESS case - trigger getBarnFamilySummaries
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"]) ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamilySummaries
 
   subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily", "acceptBarnFamilyQrCode"]) ## Contains NULL BarnFamily in SUCCESS case - trigger getBarnFamilySummaries
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily", "acceptBarnFamilyQrCode"]) ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamilySummaries
 
   ## BarnAnnouncements
   subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncementResult
     @aws_subscribe(
-      mutations: ["createBarnAnnouncement", "updateBarnAnnouncement", "deleteBarnAnnouncement"] ## Contains BarnAnnouncement || NULL in SUCCESS case - trigger getBarnAnnouncements if NULL
+      mutations: ["createBarnAnnouncement", "updateBarnAnnouncement", "deleteBarnAnnouncement"] ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements if NULL
     )
 
   ## BarnActivities
   subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
-    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"]) ## Contains BarnActivity || NULL in SUCCESS case - trigger getBarnActivities if NULL
+    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"]) ## Contains BarnActivity || NULL w/ SUCCESS - trigger getBarnActivities if NULL
 
   ## BarnNotes
     subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
-    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]) ## Contains BarnNote || NULL in SUCCESS case - trigger getBarnNotes if NULL
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]) ## Contains BarnNote || NULL w/ SUCCESS - trigger getBarnNotes if NULL
     
   subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
-    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]) ## Contains BarnNote || NULL in SUCCESS case - trigger getBarnNotes if NULL
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]) ## Contains BarnNote || NULL w/ SUCCESS - trigger getBarnNotes if NULL
 
   ## BarnFacilities
   subscribeBarnFacilityUpdatesBarnId(barnId: ID!): BarnFacilityResult
-    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility", "deleteBarnFacility"]) ## Contains NULL BarnFacility in SUCCESS case - trigger getBarnFacilitySummaries
+    @aws_subscribe(mutations: ["createBarnFacility", "updateBarnFacility", "deleteBarnFacility"]) ## Contains NULL BarnFacility w/ SUCCESS - trigger getBarnFacilitySummaries
 }
 
 ## Barn
