@@ -1,0 +1,128 @@
+type Query {
+  ## BarnBoard
+  getBarnBoardSummaries(
+    input: GetBarnBoardSummariesInput
+  ): BarnBoardSummariesResult! ## Contains BarnBoardSummaries in SUCCESS case
+  getBarnBoard(input: GetBarnBoardInput): BarnBoardResult! ## Contains BarnBoard w/ SUCCESS
+}
+
+type Mutation {
+  ## BarnBoard
+  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoard
+  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoard
+}
+
+type Subscription {
+  ## BarnBoard
+  subscribeBarnBoardUpdatesBarnId(barnId: ID!): BarnBoardResult
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
+}
+
+type BarnBoard {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardHorse: HorseProfilePublic!
+  barnBoardBarn: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
+  barnBoardPlan: BarnPlan
+  barnBoardInitiatedBy: UserProfilePublic
+  barnBoardInitiatedOn: AWSDateTime!
+  barnBoardModifiedBy: UserProfilePublic
+  barnBoardModifiedOn: AWSDateTime
+  barnBoardAcceptedBy: UserProfilePublic
+  barnBoardAcceptedOn: AWSDateTime
+  barnBoardDeclinedBy: UserProfilePublic
+  barnBoardDeclinedOn: AWSDateTime
+  barnBoardWhitelistedBy: UserProfilePublic
+  barnBoardWaitlistedOn: AWSDateTime
+  barnBoardSuspendedBy: UserProfilePublic
+  barnBoardSuspendedOn: AWSDateTime
+  barnBoardDeactivatedBy: UserProfilePublic
+  barnBoardDeactivatedOn: AWSDateTime
+  barnBoardAutoDeactivateSetBy: UserProfilePublic
+  barnBoardAutoDeactivateOn: AWSDateTime
+  barnBoardComment: String
+}
+
+type BarnBoardSummary {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus!
+  barnBoardHorseSummary: HorseProfilePublic!
+  barnBoardBarnSummary: BarnProfilePublic!
+  barnBoardFacilitySummary: BarnFacilitySummary
+}
+
+input GetBarnBoardSummariesInput {
+  actingId: ID!
+  barnId: ID
+  horseId: ID
+  startKey: String
+}
+
+type BarnBoardSummariesResult {
+  result: MsResult!
+  barnBoardSummaries: [BarnBoardSummary]
+  lastKey: String
+  error: BarnBoardError
+}
+
+input GetBarnBoardInput {
+  actingId: ID!
+  barnId: ID!
+  horseId: ID!
+  associatedId: ID!
+}
+
+input CreateBarnBoardInput {
+  actingId: ID!
+  barnId: ID!
+  horseId: ID!
+  barnBoardRequestedPlanId: ID
+}
+
+input UpdateBarnBoardInput {
+  barnId: ID!
+  horseId: ID!
+  barnBoardStatus: BarnBoardStatus
+  barnBoardFacilityId: ID
+  barnBoardPlanId: ID
+}
+
+type BarnBoardResult {
+  result: MsResult!
+  barnBoard: BarnBoard
+  error: BarnBoardError
+}
+
+enum BarnBoardError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_BARN_PLAN_ID
+  INVALID_BARN_PLAN_ID
+  NONEXISTENT_BARN_FACILITY_ID
+  INVALID_BARN_FACILITY_ID
+  MISSING_REQUIRED_ID
+  INVALID_STATUS_CHANGE
+  EXISTING_BOARD
+  EXCEEDED_BARN_BOARD_LIMIT
+  SERVICE
+}
+
+enum BarnBoardStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+  REQUESTED
+  WAITLISTED
+  DECLINED
+}

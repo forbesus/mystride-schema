@@ -60,11 +60,11 @@ type Subscription {
   @aws_subscribe(mutations: ["updateHorseProfile"]) ## Contains HorseProfile w/ SUCCESS
 
   ## HorseShare
-  subscribeHorseSharesByHorseId(horseId: ID!): HorseShareResult
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShares
+  subscribeHorseShareUpdatesHorseId(horseId: ID!): HorseShareResult
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
 
-  subscribeHorseSharesByShareId(horseShareId: ID!): HorseShareResult
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShares
+  subscribeHorseSharesUpdatesShareId(horseShareId: ID!): HorseShareResult
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
 
   ## HorseActivity
   subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivityResult
