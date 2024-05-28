@@ -1,6 +1,5 @@
 type Query {
   getBarns(input: GetBarnsInput): BarnsResult! ## Contains Barns w/ SUCCESS
-
 }
 
 type Mutation {
