@@ -1,15 +1,9 @@
-
-
-
-## Breed
 type Breed {
   breedId: ID!
   breedProfile: BreedProfile!
   breedOrganizations: [Org]
 }
 
-
-## BreedProfile
 type BreedProfile {
   breedId: ID!
   breedCommonNameEnglish: String!

@@ -1,0 +1,102 @@
+type Query {
+  getBarnAnnouncements(
+    input: GetBarnAnnouncementsInput
+  ): BarnAnnouncementsResult! ## Contains BarnAnnouncements w/ SUCCESS 
+}
+
+type Mutation {
+  createBarnAnnouncement(
+    input: CreateBarnAnnouncementInput
+  ): BarnAnnouncementResult! ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements
+  updateBarnAnnouncement(
+    input: UpdateBarnAnnouncementInput
+  ): BarnAnnouncementResult! ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements
+  deleteBarnAnnouncement(
+    input: DeleteBarnAnnouncementInput
+  ): BarnAnnouncementResult! ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements
+}
+
+type Subscription {
+  subscribeBarnAnnouncementsBarnId(barnId: ID!): BarnAnnouncementResult
+    @aws_subscribe(
+      mutations: ["createBarnAnnouncement", "updateBarnAnnouncement", "deleteBarnAnnouncement"] ## Contains NULL BarnAnnouncement w/ SUCCESS - trigger getBarnAnnouncements if NULL
+    )
+}
+
+type BarnAnnouncement {
+  barnId: ID!
+  barnAnnouncementId: ID!
+  barnAnnouncementPriority: BarnAnnouncementPriority!
+  barnAnnouncementCreatedOn: AWSDateTime!
+  barnAnnouncementCreatedBy: UserProfilePublic!
+  barnAnnouncementUpdatedOn: AWSDateTime!
+  barnAnnouncementUpdatedBy: UserProfilePublic!
+  barnAnnouncementTitle: String
+  barnAnnouncementBody: String!
+}
+
+input GetBarnAnnouncementsInput {
+  actingId: ID!
+  barnId: ID!
+  startKey: String
+}
+
+type BarnAnnouncementsResult {
+  result: MsResult!
+  barnAnnouncements: [BarnAnnouncement]
+  lastKey: String
+  error: BarnAnnouncementError
+}
+
+input GetBarnAnnouncementInput {
+  actingId: ID!
+  barnId: ID!
+  startKey: String
+}
+
+input CreateBarnAnnouncementInput {
+  actingId: ID!
+  barnId: ID!
+  barnAnnouncementAudience: [BarnRole!]!
+  barnAnnouncementPriority: BarnAnnouncementPriority!
+  barnAnnouncementTitle: String
+  barnAnnouncementBody: String!
+}
+
+input UpdateBarnAnnouncementInput {
+  actingId: ID!
+  barnAnnouncementId: ID!
+  barnAnnouncementAudience: [BarnRole!]
+  barnAnnouncementPriority: BarnAnnouncementPriority
+}
+
+input DeleteBarnAnnouncementInput {
+  actingId: ID!
+  barnAnnouncementId: ID!
+}
+
+type BarnAnnouncementResult {
+  result: MsResult!
+  announcement: BarnAnnouncement
+  error: BarnAnnouncementError
+}
+
+enum BarnAnnouncementError {
+  NOT_AUTHORIZED
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  EXCEEDED_TITLE_LENGTH
+  EXCEEDED_BODY_LENGTH
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  SERVICE
+}
+
+enum BarnAnnouncementPriority {
+  URGENT
+  STANDARD
+}

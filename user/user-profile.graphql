@@ -1,0 +1,95 @@
+type Query {
+  getUserProfile(input: GetUserProfileInput): UserProfile!
+}
+
+type Mutation {
+  updateUserProfile(input: UpdateUserProfileInput): UserProfile!
+}
+
+type Subscription {
+  subscribeUserProfileByUserId(userId: ID!): UserProfile
+  @aws_subscribe(mutations: ["updateUserProfile"])
+}
+
+type UserProfile {
+  userId: ID!
+  userCognitoSubId: String!
+  userPhoneId: String!
+  userEmailId: String
+  userAvatarId: String!
+  userStatus: UserStatus!
+  userCreatedOn: AWSDateTime!
+  userSuspendedOn: AWSDateTime
+  userSuspendedBy: UserProfilePublic
+  userDeactivatedOn: AWSDateTime
+  userDeactivatedBy: UserProfilePublic
+  userLocale: MsLocale!
+  userFirstName: String
+  userLastName: String
+  userBio: String
+  userAddress: MsAddress
+  userPrimaryBarn: BarnProfilePublic
+  userPrimaryDiscipline: MsDiscipline
+  userSecondaryDisciplines: [MsDiscipline]
+  userMainMount: HorseProfilePublic
+  userHeartHorse: HorseProfilePublic
+}
+
+type UserProfileSummary {
+  userId: ID!
+  userAvatarId: String!
+  userFirstName: String
+  userLastName: String
+  userPrimaryDiscipline: MsDiscipline
+  userPrimaryBarn: BarnProfilePublic
+  userMainMount: HorseProfilePublic
+}
+
+type UserProfilePublic {
+  userId: ID!
+  userAvatarId: String!
+  userFirstName: String
+  userLastName: String
+  userPrimaryDiscipline: MsDiscipline
+}
+
+input GetUserProfileInput {
+  actingId: ID!
+  userId: ID!
+  associatedId: ID
+}
+
+input UpdateUserProfileInput {
+  userId: ID!
+  userAvatarId: ID
+  userLocaleInput: UpsertMsLocaleInput
+  userFirstName: String
+  userLastName: String
+  userBio: String
+  userAddressInput: UpsertMsAddressInput
+  userPrimaryBarnId: ID
+  userPrimaryDiscipline: MsDiscipline
+  userSecondaryDisciplines: [MsDiscipline]
+  userMainMountId: ID
+  userHeartHorseId: ID
+}
+
+enum UserProfileError {
+  NOT_AUTHORIZED
+  NOT_FOUND
+  INVALID_AVATAR_ID
+  INVALID_LOCALE
+  EXCEEDED_NAME_LENGTH
+  EXCEEDED_BIO_LENGTH
+  INVALID_ADDRESS
+  INVALID_PRIMARY_BARN
+  INVALID_MAIN_MOUNT
+  INVALID_HEART_HORSE
+  SERVICE
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+}

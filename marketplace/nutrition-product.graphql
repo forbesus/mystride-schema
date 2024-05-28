@@ -1,81 +1,5 @@
 
-## Queries
-type Query {
-  ## Barn
-  getBrands(input: GetBrandsInput): BrandsResult!
-  getBrand(input: GetBrandInput): BrandResult!
-}
 
-## Mutations
-
-
-
-## Brand
-type Brand {
-  brandId: ID!
-  brandOrgId: ID!
-  brandAvatarId: ID!
-  brandName: String!
-  brandStatus: BrandStatus!
-  brandNameLocalized: String
-  brandProductCategories: [BrandProductCategory]!
-}
-
-type BrandSummary {
-  brandId: ID!
-  brandOrgId: ID!
-  brandAvatarId: ID!
-  brandName: String!
-  brandStatus: BrandStatus!
-  brandNameLocalized: String
-}
-
-input GetBrandsInput {
-  actingId: ID!
-  brandOrgId: ID
-  brandProductCategories: [BrandProductCategory!]
-  startKey: String
-}
-
-type BrandsResult {
-  result: MsResult!
-  brandSummaries: [BrandSummary]
-  lastKey: String
-  error: BrandError
-}
-
-input GetBrandInput {
-  actingId: ID!
-  brandId: ID!
-}
-
-type BrandResult {
-  result: MsResult!
-  brand: Brand!
-  error: BrandError
-}
-
-enum BrandProductCategory {
- NUTRITION
- PHARMACEUTICAL
-}
-
-enum BrandError {
- NOT_AUTHORIZED
- NONEXISTENT_ACTING_ID
- INVALID_ACTING_ID
- INACTIVE_ACTING_ID
- NONEXISTENT_BRAND_ID
- INVALID_BRAND_ID
-}
-
-enum BrandStatus {
- ACTIVE
- INACTIVE
-}
-
-
-## NutritionProduct
 type NutritionProduct {
   nutritionProductId: ID!
   brand: Brand!
@@ -100,7 +24,6 @@ union NutritionProductProfile = ForageProfile | GrainProfile | SupplementProfile
 
 union NutritionProductProfileSummary = ForageProfileSummary | GrainProfileSummary | SupplementProfileSummary
 
-## Forage
 type ForageProfile {
   forageType: ForageType
   forageQuality: ForageQuality
@@ -112,7 +35,6 @@ type ForageProfileSummary {
   forageQuality: ForageQuality
   forageColor: ForageColor
 }
-
 
 enum ForageType {
   ALFALFA_HAY
@@ -141,8 +63,6 @@ enum ForageColor {
   MIXED
 }
 
-
-## Grain
 type GrainProfile {
   grainName: String!
   grainNameLocalized: String
@@ -155,8 +75,6 @@ type GrainProfileSummary {
   grainAvatarId: ID!
 }
 
-
-# Supplement
 type SupplementProfile {
   supplementName: String!
   supplementNameLocalized: String

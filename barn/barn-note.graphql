@@ -1,0 +1,88 @@
+type Query {
+  getBarnNotes(input: GetBarnNotesInput): BarnNotesResult! ## Contains BarnNotes in SUCCESS case
+}
+
+type Mutation {
+  createBarnNote(input: CreateBarnNoteInput): BarnNoteResult! ## Contains BarnNote w/ SUCCESS
+  updateBarnNote(input: UpdateBarnNoteInput): BarnNoteResult! ## Contains BarnNote w/ SUCCESS
+  deleteBarnNote(input: DeleteBarnNoteInput): BarnNoteResult! ## Contains NULL BarnNote w/ SUCCESS to indicate deletion
+}
+
+type Subscription {
+    subscribeBarnNotesBarnId(barnId: ID!): BarnNoteResult
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]) ## Contains BarnNote || NULL w/ SUCCESS - trigger getBarnNotes if NULL
+    
+  subscribeBarnNotesSubjectId(subjectId: ID!): BarnNoteResult
+    @aws_subscribe(mutations: ["createBarnNote", "updateBarnNote", "deleteBarnNote"]) ## Contains BarnNote || NULL w/ SUCCESS - trigger getBarnNotes if NULL
+}
+
+type BarnNote {
+  barnId: ID!
+  barnNoteId: ID!
+  barnNoteSubjectId: ID!
+  barnNoteCreatedOn: AWSDateTime!
+  barnNoteCreatedBy: UserProfilePublic!
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
+}
+
+input GetBarnNotesInput {
+  actingId: ID!
+  barnId: ID!
+  subjectId: ID
+  startKey: String
+}
+
+type BarnNotesResult {
+  result: MsResult!
+  barnNotes: [BarnNote]
+  lastKey: String
+  error: BarnNoteError
+}
+
+input CreateBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  subjectId: ID!
+  barnNoteTitle: String
+  barnNoteBody: String!
+  barnNoteIsPined: Boolean
+}
+
+input UpdateBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  barnNoteId: ID!
+  barnNoteIsPined: Boolean
+}
+
+input DeleteBarnNoteInput {
+  actingId: ID!
+  barnId: ID!
+  barnNoteId: ID!
+}
+
+type BarnNoteResult {
+  result: MsResult!
+  error: BarnNoteError
+}
+
+enum BarnNoteError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_SUBJECT_ID
+  INVALID_SUBJECT_ID
+  INACTIVE_SUBJECT_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  SERVICE
+}

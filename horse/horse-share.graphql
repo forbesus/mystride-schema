@@ -1,0 +1,131 @@
+type Query {
+  getHorseShareSummaries(input: GetHorseShareSummariesInput): HorseShareSummariesResult! ## Contains HorseShareSummaries w/ SUCCESS
+  getHorseShare(input: GetHorseShareInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+}
+
+type Mutation {
+  createHorseShare(input: CreateHorseShareInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShare
+  updateHorseShare(input: UpdateHorseShareInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShare
+  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+}
+
+type Subscription {
+  subscribeHorseShareUpdatesHorseId(horseId: ID!): HorseShareResult
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+
+  subscribeHorseSharesUpdatesShareId(horseShareId: ID!): HorseShareResult
+  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+}
+
+type HorseShare {
+  horseId: ID!
+  horseShareId: ID!
+  horseShareRole: HorseRole!
+  horseShareStatus: HorseShareStatus!
+  horseShareProfile: HorseShareProfile!
+  horseShareInvitedBy: UserProfilePublic!
+  horseShareInvitedOn: AWSDateTime!
+  horseShareAcceptedOn: AWSDateTime
+  horseShareDeclinedOn: AWSDateTime
+  horseShareSuspendedBy: UserProfilePublic
+  horseShareSuspendedOn: AWSDateTime
+  horseShareDeactivatedOn: AWSDateTime
+  horseShareDeactivatedBy: UserProfilePublic
+  horseShareAutoDeactivateOn: AWSDateTime
+  horseShareAutoDeactivateSetBy: UserProfilePublic
+  horseShareComment: String
+}
+
+type HorseShareSummary {
+  horseId: ID!
+  horseShareId: ID!
+  horseShareRole: HorseRole!
+  horseShareStatus: HorseShareStatus!
+  horseShareUserProfileSummary: UserProfilePublic
+  horseShareProProfileSummary: ProProfilePublic
+  horseShareInvitedBy: UserProfilePublic!
+  horseShareInvitedOn: AWSDateTime!
+  horseShareAcceptedOn: AWSDateTime
+  horseShareDeclinedOn: AWSDateTime
+  horseShareSuspendedBy: UserProfilePublic
+  horseShareSuspendedOn: AWSDateTime
+  horseShareDeactivatedOn: AWSDateTime
+  horseShareDeactivatedBy: UserProfilePublic
+}
+
+input GetHorseShareSummariesInput {
+  actingId: ID!
+  horseShareId: ID
+  horseId: ID
+  startKey: String
+}
+
+type HorseShareSummariesResult {
+  result: MsResult!
+  horseShareSummaries: [HorseShareSummary]
+  lastKey: String
+  error: HorseShareError
+}
+
+input GetHorseShareInput {
+  actingId: ID!
+  horseId: ID!
+  horseShareId: ID!
+}
+
+input CreateHorseShareInput {
+  actingId: ID!
+  horseId: ID!
+  horseShareId: ID!
+  horseShareRole: HorseRole!
+  horseShareStatus: HorseShareStatus!
+}
+
+input AcceptHorseShareQrCodeInput {
+  horseQrCode: ID!
+}
+
+input UpdateHorseShareInput {
+  actingId: ID!
+  horseId: ID!
+  horseShareId: ID!
+  horseShareStatus: HorseShareStatus!
+}
+
+type HorseShareResult {
+  result: MsResult!
+  horseShareSummary: HorseShareSummary
+  error: HorseShareError
+}
+
+enum HorseShareError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_HORSE_SHARE_ID
+  INVALID_HORSE_SHARE_ID
+  INVALID_HORSE_SHARE_ID_PHONE_FORMAT
+  INVALID_HORSE_SHARE_ID_PHONE_TYPE
+  INACTIVE_HORSE_SHARE_ID
+  MISSING_REQUIRED_ID
+  EXISTING_SHARE
+  INVALID_STATUS_UPDATE
+  PROHIBITED_SELF_CREATE
+  PROHIBITED_SELF_UPDATE
+  EXCEEDED_HORSE_SHARE_LIMIT
+  INVALID_DEACTIVATION_DATE
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum HorseShareStatus {
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+  INVITED
+  DECLINED
+}

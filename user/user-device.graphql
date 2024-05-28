@@ -1,0 +1,56 @@
+type Query {
+  getUserDevices(input: GetUserDevicesInput): [UserDevice]!
+}
+
+type Mutation {
+  upsertUserDevice(input: UpsertUserDeviceInput): UserDevice!
+  deleteUserDevices(input: DeleteUserDevicesInput): ID! ## returns simple id because mutation resolver forces global logout.
+}
+
+type Subscription {
+  subscribeUserDevicesByUserId(userId: ID!): UserDevice 
+  @aws_subscribe(mutations: ["upsertUserDevice"])
+}
+
+type UserDevice {
+  userId: ID!
+  userDeviceId: ID!
+  userDeviceOperatingSystem: MsOperatingSystem!
+  userDeviceOsVersion: String!
+  userDeviceModel: String!
+  userDeviceModelLocalized: String!
+  userDeviceName: String!
+  userDeviceAppVersion: String!
+  userDeviceAppBuild: String!
+  userDeviceAppId: String!
+  userDeviceCreatedOn: AWSDateTime!
+  userDeviceUpdatedOn: AWSDateTime!
+}
+
+input GetUserDevicesInput {
+  actingId: ID!
+  userId: ID!
+}
+
+enum UserDeviceError {
+  NOT_AUTHORIZED
+  SERVICE
+}
+
+input UpsertUserDeviceInput {
+  userId: ID!
+  userDeviceId: String!
+  userDeviceOperatingSystem: MsOperatingSystem!
+  userDeviceOsVersion: String!
+  userDeviceModel: String!
+  userDeviceModelLocalized: String!
+  userDeviceName: String!
+  userDeviceAppVersion: String!
+  userDeviceAppBuild: String!
+  userDeviceAppId: String!
+}
+
+input DeleteUserDevicesInput {
+  actingId: ID!
+  userId: ID!
+}

@@ -1,0 +1,67 @@
+type Query {
+  getHorses(input: GetHorsesInput): HorsesResult! ## Contains Horses w/ SUCCESS
+}
+
+type Mutation {
+  createHorse(input: CreateHorseInput): HorseResult! ## Contains Horse w/ SUCCESS
+}
+
+type Horse {
+  horseId: ID!
+  horseRole: HorseRole!
+  horseProfileSummary: HorseProfileSummary!
+  horsePrimaryBoard: BarnProfilePublic
+  horseShareSummary: HorseShareSummary
+}
+
+input GetHorsesInput {
+  actingId: ID!
+  startKey: String
+}
+
+input DeleteHorseInput {
+  actingId: ID!
+  barnId: ID!
+}
+
+type HorsesResult {
+  result: MsResult!
+  horses: [Horse]
+  lastKey: String
+  error: HorseError
+}
+
+input CreateHorseInput {
+  actingId: ID!
+  horseDisplayName: String!
+  horseAvatarId: ID!
+  horseBoard: CreateBarnBoardInput
+}
+
+type HorseResult {
+  result: MsResult!
+  horse: Horse
+  error: HorseError
+}
+
+enum HorseError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_AVATAR_ID
+  EXCEEDED_HORSE_LIMIT
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum HorseRole {
+  OWNER
+  SHAREHOLDER
+  LESSEE
+  CAREGIVER
+  RIDER
+}

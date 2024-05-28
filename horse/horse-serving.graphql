@@ -1,0 +1,137 @@
+type Query {
+  getHorseServings(input: GetHorseServingsInput): HorseServingsResult! ## Contains NULL BarnServings w/ SUCCESS
+}
+
+type Mutation {
+  createHorseServing(input: CreateHorseServingInput): HorseServingResult! ## Contains HorseServing w/ SUCCESS
+  updateHorseServing(input: UpdateHorseServingInput): HorseServingResult! ## Contains HorseServing w/ SUCCESS
+}
+
+type Subscription {
+  subscribeHorseServingsByHorseId(horseId: ID!): HorseServingResult
+  @aws_subscribe(mutations: ["createHorseServing", "updateHorseServing"]) ## Contains HorseServing || NULL w/ SUCCESS - trigger getHorseServings if NULL
+}
+
+type HorseServing {
+  horseId: ID!
+  horseServingId: ID!
+  horseServingStatus: HorseServingStatus!
+  HorseServingPeriod: MsServicePeriod!
+  horseServingProductSummary: NutritionProductSummary!
+  horseServingQuantity: Int!
+  horseServingUnit: HorseServingUnit!
+  horseServingFrequency: HorseServingFrequency!
+  horseServingStartedOn: AWSDateTime!
+  horseStartedBy: UserProfilePublic!
+  horseServingAutoEndOn: AWSDateTime
+  horseAutoEndSetBy: UserProfilePublic
+  horseServingEndedOn: AWSDateTime
+  horseServingEndedBy: UserProfilePublic
+}
+
+input GetHorseServingsInput {
+  actingId: ID!
+  horseId: ID!
+  horseServingStatus: [HorseServingStatus]
+  startKey: String
+}
+
+type HorseServingsResult {
+  result: MsResult!
+  horseServings: [HorseServing]
+  lastKey: String
+  error: HorseServingError
+}
+
+input CreateHorseServingInput {
+  actingId: ID!
+  horseId: ID!
+  horseServingNutritionProductId: ID!
+  horseServingQuantity: Int!
+  horseServingUnit: HorseServingUnit!
+  horseServingFrequency: HorseServingFrequency!
+  horseServingDays: HorseServingDays
+  horseServingAutoEndOn: AWSDateTime
+  horseServingComment: String
+}
+
+input UpdateHorseServingInput {
+  actingId: ID!
+  horseId: ID!
+  horseServingId: ID!
+  horseServingStatus: HorseServingStatus
+  horseServingQuantity: Int
+  horseServingUnit: HorseServingUnit
+  horseServingFrequency: HorseServingFrequency
+  horseServingAutoEndOn: AWSDateTime
+  horseServingComment: String
+}
+
+type HorseServingResult {
+  result: MsResult!
+  horseServing: HorseServing
+  error: HorseServingError
+}
+
+enum HorseServingError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_HORSE_SERVING_ID
+  INVALID_HORSE_SERVING_ID
+  INACTIVE_HORSE_SERVING_ID
+  INVALID_STATUS_CHANGE
+  EXCEEDED_COMMENT_LENGTH
+  PROHIBITED_COMMENT_CONTENT
+  INVALID_SPECIFIC_DAYS
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum HorseServingUnit {
+  POUND
+  KILOGRAM
+  OUNCE
+  CUP
+  HANDFUL
+  FLAKE
+  BALE
+  SCOOP
+  TABLESPOON
+  TEASPOON
+  MILLILITER
+  LITER
+  BLOCK
+  BAG
+  IU
+}
+
+enum HorseServingFrequency {
+  DAILY
+  SPECIFIC_DAYS
+  BIWEEKLY
+  BIMONTHLY
+  MONTHLY
+  QUARTERLY
+  BIANNUALLY
+  ANNUALLY
+}
+
+enum HorseServingDays {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+enum HorseServingStatus {
+  ACTIVE
+  ENDED
+}

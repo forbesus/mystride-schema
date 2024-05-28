@@ -1,0 +1,223 @@
+type Query {
+  getHorseProfile(input: GetHorseProfileInput): HorseProfileResult! ## Contains HorseProfile w/ SUCCESS
+}
+
+type Mutation {
+  updateHorseProfile(input: UpdateHorseProfileInput): HorseProfileResult! ## Contains HorseProfile w/ SUCCESS
+}
+
+type Subscription {
+  subscribeHorseProfile(horseId: ID!): HorseProfileResult
+  @aws_subscribe(mutations: ["updateHorseProfile"]) ## Contains HorseProfile w/ SUCCESS
+}
+
+type HorseProfile {
+  horseId: ID!
+  horseDisplayName: String!
+  horsePrimaryOwner: UserProfilePublic!
+  horseStatus: HorseStatus!
+  horseCreatedOn: AWSDateTime!
+  horseCreatedBy: UserProfilePublic!
+  horseAvatarId: ID!
+  horseModifiedOn: AWSDateTime
+  horseModifiedBy: UserProfilePublic
+  horseDeactivatedOn: AWSDateTime
+  horseDeactivatedBy: UserProfilePublic
+  horseDeceasedOn: AWSDateTime
+  horseCategory: HorseCategory
+  horseBred: HorseBred
+  horseSireBreed: BreedProfileSummary
+  horseDamnBreed: BreedProfileSummary
+  horseSire: HorseProfilePublic
+  horseSiringStatus: HorseSiringStatus
+  horseDamn: HorseProfilePublic
+  horseDammingStatus: HorseDammingStatus
+  horseGender: HorseGender
+  horseBuild: HorseBuild
+  horseClassification: HorseClassification
+  HorseType: HorseType
+  horseRegisteredName: String
+  horseHeight: HorseHeight
+  horseWeight: Float
+  horseBirthday: AWSDateTime
+  horseGotchaDay: AWSDateTime
+}
+
+type HorseProfileSummary {
+  horseId: ID!
+  horseAvatarId: ID!
+  horseDisplayName: String
+  horsePrimaryOwner: UserProfilePublic
+  horseBirthday: AWSDateTime
+  horseGender: HorseGender
+  horseSireBreed: BreedProfileSummary
+  horseDamnBreed: BreedProfileSummary
+}
+
+type HorseProfilePublic {
+  horseId: ID!
+  horseAvatarId: ID!
+  horseDisplayName: String
+  horseBirthday: AWSDateTime
+  horseGender: HorseGender
+  horseSireBreed: BreedProfileSummary
+  horseDamnBreed: BreedProfileSummary
+}
+
+input GetHorseProfileInput {
+  actingId: ID!
+  horseId: ID!
+  horseShareId: ID
+}
+
+input UpdateHorseProfileInput {
+  actingId: ID!
+  horseDisplayName: String!
+}
+
+type HorseProfileResult {
+  result: MsResult!
+  horseProfile: HorseProfile
+  error: HorseProfileError
+}
+
+enum HorseProfileError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_PHONE_FORMAT
+  INVALID_EMAIL_FORMAT
+  INVALID_AVATAR_ID
+  INVALID_ADDRESS
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  EXCEEDED_LEGAL_NAME_LENGTH
+  EXCEEDED_WELCOME_MESSAGE_LENGTH
+  EXCEEDED_BIO_LENGTH
+  PROHIBITED_DISPLAY_NAME_CONTENT
+  PROHIBITED_LEGAL_NAME_CONTENT
+  PROHIBITED_WELCOME_MESSAGE_CONTENT
+  PROHIBITED_BIO_CONTENT
+  SERVICE
+}
+
+enum HorseSiringStatus {
+  REQUESTED
+  DENIED
+  CONFIRMED
+}
+
+enum HorseDammingStatus {
+  REQUESTED
+  DENIED
+  CONFIRMED
+}
+
+enum HorseStatus {
+  NORMAL
+  REST
+  QUARANTINE
+}
+
+enum HorseCategory {
+  HORSE
+  MINIATURE
+  PONY
+}
+
+enum HorseBred {
+  PURE
+  CROSS
+  MIXED
+}
+
+enum HorseGender {
+  STALLION
+  MARE
+  GELDING
+  COLT
+  FILLY
+  RIDGLING
+}
+
+enum HorseBuild {
+  COB
+  BAROQUE
+  HEAVY
+  MEDIUM
+  LIGHT
+}
+
+enum HorseClassification {
+  PLEASURE
+  GAITED
+  SHOW
+  SPORT
+  RACE
+  STOCK
+  ENDURANCE
+  DRIVING
+  WORK
+  PET
+  FERAL
+}
+
+enum HorseType {
+  WARM_BLOOD
+  HOT_BLOOD
+  COLD_BLOOD
+  FERAL
+}
+
+enum HorseHeight {
+  HANDS_10_0
+  HANDS_10_1
+  HANDS_10_2
+  HANDS_10_3
+  HANDS_11_0
+  HANDS_11_1
+  HANDS_11_2
+  HANDS_11_3
+  HANDS_12_0
+  HANDS_12_1
+  HANDS_12_2
+  HANDS_12_3
+  HANDS_13_0
+  HANDS_13_1
+  HANDS_13_2
+  HANDS_13_3
+  HANDS_14_0
+  HANDS_14_1
+  HANDS_14_2
+  HANDS_14_3
+  HANDS_15_0
+  HANDS_15_1
+  HANDS_15_2
+  HANDS_15_3
+  HANDS_16_0
+  HANDS_16_1
+  HANDS_16_2
+  HANDS_16_3
+  HANDS_17_0
+  HANDS_17_1
+  HANDS_17_2
+  HANDS_17_3
+  HANDS_18_0
+  HANDS_18_1
+  HANDS_18_2
+  HANDS_18_3
+  HANDS_19_0
+  HANDS_19_1
+  HANDS_19_2
+  HANDS_19_3
+  HANDS_20_0
+  HANDS_20_1
+  HANDS_20_2
+  HANDS_20_3
+}
+
+
+union HorseShareProfile = UserProfilePublic | ProProfilePublic

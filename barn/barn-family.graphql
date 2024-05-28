@@ -1,0 +1,146 @@
+type Query {
+  getBarnFamilySummaries(
+    input: GetBarnFamilySummariesInput
+  ): BarnFamilySummariesResult! ## Contains BarnFamilySummaries in SUCCESS case
+  getBarnFamily(input: GetBarnFamilyInput): BarnFamilyResult! ## Contains BarnFamily w/ SUCCESS
+}
+
+## Mutations
+type Mutation {
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult! ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamily
+  updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult! ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamily
+  acceptBarnFamilyQrCode(input: AcceptBarnFamilyQrCodeInput): BarnFamilyResult! ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamily
+}
+
+type Subscription {
+  subscribeBarnFamilyUpdatesBarnId(barnId: ID!): BarnFamilyResult
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"]) ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamilySummaries
+
+  subscribeBarnFamilyUpdatesFamilyId(barnFamilyId: ID!): BarnFamilyResult
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily", "acceptBarnFamilyQrCode"]) ## Contains NULL BarnFamily w/ SUCCESS - trigger getBarnFamilySummaries
+}
+
+type BarnFamily {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyRole: BarnRole!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyProfile: BarnFamilyProfile!
+  barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyInvitedBy: UserProfilePublic!
+  barnFamilyAcceptedOn: AWSDateTime
+  barnFamilyDeclinedOn: AWSDateTime
+  barnFamilySuspendedOn: AWSDateTime
+  barnFamilySuspendedBy: UserProfilePublic
+  barnFamilyDeactivatedOn: AWSDateTime
+  barnFamilyDeactivatedBy: UserProfilePublic
+  barnFamilyAutoDeactivateOn: AWSDateTime
+  barnFamilyAutoDeactivateSetBy: UserProfilePublic
+  barnFamilyIsAnonymous: Boolean
+}
+
+type BarnFamilySummary {
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyProfile: BarnFamilyProfile!
+  barnFamilyRole: BarnRole!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyInvitedOn: AWSDateTime!
+  barnFamilyInvitedBy: UserProfilePublic!
+  barnFamilyAcceptedOn: AWSDateTime
+  barnFamilyDeclinedOn: AWSDateTime
+  barnFamilySuspendedOn: AWSDateTime
+  barnFamilyDeactivatedOn: AWSDateTime
+  barnFamilyAutoDeactivateOn: AWSDateTime
+  barnFamilyIsAnonymous: Boolean
+}
+
+input GetBarnFamilySummariesInput {
+  actingId: ID!
+  barnId: ID
+  barnFamilyId: ID
+  startKey: String
+}
+
+type BarnFamilySummariesResult {
+  result: MsResult!
+  barnFamilySummaries: [BarnFamilySummary]
+  lastKey: String
+  error: BarnFamilyError
+}
+
+input GetBarnFamilyInput {
+  actingId: ID!
+  barnId: ID!
+  barnFamilyId: ID!
+}
+
+input CreateBarnFamilyInput {
+  actingId: ID!
+  barnId: ID
+  barnFamilyId: ID!
+  barnFamilyRole: BarnRole!
+  barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
+input UpdateBarnFamilyInput {
+  actingId: ID!
+  barnId: ID!
+  barnFamilyId: ID!
+  barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyAutoDeactivateOn: AWSDateTime
+}
+
+input AcceptBarnFamilyQrCodeInput {
+  actingId: ID!
+  barnQrCode: ID!
+}
+
+type BarnFamilyResult {
+  result: MsResult!
+  barnFamily: BarnFamily
+  error: BarnFamilyError
+}
+
+enum BarnFamilyError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID
+  INVALID_BARN_FAMILY_ID_PHONE_FORMAT
+  INVALID_BARN_FAMILY_ID_PHONE_TYPE
+  INACTIVE_BARN_FAMILY_ID
+  MISSING_REQUIRED_ID
+  EXISTING_FAMILY
+  INVALID_STATUS_UPDATE
+  PROHIBITED_SELF_CREATE
+  PROHIBITED_SELF_UPDATE
+  EXCEEDED_BARN_FAMILY_LIMIT
+  INVALID_DEACTIVATION_DATE
+  SERVICE
+}
+
+enum AcceptBarnFamilyQrCodeError {
+  EXISTING_OWNER
+  EXISTING_FAMILY
+  PROHIBITED_SELF_CREATE
+  EXCEEDED_BARN_FAMILY_LIMIT
+  NONEXISTENT_QR_CODE
+  INVALID_QR_CODE
+  SERVICE
+}
+
+enum BarnFamilyStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+  INVITED
+  DECLINED
+}
+
+union BarnFamilyProfile = UserProfilePublic | ProProfilePublic

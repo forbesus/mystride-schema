@@ -1,0 +1,119 @@
+type Query {
+  getBarnActivities(input: GetBarnActivitiesInput): BarnActivitiesResult! ## Contains BarnActivities w/ SUCCESS
+}
+
+type Mutation {
+  createBarnActivity(input: CreateBarnActivityInput): BarnActivityResult! ## Contains BarnActivity w/ SUCCESS
+  updateBarnActivity(input: UpdateBarnActivityInput): BarnActivityResult! ## Contains BarnActivity w/ SUCCESS
+  deleteBarnActivity(input: DeleteBarnActivityInput): BarnActivityResult! ## Contains NULL BarnActivity w/ SUCCESS to indicate deletion
+}
+
+type Subscription {
+  subscribeBarnActivitiesBarnId(barnId: ID!): BarnActivityResult
+    @aws_subscribe(mutations: ["createBarnActivity", "updateBarnActivity", "deleteBarnActivity"]) ## Contains BarnActivity || NULL w/ SUCCESS - trigger getBarnActivities if NULL
+}
+
+type BarnActivity {
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityStatus: BarnActivityStatus!
+  barnActivityCreatedOn: AWSDateTime!
+  barnActivityCreatedBy: UserProfilePublic!
+  barnActivityDueDate: AWSDateTime
+  barnActivityAssignedTo: UserProfilePublic
+  barnActivityAssignedBy: UserProfilePublic
+  barnActivityCompletedOn: AWSDateTime
+  barnActivityCompletedBy: UserProfilePublic
+  barnActivityCreateComment: String
+  barnActivityCompleteComment: String
+}
+
+input GetBarnActivitiesInput {
+  actingId: ID!
+  barnId: ID!
+  activityStatus: BarnActivityStatus
+  startKey: String
+}
+
+type BarnActivitiesResult {
+  result: MsResult!
+  activities: [BarnActivity]
+  lastKey: String
+  error: BarnActivityError
+}
+
+input CreateBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityType: BarnActivityType!
+  barnActivityDueBy: AWSDateTime
+  barnActivityAssignedTo: ID
+  barnActivityCreateComment: String
+}
+
+input UpdateBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+  barnActivityStatus: BarnActivityStatus
+  barnActivityDueBy: AWSDateTime
+  barnActivityAssignedTo: ID
+  barnActivityCompletedBy: ID
+  barnActivityCompletedOn: AWSDateTime
+  barnActivityCompleteComment: String
+}
+
+input DeleteBarnActivityInput {
+  actingId: ID!
+  barnId: ID!
+  barnActivityId: ID!
+}
+
+type BarnActivityResult {
+  result: MsResult!
+  barnActivity: BarnActivity
+  error: BarnActivityError
+}
+
+enum BarnActivityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  NONEXISTENT_ASSIGNED_TO_ID
+  INVALID_ASSIGNED_TO_ID
+  INACTIVE_ASSIGNED_TO_ID
+  NONEXISTENT_ACTIVITY_ID
+  INVALID_ACTIVITY_ID
+  INACTIVE_ACTIVITY_ID
+  INVALID_DUE_DATE
+  INVALID_COMPLETE_DATE
+  INVALID_STATUS
+  PROHIBITED_CREATE_COMMENT_CONTENT
+  PROHIBITED_COMPLETE_COMMENT_CONTENT
+  EXCEEDED_CREATE_COMMENT_LENGTH
+  EXCEEDED_COMPLETE_COMMENT_LENGTH
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum BarnActivityType {
+  EMPTY_TRASH
+  RESTOCK_SUPPLIES
+  WASH_BLANKETS
+  WASH_TROUGHS
+  SCRUB_FEED_BUCKETS
+  CLEAN_TACK
+  REPAIR
+  SWEEP_ISLES
+  MOP_FLOORS
+}
+
+enum BarnActivityStatus {
+  COMPLETE
+  INCOMPLETE
+}

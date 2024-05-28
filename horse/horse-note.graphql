@@ -1,0 +1,80 @@
+type Query {
+  getHorseNotes(input: GetHorseNotesInput): HorseNotesResult! ## Contains HorseNotes w/ SUCCESS
+}
+
+type Mutation {
+  createHorseNote(input: CreateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
+  updateHorseNote(input: UpdateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
+  deleteHorseNote(input: DeleteHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
+}
+
+type Subscription {
+  subscribeHorseNotesByHorseId(horseId: ID!): HorseNoteResult
+  @aws_subscribe(mutations: ["createHorseNote", "updateHorseNote", "deleteHorseNote"]) ## Contains HorseNote || NULL w/ SUCCESS - trigger getHorseNotes if NULL
+}
+
+type HorseNote {
+  horseId: ID!
+  horseNoteId: ID!
+  horseNoteCreatedOn: AWSDateTime!
+  horseNoteCreatedBy: UserProfilePublic!
+  horseNoteTitle: String
+  horseNoteBody: String!
+  horseNoteIsPined: Boolean
+}
+
+type HorseNotesResult {
+  result: MsResult!
+  horseNotes: [HorseNote]
+  lastKey: String
+  error: HorseNoteError
+}
+
+input GetHorseNotesInput {
+  actingId: ID!
+  horseId: ID!
+  startKey: String
+}
+
+input CreateHorseNoteInput {
+  actingId: ID!
+  horseId: ID!
+  horseNoteTitle: String
+  horseNoteBody: String!
+  horseNoteIsPined: Boolean
+}
+
+input UpdateHorseNoteInput {
+  actingId: ID!
+  horseId: ID!
+  horseNoteId: ID!
+  horseNoteIsPined: Boolean
+}
+
+input DeleteHorseNoteInput {
+  actingId: ID!
+  horseId: ID!
+  horseNoteId: ID!
+}
+
+type HorseNoteResult {
+  result: MsResult!
+  horseNote: HorseNote
+  error: HorseNoteError
+}
+
+enum HorseNoteError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_HORSE_NOTE_ID
+  INVALID_HORSE_NOTE_ID
+  PROHIBITED_TITLE_CONTENT
+  PROHIBITED_BODY_CONTENT
+  INVALID_START_KEY
+  SERVICE
+}

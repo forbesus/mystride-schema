@@ -1,0 +1,98 @@
+type Query {
+  getHorseActivities(input: GetHorseActivitiesInput): HorseActivitiesResult! ## Contains HorseActivities w/ SUCCESS
+}
+
+type Mutation {
+  createHorseActivity(input: CreateHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
+  updateHorseActivity(input: UpdateHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
+  deleteHorseActivity(input: DeleteHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
+}
+
+type Subscription {
+  subscribeHorseActivitiesByHorseId(horseId: ID!): HorseActivityResult
+  @aws_subscribe(mutations: ["createHorseActivity", "updateHorseActivity"]) ## Contains HorseActivity || NULL w/ SUCCESS - trigger getHorseActivities if NULL
+}
+
+type HorseActivity {
+  horseId: ID!
+  horseActivityId: ID!
+  horseActivityAssignedToUser: UserProfilePublic
+  horseActivityAssignedToBarn: BarnProfilePublic
+  horseActivityType: HorseActivityType!
+  horseActivityCreatedBy: UserProfilePublic!
+  horseActivityCreatedOn: AWSDateTime!
+  horseActivityDueOn: AWSDateTime
+  horseActivityPeriod: MsServicePeriod
+  horseActivityCompletedOn: AWSDateTime
+  horseActivityCompletedBy: UserProfilePublic
+  horseActivityCreateComment: String
+  horseActivityCompleteComment: String
+}
+
+input GetHorseActivitiesInput {
+  actingId: ID!
+  horseId: ID!
+  horseActivityTypes: [HorseActivityType]
+  startKey: String
+}
+
+type HorseActivitiesResult {
+  result: MsResult!
+  horseActivities: [HorseActivity]
+  lastKey: String
+  error: HorseActivityError
+}
+
+input CreateHorseActivityInput {
+  actingId: ID!
+  horseId: ID!
+  horseActivityId: ID!
+  horseActivityType: HorseActivityType!
+  horseActivityAssignedTo: ID
+  horseActivityCompleteBy: AWSDateTime
+  horseActivityCreateComment: String
+}
+
+input UpdateHorseActivityInput {
+  actingId: ID!
+  horseId: ID!
+  horseActivityId: ID!
+  horseActivityCompleteComment: String
+}
+
+input DeleteHorseActivityInput {
+  actingId: ID!
+  horseId: ID!
+  horseActivityId: ID!
+}
+
+type HorseActivityResult {
+  result: MsResult!
+  horseActivity: HorseActivity
+  error: HorseActivityError
+}
+
+enum HorseActivityError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_HORSE_ID
+  INVALID_HORSE_ID
+  INACTIVE_HORSE_ID
+  NONEXISTENT_BARN_ID
+  INVALID_BARN_ID
+  INACTIVE_BARN_ID
+  INVALID_START_KEY
+  SERVICE
+}
+
+enum HorseActivityType {
+  FEED
+  MEDICATION
+  CLEAN_STALL
+  TURNOUT
+  BLANKET
+  RIDE
+  HAND_WALK
+}

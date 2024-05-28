@@ -1,0 +1,70 @@
+type Query {
+  getBrands(input: GetBrandsInput): BrandsResult!
+  getBrand(input: GetBrandInput): BrandResult!
+}
+
+type Brand {
+  brandId: ID!
+  brandOrgId: ID!
+  brandAvatarId: ID!
+  brandName: String!
+  brandStatus: BrandStatus!
+  brandNameLocalized: String
+  brandProductCategories: [BrandProductCategory]!
+}
+
+type BrandSummary {
+  brandId: ID!
+  brandOrgId: ID!
+  brandAvatarId: ID!
+  brandName: String!
+  brandStatus: BrandStatus!
+  brandNameLocalized: String
+}
+
+input GetBrandsInput {
+  actingId: ID!
+  brandOrgId: ID
+  brandProductCategories: [BrandProductCategory!]
+  brandProductMarkets: [MsCountryCode!]
+  resultLocalization: MsLanguageCode
+  startKey: String
+}
+
+type BrandsResult {
+  result: MsResult!
+  brandSummaries: [BrandSummary]
+  lastKey: String
+  error: BrandError
+}
+
+input GetBrandInput {
+  actingId: ID!
+  brandId: ID!
+  resultLocalization: MsLanguageCode
+}
+
+type BrandResult {
+  result: MsResult!
+  brand: Brand
+  error: BrandError
+}
+
+enum BrandProductCategory {
+ NUTRITION
+ PHARMACEUTICAL
+}
+
+enum BrandError {
+ NOT_AUTHORIZED
+ NONEXISTENT_ACTING_ID
+ INVALID_ACTING_ID
+ INACTIVE_ACTING_ID
+ NONEXISTENT_BRAND_ID
+ INVALID_BRAND_ID
+}
+
+enum BrandStatus {
+ ACTIVE
+ INACTIVE
+}
