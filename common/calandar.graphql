@@ -1,0 +1,6 @@
+enum MsServicePeriod {
+  BREAKFAST
+  LUNCH
+  DINNER
+  EVENING
+}

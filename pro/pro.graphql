@@ -1,9 +1,4 @@
 
-
-# Pro
-
-
-# Pro Profile
 type ProProfile {
   proId: ID!
   proType: ProType!
@@ -45,8 +40,6 @@ type ProProfilePublic {
   proAddressCountryCode: MsCountryCode
 }
 
-
-# Enums
 enum ProType {
   TRAINER
   FARRIER

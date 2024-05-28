@@ -1,0 +1,26 @@
+## Address
+type MsAddress {
+  addressLatitude: Float
+  addressLongitude: Float
+  addressStreetNumber: String
+  addressStreetName: String
+  addressCity: String
+  addressState: String
+  addressCounty: String
+  addressPostalCode: String
+  addressCountry: String
+  addressCountryCode: MsCountryCode
+}
+
+input UpsertMsAddressInput {
+  addressLatitude: Float
+  addressLongitude: Float
+  addressStreetNumber: String
+  addressStreetName: String
+  addressCity: String
+  addressState: String
+  addressCounty: String
+  addressPostalCode: String
+  addressCountry: String
+  addressCountryCode: MsCountryCode
+}

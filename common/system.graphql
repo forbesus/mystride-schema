@@ -1,0 +1,24 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+scalar AWSDateTime
+
+enum MsResult {
+  SUCCESS
+  FAILURE
+}
+
+enum MsColorScheme {
+  LIGHT
+  DARK
+  AUTO
+}
+
+enum MsOperatingSystem {
+  IOS
+  ANDROID
+  WEB
+}

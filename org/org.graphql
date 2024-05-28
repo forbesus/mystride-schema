@@ -1,18 +1,8 @@
-
-
-
-## Org
 type Org {
   orgId: ID!
-  orgProfile: OrgProfile!
+  orgProfileSummary: OrgProfileSummary
 }
 
-type OrgSummary {
-  orgId: ID!
-  orgProfile: OrgProfileSummary!
-}
-
-## OrgProfile
 type OrgProfile {
   orgId: ID!
   orgName: String!
