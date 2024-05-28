@@ -40,7 +40,7 @@ type Mutation {
   ## HorseActivity
   createHorseActivity(input: CreateHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
   updateHorseActivity(input: UpdateHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
-  deleteHorseActivity(input: DeHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
+  deleteHorseActivity(input: DeleteHorseActivityInput): HorseActivityResult! ## Contains HorseActivity w/ SUCCESS
 
   ## HorseNote
   createHorseNote(input: CreateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
@@ -379,7 +379,7 @@ type HorseShare {
 type HorseShareSummary {
   horseId: ID!
   horseShareId: ID!
-  horseShareType: HorseRole!
+  horseShareRole: HorseRole!
   horseShareStatus: HorseShareStatus!
   horseShareUserProfileSummary: UserProfilePublic
   horseShareProProfileSummary: ProProfilePublic
@@ -417,7 +417,7 @@ input CreateHorseShareInput {
   actingId: ID!
   horseId: ID!
   horseShareId: ID!
-  horseShareType: HorseShareType!
+  horseShareRole: HorseRole!
   horseShareStatus: HorseShareStatus!
 }
 
