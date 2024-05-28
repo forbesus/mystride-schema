@@ -45,6 +45,7 @@ type Mutation {
   ## HorseNote
   createHorseNote(input: CreateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
   updateHorseNote(input: UpdateHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
+  deleteHorseNote(input: DeleteHorseNoteInput): HorseNoteResult! ## Contains HorseNote w/ SUCCESS
 
   ## HorseServing
   createHorseServing(input: CreateHorseServingInput): HorseServingResult! ## Contains HorseServing w/ SUCCESS
