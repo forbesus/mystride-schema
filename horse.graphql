@@ -87,6 +87,7 @@ type Horse {
   horseId: ID!
   horseRole: HorseRole!
   horseProfileSummary: HorseProfileSummary!
+  horsePrimaryBoard: BarnProfilePublic
   horseShareSummary: HorseShareSummary
 }
 
@@ -117,7 +118,6 @@ input CreateHorseInput {
 type HorseResult {
   result: MsResult!
   horse: Horse
-  horseBoard: HorseBoardSummary
   error: HorseError
 }
 
@@ -379,7 +379,7 @@ type HorseShare {
 type HorseShareSummary {
   horseId: ID!
   horseShareId: ID!
-  horseShareType: HorseShareType!
+  horseShareType: HorseRole!
   horseShareStatus: HorseShareStatus!
   horseShareUserProfileSummary: UserProfilePublic
   horseShareProProfileSummary: ProProfilePublic
@@ -405,6 +405,12 @@ type HorseShareSummariesResult {
   horseShareSummaries: [HorseShareSummary]
   lastKey: String
   error: HorseShareError
+}
+
+input GetHorseShareInput {
+  actingId: ID!
+  horseId: ID!
+  horseShareId: ID!
 }
 
 input CreateHorseShareInput {
@@ -499,7 +505,7 @@ type HorseActivitiesResult {
 input CreateHorseActivityInput {
   actingId: ID!
   horseId: ID!
-  barnId: ID
+  horseActivityId: ID!
   horseActivityType: HorseActivityType!
   horseActivityAssignedTo: ID
   horseActivityCompleteBy: AWSDateTime
@@ -509,8 +515,14 @@ input CreateHorseActivityInput {
 input UpdateHorseActivityInput {
   actingId: ID!
   horseId: ID!
-  barnId: ID
+  horseActivityId: ID!
   horseActivityCompleteComment: String
+}
+
+input DeleteHorseActivityInput {
+  actingId: ID!
+  horseId: ID!
+  horseActivityId: ID!
 }
 
 type HorseActivityResult {
