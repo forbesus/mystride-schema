@@ -20,9 +20,9 @@ type Subscription {
   subscribeBarnFamilyUserId(userId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["createBarnFamilyUserId", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
   subscribeBarnFamilyProId(proId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamilyPro", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
+    @aws_subscribe(mutations: ["createBarnFamilyProId", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
   subscribeBarnFamilyPhoneId(phoneId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamilyPhone", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
+    @aws_subscribe(mutations: ["createBarnFamilyPhoneId", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
   subscribeBarnFamilyQrCode(barnQrCode: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["updateBarnFamily"]) ## BarnFamily w/ SUCCESS
 }
@@ -118,6 +118,7 @@ input UpdateBarnFamilyInput {
   barnId: ID!
   userId: ID
   proId: ID
+  barnQrCode: ID
   barnFamilyStatus: BarnFamilyStatus!
   barnFamilyAutoDeactivateOn: AWSDateTime
 }
