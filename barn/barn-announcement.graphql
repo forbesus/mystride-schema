@@ -1,3 +1,5 @@
+## Barn Announcement
+
 type Query {
   getBarnAnnouncements(
     input: GetBarnAnnouncementsInput

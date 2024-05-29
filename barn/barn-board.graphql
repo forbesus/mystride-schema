@@ -1,3 +1,5 @@
+## Barn Board
+
 type Query {
   getBarnBoardSummaries(
     input: GetBarnBoardSummariesInput

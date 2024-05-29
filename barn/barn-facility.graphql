@@ -1,3 +1,5 @@
+## Barn Facility
+
 type Query {
   getBarnFacilitySummaries(
     input: GetBarnFacilitySummariesInput
