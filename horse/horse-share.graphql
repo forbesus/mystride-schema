@@ -8,8 +8,10 @@ type Query {
 type Mutation {
   createHorseShareUserId(input: CreateHorseShareUserIdInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
   createHorseShareProId(input: CreateHorseShareProIdInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
-  createHorseSharePhoneId(input: CreateHorseSharePhoneIdInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
-    createHorseShareQrCode(input: CreateHorseShareQrCodeInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+  createHorseSharePhoneId(
+    input: CreateHorseSharePhoneIdInput
+  ): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+  createHorseShareQrCode(input: CreateHorseShareQrCodeInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
   updateHorseShare(input: UpdateHorseShareInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
 }
 
@@ -17,13 +19,13 @@ type Subscription {
   subscribeHorseShareHorseId(horseId: ID!): HorseShareResult
     @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorseShareSummaries
   subscribeHorseShareUserId(userId: ID!): HorseShareResult
-    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
+    @aws_subscribe(mutations: ["createHorseShareUserId", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
   subscribeHorseShareProId(proId: ID!): HorseShareResult
-    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
+    @aws_subscribe(mutations: ["createHorseShareProId", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
   subscribeHorseSharePhoneId(phoneId: ID!): HorseShareResult
-    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
+    @aws_subscribe(mutations: ["createHorseSharePhoneId", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
   subscribeHorseShareQrCode(horseQrCode: ID!): HorseShareResult
-    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS
+    @aws_subscribe(mutations: ["updateHorseShare"]) ## Contains HorseShare w/ SUCCESS
 }
 
 type HorseShare {

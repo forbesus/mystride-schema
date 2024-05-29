@@ -10,7 +10,7 @@ type Mutation {
   createBarnFamilyUserId(input: CreateBarnFamilyUserIdInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
   createBarnFamilyProId(input: CreateBarnFamilyProIdInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
   createBarnFamilyPhoneId(input: CreateBarnFamilyPhoneIdInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
-  createBarnFamilyQrCode(input: CreateBarnFamilyQrCodeInput): ID! ## ## BarnFamily w/ SUCCESS - trigger subscribeBarnFamily
+  createBarnFamilyQrCode(input: CreateBarnFamilyQrCodeInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS - trigger subscribeBarnFamily
   updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS - trigger getBarns, getBarnFamilySummaries, getBarnFamily
 }
 
