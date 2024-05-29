@@ -1,20 +1,29 @@
 type Query {
-  getHorseShareSummaries(input: GetHorseShareSummariesInput): HorseShareSummariesResult! ## Contains HorseShareSummaries w/ SUCCESS
+  getHorseShareSummaries(
+    input: GetHorseShareSummariesInput
+  ): HorseShareSummariesResult! ## Contains HorseShareSummaries w/ SUCCESS
   getHorseShare(input: GetHorseShareInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
 }
 
 type Mutation {
-  createHorseShare(input: CreateHorseShareInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShare
-  updateHorseShare(input: UpdateHorseShareInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShare
-  acceptHorseShareQrCode(input: AcceptHorseShareQrCodeInput): HorseShareResult! ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+  createHorseShareUserId(input: CreateHorseShareUserIdInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+  createHorseShareProId(input: CreateHorseShareProIdInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+  createHorseSharePhoneId(input: CreateHorseSharePhoneIdInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+    createHorseShareQrCode(input: CreateHorseShareQrCodeInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
+  updateHorseShare(input: UpdateHorseShareInput): HorseShareResult! ## Contains HorseShare w/ SUCCESS
 }
 
 type Subscription {
-  subscribeHorseShareUpdatesHorseId(horseId: ID!): HorseShareResult
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
-
-  subscribeHorseSharesUpdatesShareId(horseShareId: ID!): HorseShareResult
-  @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains NULL HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+  subscribeHorseShareHorseId(horseId: ID!): HorseShareResult
+    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+  subscribeHorseShareUserId(userId: ID!): HorseShareResult
+    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
+  subscribeHorseShareProId(proId: ID!): HorseShareResult
+    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
+  subscribeHorseSharePhoneId(phoneId: ID!): HorseShareResult
+    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
+  subscribeHorseShareQrCode(horseQrCode: ID!): HorseShareResult
+    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS
 }
 
 type HorseShare {
@@ -55,7 +64,6 @@ type HorseShareSummary {
 
 input GetHorseShareSummariesInput {
   actingId: ID!
-  horseShareId: ID
   horseId: ID
   startKey: String
 }
@@ -70,15 +78,35 @@ type HorseShareSummariesResult {
 input GetHorseShareInput {
   actingId: ID!
   horseId: ID!
-  horseShareId: ID!
+  userId: ID
+  proId: ID
 }
 
-input CreateHorseShareInput {
+input CreateHorseShareUserIdInput {
   actingId: ID!
   horseId: ID!
-  horseShareId: ID!
+  userId: ID!
   horseShareRole: HorseRole!
-  horseShareStatus: HorseShareStatus!
+}
+
+input CreateHorseShareProIdInput {
+  actingId: ID!
+  horseId: ID!
+  proId: ID!
+  horseShareRole: HorseRole!
+}
+
+input CreateHorseSharePhoneIdInput {
+  actingId: ID!
+  horseId: ID!
+  phoneId: ID!
+  horseShareRole: HorseRole!
+}
+
+input CreateHorseShareQrCodeInput {
+  actingId: ID!
+  horseId: ID!
+  horseShareRole: HorseRole!
 }
 
 input AcceptHorseShareQrCodeInput {
