@@ -1,4 +1,4 @@
-## Barn Board
+## BarnBoard
 
 type Query {
   getBarnBoardSummaries(
@@ -8,13 +8,16 @@ type Query {
 }
 
 type Mutation {
-  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoard
-  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult! ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoard
+  createBarnBoard(input: CreateBarnBoardInput): BarnBoardResult! ## Contains BarnBoard w/ SUCCESS
+  updateBarnBoard(input: UpdateBarnBoardInput): BarnBoardResult! ## Contains BarnBoard w/ SUCCESS
 }
 
 type Subscription {
   subscribeBarnBoardUpdatesBarnId(barnId: ID!): BarnBoardResult
-    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains NULL BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
+
+      subscribeBarnBoardUpdatesBarnId(horseId: ID!): BarnBoardResult
+    @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
 }
 
 type BarnBoard {
