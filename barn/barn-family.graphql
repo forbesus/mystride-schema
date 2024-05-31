@@ -7,10 +7,7 @@ type Query {
 
 ## Mutations
 type Mutation {
-  createBarnFamilyUserId(input: CreateBarnFamilyUserIdInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
-  createBarnFamilyProId(input: CreateBarnFamilyProIdInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
-  createBarnFamilyPhoneId(input: CreateBarnFamilyPhoneIdInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
-  createBarnFamilyQrCode(input: CreateBarnFamilyQrCodeInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS - trigger subscribeBarnFamily
+  createBarnFamily(input: CreateBarnFamilyInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS
   updateBarnFamily(input: UpdateBarnFamilyInput): BarnFamilyResult! ## BarnFamily w/ SUCCESS - trigger getBarns, getBarnFamilySummaries, getBarnFamily
 }
 
@@ -18,11 +15,11 @@ type Subscription {
   subscribeBarnFamilyBarnId(barnId: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarnFamilySummaries
   subscribeBarnFamilyUserId(userId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamilyUserId", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
   subscribeBarnFamilyProId(proId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamilyProId", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
   subscribeBarnFamilyPhoneId(phoneId: ID!): BarnFamilyResult
-    @aws_subscribe(mutations: ["createBarnFamilyPhoneId", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
+    @aws_subscribe(mutations: ["createBarnFamily", "updateBarnFamily"]) ## BarnFamily w/ SUCCESS - trigger getBarns
   subscribeBarnFamilyQrCode(barnQrCode: ID!): BarnFamilyResult
     @aws_subscribe(mutations: ["updateBarnFamily"]) ## BarnFamily w/ SUCCESS
 }
@@ -82,33 +79,13 @@ input GetBarnFamilyInput {
   barnFamilyId: ID!
 }
 
-input CreateBarnFamilyUserIdInput {
+input CreateBarnFamilyInput {
   actingId: ID!
   barnId: ID!
-  userId: ID!
-  barnFamilyRole: BarnRole!
-  barnFamilyAutoDeactivateOn: AWSDateTime
-}
-
-input CreateBarnFamilyProIdInput {
-  actingId: ID!
-  barnId: ID!
-  userId: ID!
-  barnFamilyRole: BarnRole!
-  barnFamilyAutoDeactivateOn: AWSDateTime
-}
-
-input CreateBarnFamilyPhoneIdInput {
-  actingId: ID!
-  barnId: ID!
-  phoneId: ID!
-  barnFamilyRole: BarnRole!
-  barnFamilyAutoDeactivateOn: AWSDateTime
-}
-
-input CreateBarnFamilyQrCodeInput {
-  actingId: ID!
-  barnId: ID!
+  userId: ID
+  proId: ID
+  phoneId: ID
+  barnQrCode: Boolean
   barnFamilyRole: BarnRole!
   barnFamilyAutoDeactivateOn: AWSDateTime
 }

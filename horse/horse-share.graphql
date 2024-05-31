@@ -17,7 +17,7 @@ type Mutation {
 
 type Subscription {
   subscribeHorseShareHorseId(horseId: ID!): HorseShareResult
-    @aws_subscribe(mutations: ["createHorseShare", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorseShareSummaries
+    @aws_subscribe(mutations: ["updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorseShareSummaries
   subscribeHorseShareUserId(userId: ID!): HorseShareResult
     @aws_subscribe(mutations: ["createHorseShareUserId", "updateHorseShare"]) ## Contains HorseShare w/ SUCCESS - trigger getHorses
   subscribeHorseShareProId(proId: ID!): HorseShareResult
