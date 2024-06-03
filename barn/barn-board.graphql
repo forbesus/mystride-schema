@@ -13,10 +13,9 @@ type Mutation {
 }
 
 type Subscription {
-  subscribeBarnBoardUpdatesBarnId(barnId: ID!): BarnBoardResult
+  subscribeBarnBoardBarnId(barnId: ID!): BarnBoardResult
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
-
-      subscribeBarnBoardUpdatesBarnId(horseId: ID!): BarnBoardResult
+  subscribeBarnBoardBarnId(horseId: ID!): BarnBoardResult
     @aws_subscribe(mutations: ["createBarnBoard", "updateBarnBoard"]) ## Contains BarnBoard w/ SUCCESS - trigger getBarnBoardSummaries
 }
 
