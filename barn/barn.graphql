@@ -4,7 +4,7 @@ type Query {
 
 type Mutation {
   createBarn(input: CreateBarnInput): BarnResult! ## Contains Barn w/ SUCCESS
-  adminDeleteBarn(input: AdminDeleteBarnInput): BarnResult! ## Contains NULL Barn w/ SUCCESS to indicate success
+  deleteBarn(input: DeleteBarnInput): BarnResult! ## Contains NULL Barn w/ SUCCESS to indicate delete
 }
 
 type Barn {
