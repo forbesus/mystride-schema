@@ -34,7 +34,7 @@ input CreateBarnInput {
   barnAddressInput: UpsertMsAddressInput!
 }
 
-input AdminDeleteBarnInput {
+input DeleteBarnInput {
   actingId: ID!
   barnId: ID!
 }
