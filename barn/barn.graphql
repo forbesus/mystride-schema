@@ -28,6 +28,7 @@ type BarnsResult {
 }
 
 input CreateBarnInput {
+  actingId: ID!
   barnOwnerId: ID!
   barnDisplayName: String!
   barnType: BarnType!
