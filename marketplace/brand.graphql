@@ -5,21 +5,27 @@ type Query {
 
 type Brand {
   brandId: ID!
-  brandOrgId: ID!
-  brandAvatarId: ID!
-  brandName: String!
   brandStatus: BrandStatus!
-  brandNameLocalized: String
+  brandOrgId: ID!
+  brandName: String!
   brandProductCategories: [BrandProductCategory]!
+  brandRegions: [MsCountryCode]!
+  brandEstablished: Number
+  brandUrl: String
+  brandFacebookId: String
+  brandInstagramId: String
+  brandXId: String
+  brandSnapchatId: String
+  brandTikTokId: String
+  brandYouTubeId: String
+  brandBio: String
 }
 
 type BrandSummary {
   brandId: ID!
-  brandOrgId: ID!
-  brandAvatarId: ID!
-  brandName: String!
   brandStatus: BrandStatus!
-  brandNameLocalized: String
+  brandOrgId: ID!
+  brandName: String!
 }
 
 input GetBrandsInput {

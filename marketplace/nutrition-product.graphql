@@ -2,6 +2,7 @@
 
 type NutritionProduct {
   nutritionProductId: ID!
+  nutritionProductStatus: NutritionProductStatus!
   brand: Brand!
   nutritionProductType: NutritionProductType!
   nutritionProductProfile: NutritionProductProfile!
@@ -9,9 +10,15 @@ type NutritionProduct {
 
 type NutritionProductSummary {
   nutritionProductId: ID!
+  nutritionProductStatus: NutritionProductStatus!
   brandSummary: BrandSummary!
   nutritionProductType: NutritionProductType!
   nutritionProductProfileSummary: NutritionProductProfileSummary!
+}
+
+enum NutritionProductStatus {
+ ACTIVE
+ DISCONTINUED
 }
 
 enum NutritionProductType {

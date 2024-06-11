@@ -1,3 +1,7 @@
+type Query {
+  getBreed(input: GetBreedInput): BreedResult! ## Contains Breed w/ SUCCESS
+}
+
 type Breed {
   breedId: ID!
   breedProfile: BreedProfile!
@@ -32,12 +36,25 @@ type BreedProfile {
   breedPrimaryUse: String
 }
 
-type BreedProfileSummary{
+input GetBreedInput {
+  actingId: ID!
   breedId: ID!
-  breedCommonNameEn: String!
-  breedAlternateNameEn: String
-  breedCommonNameLocalized: String
-  breedCommonNameLocalizedLanguage: String
+}
+
+type BreedResult {
+  result: MsResult!
+  breed: Breed
+  error: BreedError
+}
+
+enum BreedError {
+  NOT_AUTHORIZED
+  NONEXISTENT_ACTING_ID
+  INVALID_ACTING_ID
+  INACTIVE_ACTING_ID
+  NONEXISTENT_BREED_ID
+  INVALID_BREED_ID
+  SERVICE
 }
 
 enum BreedConservationStatus {
