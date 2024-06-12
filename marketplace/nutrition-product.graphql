@@ -85,8 +85,8 @@ type NutritionProductProfile {
   nutritionProductBreedingStallionRationHigh: Number
   nutritionProductActiveIngredientsEn: [String]
   nutritionProductInactiveIngredientsEn: [String]
-  nutritionProductMacroNutrients: NutritionProductMacroNutrients
-  nutritionProductMicroNutrients: NutritionProductMicroNutrients
+  nutritionProductMacroNutrients: MacroNutrientProfile
+  nutritionProductMicroNutrients: MicroNutrientProfile
 }
 
 type MacroNutrientProfile {
