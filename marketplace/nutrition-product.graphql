@@ -88,6 +88,16 @@ type NutritionProductProfile {
   nutritionProductMicroNutrients: MicroNutrientProfile
 }
 
+type NutritionProductProfileSummary {
+  nutritionProductId: ID!
+  nutritionProductStatus: NutritionProductStatus!
+  nutritionProductName: String!
+  nutritionProductLifeStage: NutritionProductLifeStage
+  nutritionProductHealthFocus: NutritionProductHealthFocus
+  nutritionProductCategory: String
+  nutritionProductPopularity: String
+}
+
 type NutritionProductUnit {
   nutritionProductId: ID!
   nutritionProductUnitBarCode: Int!
