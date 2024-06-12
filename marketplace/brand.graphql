@@ -10,7 +10,7 @@ type Brand {
   brandName: String!
   brandProductCategories: [BrandProductCategory]!
   brandRegions: [MsCountryCode]!
-  brandEstablished: Number
+  brandEstablished: Int
   brandUrl: String
   brandFacebookId: String
   brandInstagramId: String

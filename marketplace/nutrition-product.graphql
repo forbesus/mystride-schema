@@ -43,8 +43,6 @@ type NutritionProductProfile {
   nutritionProductName: String!
   nutritionProductLifeStage: NutritionProductLifeStage
   nutritionProductHealthFocus: NutritionProductHealthFocus
-  nutritionProductDietaryFeatures: 
-  nutritionProductStatus: String
   nutritionProductCategory: String
   nutritionProductPopularity: String
   nutritionProductQuantity: String
@@ -56,34 +54,34 @@ type NutritionProductProfile {
   nutritionProductCautionsEn: String
   nutritionProductWarningsEn: String
   nutritionProductDietaryFeatures: String
-  nutritionProductServingSize: Number
+  nutritionProductServingSize: Float
   nutritionProductServingUnit: String
-  nutritionProductServingPerWeight: Number
+  nutritionProductServingPerWeight: Float
   nutritionProductServingPerWeightUnit: String
-  nutritionProductMaintenanceRationLow: Number
-  nutritionProductMaintenanceRationHigh: Number
-  nutritionProductWeanlingLowRation: Number
-  nutritionProductWeanlingHighRation: Number
-  nutritionProductYearlingRationLow: Number
-  nutritionProductYearlingRationHigh: Number
-  nutritionProductLongYearlingRationLow: Number
-  nutritionProductLongYearlingRationHigh: Number
-  nutritionProduct2yearOldRationLow: Number
-  nutritionProduct2yearOldRationHigh: Number
-  nutritionProductLightExerciseRationLow: Number
-  nutritionProductLightExerciseRationHigh: Number
-  nutritionProductModerateExerciseRationLow: Number
-  nutritionProductModerateExerciseRationHigh: Number
-  nutritionProductHeavyExerciseRationLow: Number
-  nutritionProductHeavyExerciseRationHigh: Number
-  nutritionProductVeryHeavyExerciseRationLow: Number
-  nutritionProductVeryHeavyExerciseRationHigh: Number
-  nutritionProductPregnantMareRationLow: Number
-  nutritionProductPregnantMareRationHigh: Number
-  nutritionProductLactatingMareRationLow: Number
-  nutritionProductLactatingMareRationHigh: Number
-  nutritionProductBreedingStallionRationLow: Number
-  nutritionProductBreedingStallionRationHigh: Number
+  nutritionProductMaintenanceRationLow: Float
+  nutritionProductMaintenanceRationHigh: Float
+  nutritionProductWeanlingLowRation: Float
+  nutritionProductWeanlingHighRation: Float
+  nutritionProductYearlingRationLow: Float
+  nutritionProductYearlingRationHigh: Float
+  nutritionProductLongYearlingRationLow: Float
+  nutritionProductLongYearlingRationHigh: Float
+  nutritionProduct2yearOldRationLow: Float
+  nutritionProduct2yearOldRationHigh: Float
+  nutritionProductLightExerciseRationLow: Float
+  nutritionProductLightExerciseRationHigh: Float
+  nutritionProductModerateExerciseRationLow: Float
+  nutritionProductModerateExerciseRationHigh: Float
+  nutritionProductHeavyExerciseRationLow: Float
+  nutritionProductHeavyExerciseRationHigh: Float
+  nutritionProductVeryHeavyExerciseRationLow: Float
+  nutritionProductVeryHeavyExerciseRationHigh: Float
+  nutritionProductPregnantMareRationLow: Float
+  nutritionProductPregnantMareRationHigh: Float
+  nutritionProductLactatingMareRationLow: Float
+  nutritionProductLactatingMareRationHigh: Float
+  nutritionProductBreedingStallionRationLow: Float
+  nutritionProductBreedingStallionRationHigh: Float
   nutritionProductActiveIngredientsEn: [String]
   nutritionProductInactiveIngredientsEn: [String]
   nutritionProductMacroNutrients: MacroNutrientProfile
@@ -92,158 +90,159 @@ type NutritionProductProfile {
 
 type NutritionProductUnit {
   nutritionProductId: ID!
-  nutritionProductUnitBarCode: Number!
+  nutritionProductUnitBarCode: Int!
   nutritionProductUnitSku: String
 }
 
 type MacroNutrientProfile {
-  nutritionProductPercentDryMater: Number
-  nutritionProductDigestibleEnergy: Number
+  nutritionProductPercentDryMater: Float
+  nutritionProductDigestibleEnergy: Float
   nutritionProductDigestibleEnergyUnit: String
-  nutritionProductCrudeProtein: Number
+  nutritionProductCrudeProtein: Float
   nutritionProductCrudeProteinUnit: String
-  nutritionProductSolubleProtein: Number
+  nutritionProductSolubleProtein: Float
   nutritionProductSolubleProteinUnit: String
-  nutritionProductNonProteinNitrogen: Number
+  nutritionProductNonProteinNitrogen: Float
   nutritionProductNonProteinNitrogenUnit: String
-  nutritionProductAcidDetergentInsolubleProtein: Number
+  nutritionProductAcidDetergentInsolubleProtein: Float
   nutritionProductAcidDetergentInsolubleProteinUnit: String
-  nutritionProductNeutralDetergentInsolubleProtein: Number
+  nutritionProductNeutralDetergentInsolubleProtein: Float
   nutritionProductNeutralDetergentInsolubleProteinUnit: String
-  nutritionProductLysine: Number
+  nutritionProductLysine: Float
   nutritionProductLysineUnit: String
-  nutritionProductMethionine: Number
+  nutritionProductMethionine: Float
   nutritionProductMethionineUnit: String
-  nutritionProductArginine: Number
+  nutritionProductArginine: Float
   nutritionProductArginineUnit: String
-  nutritionProductThreonine: Number
+  nutritionProductThreonine: Float
   nutritionProductThreonineUnit: String
-  nutritionProductLeucine: Number
+  nutritionProductLeucine: Float
   nutritionProductLeucineUnit: String
-  nutritionProductIsoleucine: Number
+  nutritionProductIsoleucine: Float
   nutritionProductIsoleucineUnit: String
-  nutritionProductValine: Number
+  nutritionProductValine: Float
   nutritionProductValineUnit: String
-  nutritionProductHistidine: Number
+  nutritionProductHistidine: Float
   nutritionProductHistidineUnit: String
-  nutritionProductPhenylalanine: Number
+  nutritionProductPhenylalanine: Float
   nutritionProductPhenylalanineUnit: String
-  nutritionProductTryptophan: Number
+  nutritionProductTryptophan: Float
   nutritionProductTryptophanUnit: String
-  nutritionProductCrudeFiber: Number
+  nutritionProductCrudeFiber: Float
   nutritionProductCrudeFiberUnit: String
-  nutritionProductAcidDetergentFiber: Number
+  nutritionProductAcidDetergentFiber: Float
   nutritionProductAcidDetergentFiberUnit: String
-  nutritionProductNeutralDetergentFiber: Number
+  nutritionProductNeutralDetergentFiber: Float
   nutritionProductNeutralDetergentFiberUnit: String
-  nutritionProductLignin: Number
+  nutritionProductLignin: Float
   nutritionProductLigninUnit: String
-  nutritionProductNonFiberCarbohydrate: Number
+  nutritionProductNonFiberCarbohydrate: Float
   nutritionProductNonFiberCarbohydrateUnit: String
-  nutritionProductNonStructuralCarbohydrate: Number
+  nutritionProductNonStructuralCarbohydrate: Float
   nutritionProductNonStructuralCarbohydrateUnit: String
-  nutritionProductSugar: Number
+  nutritionProductSugar: Float
   nutritionProductSugarUnit: String
-  nutritionProductStarch: Number
+  nutritionProductStarch: Float
   nutritionProductStarchUnit: String
-  nutritionProductSolubleFiber: Number
+  nutritionProductSolubleFiber: Float
   nutritionProductSolubleFiberUnit: String
-  nutritionProductAsh: Number
+  nutritionProductAsh: Float
   nutritionProductAshUnit: String
 }
 
 type MicroNutrientProfile {
-  nutritionProductCalcium: Number
+  nutritionProductCalcium: Float
   nutritionProductCalciumUnit: String
-  nutritionProductPhosphorus: Number
+  nutritionProductPhosphorus: Float
   nutritionProductPhosphorusUnit: String
-  nutritionProductMagnesium: Number
+  nutritionProductMagnesium: Float
   nutritionProductMagnesiumUnit: String
-  nutritionProductPotassium: Number
+  nutritionProductPotassium: Float
   nutritionProductPotassiumUnit: String
-  nutritionProductSulfur: Number
+  nutritionProductSulfur: Float
   nutritionProductSulfurUnit: String
-  nutritionProductSodium: Number
+  nutritionProductSodium: Float
   nutritionProductSodiumUnit: String
-  nutritionProductChloride: Number
+  nutritionProductChloride: Float
   nutritionProductChlorideUnit: String
-  nutritionProductIron: Number
+  nutritionProductIron: Float
   nutritionProductIronUnit: String
-  nutritionProductZinc: Number
+  nutritionProductZinc: Float
   nutritionProductZincUnit: String
-  nutritionProductCopper: Number
+  nutritionProductCopper: Float
   nutritionProductCopperUnit: String
-  nutritionProductManganese: Number
+  nutritionProductManganese: Float
   nutritionProductManganeseUnit: String
-  nutritionProductSelenium: Number
+  nutritionProductSelenium: Float
   nutritionProductSeleniumUnit: String
-  nutritionProductCobalt: Number
+  nutritionProductCobalt: Float
   nutritionProductCobaltUnit: String
-  nutritionProductIodine: Number
+  nutritionProductIodine: Float
   nutritionProductIodineUnit: String
-  nutritionProductVitaminA: Number
+  nutritionProductVitaminA: Float
   nutritionProductVitaminAUnit: String
-  nutritionProductVitaminD: Number
+  nutritionProductVitaminD: Float
   nutritionProductVitaminDUnit: String
-  nutritionProductVitaminE: Number
+  nutritionProductVitaminE: Float
   nutritionProductVitaminEUnit: String
-  nutritionProductThiamine: Number
+  nutritionProductThiamine: Float
   nutritionProductThiamineUnit: String
-  nutritionProductRiboflavin: Number
+  nutritionProductRiboflavin: Float
   nutritionProductRiboflavinUnit: String
-  nutritionProductMolybdenum: Number
+  nutritionProductMolybdenum: Float
   nutritionProductMolybdenumUnit: String
-  nutritionProductChromium: Number
+  nutritionProductChromium: Float
   nutritionProductChromiumUnit: String
-  nutritionProductBiotin: Number
+  nutritionProductBiotin: Float
   nutritionProductBiotinUnit: String
-  nutritionProductFolate: Number
+  nutritionProductFolate: Float
   nutritionProductFolateUnit: String
-  nutritionProductNiacin: Number
+  nutritionProductNiacin: Float
   nutritionProductNiacinUnit: String
-  nutritionProductPantothenicAcid: Number
+  nutritionProductPantothenicAcid: Float
   nutritionProductPantothenicAcidUnit: String
-  nutritionProductPyridoxine: Number
-  nutritionProductPyridoxineUnit: Number
-  nutritionProductVitaminB12: Number
+  nutritionProductPyridoxine: Float
+  nutritionProductPyridoxineUnit: Float
+  nutritionProductVitaminB12: Float
   nutritionProductVitaminB12Unit: String
-  nutritionProductCholine: Number
+  nutritionProductCholine: Float
   nutritionProductCholineUnit: String
-  nutritionProductMenadioneVitaminK3: Number
+  nutritionProductMenadioneVitaminK3: Float
   nutritionProductMenadioneVitaminK3Unit: String
-  nutritionProductAscorbateVitaminC: Number
+  nutritionProductAscorbateVitaminC: Float
   nutritionProductAscorbateVitaminCUnit: String
-  nutritionProductEtherExtract: Number
+  nutritionProductEtherExtract: Float
   nutritionProductEtherExtractUnit: String
-  nutritionProductTotalFattyAcidsEtherExtract: Number
+  nutritionProductTotalFattyAcidsEtherExtract: Float
   nutritionProductTotalAcidsTotalFattyAcidsEtherExtractUnit: String
-  nutritionProductGlycerol: Number
+  nutritionProductGlycerol: Float
   nutritionProductGlycerolUnit: String
-  nutritionProductPigment: Number
+  nutritionProductPigment: Float
   nutritionProductPigmentUnit: String
-  nutritionProductLauricAcid: Number
+  nutritionProductLauricAcid: Float
   nutritionProductLauricAcidUnit: String
-  nutritionProductMyristicAcid: Number
+  nutritionProductMyristicAcid: Float
   nutritionProductMyristicAcidUnit: String
-  nutritionProductPalmiticAcid: Number
+  nutritionProductPalmiticAcid: Float
   nutritionProductPalmiticAcidUnit: String
-  nutritionProductPalmitoleicAcid: Number
+  nutritionProductPalmitoleicAcid: Float
   nutritionProductPalmitoleicAcidUnit: String
-  nutritionProductStearicAcid: Number
+  nutritionProductStearicAcid: Float
   nutritionProductStearicAcidUnit: String
-  nutritionProductElaidicAcid: Number
+  nutritionProductElaidicAcid: Float
   nutritionProductElaidicAcidUnit: String
-  nutritionProductOleicAcid: Number
+  nutritionProductOleicAcid: Float
   nutritionProductOleicAcidUnit: String
-  nutritionProductLinoleicAcid: Number
+  nutritionProductLinoleicAcid: Float
   nutritionProductLinoleicAcidUnit: String
-  nutritionProductAlphaLinolenicAcid: Number
+  nutritionProductAlphaLinolenicAcid: Float
   nutritionProductAlphaLinolenicAcidUnit: String
-  nutritionProductDocosahexaenoicAcid: Number
+  nutritionProductDocosahexaenoicAcid: Float
   nutritionProductDocosahexaenoicAcidUnit: String
-  nutritionProductBacteriaYeast: Number
+  nutritionProductBacteriaYeast: Float
   nutritionProductBacteriaYeastUnit: String
 }
+
 
 enum ForageType {
   ALFALFA_HAY
