@@ -45,6 +45,7 @@ type BarnFacilitySummary {
 input GetBarnFacilitySummariesInput {
   actingId: ID!
   barnId: ID!
+  startKey: String
 }
 
 type BarnFacilitySummariesResult {
