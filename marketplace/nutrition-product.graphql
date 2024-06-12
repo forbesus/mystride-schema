@@ -3,7 +3,7 @@ type NutritionProduct {
   nutritionProductBrandId: ID!
   nutritionProductType: NutritionProductType!
   nutritionProductProfile: NutritionProductProfile!
-  nutritionProductUnits: 
+  nutritionProductUnits: [NutritionProductUnit]
 }
 
 type NutritionProductSummary {
@@ -87,6 +87,12 @@ type NutritionProductProfile {
   nutritionProductInactiveIngredientsEn: [String]
   nutritionProductMacroNutrients: MacroNutrientProfile
   nutritionProductMicroNutrients: MicroNutrientProfile
+}
+
+type NutritionProductUnit {
+  nutritionProductId: ID!
+  nutritionProductUnitBarCode: Number!
+  nutritionProductUnitSku: String
 }
 
 type MacroNutrientProfile {
