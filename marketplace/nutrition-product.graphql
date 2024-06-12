@@ -1,5 +1,3 @@
-
-
 type NutritionProduct {
   nutritionProductId: ID!
   nutritionProductBrandId: ID!
@@ -25,10 +23,6 @@ enum NutritionProductType {
  FEED
  SUPPLEMENT
 }
-
-union NutritionProductProfile
-
-union NutritionProductProfileSummary
 
 type ForageProfile {
   forageType: ForageType
@@ -94,8 +88,6 @@ type NutritionProductProfile {
   nutritionProductMacroNutrients: NutritionProductMacroNutrients
   nutritionProductMicroNutrients: NutritionProductMicroNutrients
 }
-
-
 
 type MacroNutrientProfile {
   nutritionProductPercentDryMater: Number
