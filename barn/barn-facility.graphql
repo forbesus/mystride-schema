@@ -38,8 +38,8 @@ type BarnFacilitySummary {
   barnFacilityId: ID!
   barnFacilityType: BarnFacilityType!
   barnFacilityStatus: BarnFacilityStatus!
-  BarnFacilityName: String
-  BarnFacilityNumber: Float
+  barnFacilityName: String
+  barnFacilityNumber: Float
 }
 
 input GetBarnFacilitySummariesInput {

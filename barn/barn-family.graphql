@@ -26,10 +26,13 @@ type Subscription {
 
 type BarnFamily {
   barnId: ID!
-  barnFamilyId: ID!
+  userId: ID
+  proId: ID
+  phoneId: ID
+  barnQrCode: ID
   barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
-  barnFamilyProfile: BarnFamilyProfile!
+  barnFamilyProfile: BarnFamilyProfile
   barnFamilyInvitedOn: AWSDateTime!
   barnFamilyInvitedBy: UserProfilePublic!
   barnFamilyAcceptedOn: AWSDateTime
@@ -45,10 +48,13 @@ type BarnFamily {
 
 type BarnFamilySummary {
   barnId: ID!
-  barnFamilyId: ID!
-  barnFamilyProfile: BarnFamilyProfile!
+  userId: ID
+  proId: ID
+  phoneId: ID
+  barnQrCode: ID
   barnFamilyRole: BarnRole!
   barnFamilyStatus: BarnFamilyStatus!
+  barnFamilyProfile: BarnFamilyProfile
   barnFamilyInvitedOn: AWSDateTime!
   barnFamilyInvitedBy: UserProfilePublic!
   barnFamilyAcceptedOn: AWSDateTime

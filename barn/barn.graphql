@@ -16,7 +16,7 @@ type Barn {
 
 input GetBarnsInput {
   actingId: ID!
-  barnStatues: [BarnStatus]
+  barnStatuses: [BarnStatus]
   startKey: String
 }
 
