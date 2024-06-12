@@ -10,12 +10,13 @@ type Breed {
 
 type BreedProfile {
   breedId: ID!
-  breedCommonNameEnglish: String!
-  breedOfficialNameEn: String
-  breedAlternateNameEn: String
-  breedHistoricalNameEn: String
+  breedCommonNameEN: String!
+  breedOfficialNameEN: String
+  breedAlternateNameEN: String
+  breedHistoricalNameEN: String
   breedCommonNameLocalized: String
-  breedCommonNameLocalizedLanguage: String
+  breedBioEN: String
+  breedBioLocalized: String
   breedCategory: String
   breedBuild: String
   breedType: String
@@ -36,9 +37,19 @@ type BreedProfile {
   breedPrimaryUse: String
 }
 
+type BreedProfileSummary {
+  breedId: ID!
+  breedCommonNameEN: String!
+  breedOfficialNameEN: String
+  breedAlternateNameEN: String
+  breedHistoricalNameEN: String
+  breedCommonNameLocalized: String
+}
+
 input GetBreedInput {
   actingId: ID!
   breedId: ID!
+  languageCode: MsLanguageCode
 }
 
 type BreedResult {
@@ -54,6 +65,10 @@ enum BreedError {
   INACTIVE_ACTING_ID
   NONEXISTENT_BREED_ID
   INVALID_BREED_ID
+  EXCEEDED_BARN_LIMIT
+  EXCEEDED_DISPLAY_NAME_LENGTH
+  INVALID_ADDRESS
+  PROHIBITED_DISPLAY_NAME_CONTENT
   SERVICE
 }
 
