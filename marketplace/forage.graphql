@@ -1,0 +1,38 @@
+type ForageProfile {
+  forageType: ForageType
+  forageQuality: ForageQuality
+  forageColor: ForageColor
+}
+
+type ForageProfileSummary {
+  forageType: ForageType
+  forageQuality: ForageQuality
+  forageColor: ForageColor
+}
+
+enum ForageType {
+  ALFALFA_HAY
+  CLOVER_HAY
+  ORCHARD_GRASS
+  BERMUDA_GRASS
+  OAT_HAY
+  MEADOW_HAY
+  MIXED_HAY
+}
+
+enum ForageQuality {
+ PREMIUM
+ GOOD
+ FAIR
+ POOR 
+ UTILITY
+}
+
+enum ForageColor {
+  BRIGHT_GREEN
+  PALE_GREEN
+  YELLOW
+  BROWN
+  GRAY 
+  MIXED
+}

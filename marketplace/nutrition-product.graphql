@@ -1,8 +1,12 @@
+type Query {
+  getNutritionProducts(input: GetNutritionProductsInput): NutritionProductsResult!
+  getNutritionProduct(input: GetNutritionProductInput): NutritionProductResult!
+}
+
 type NutritionProduct {
   nutritionProductId: ID!
   brandSummary: BrandSummary!
   nutritionProductBrandId: ID!
-  nutritionProductType: NutritionProductType!
   nutritionProductProfile: NutritionProductProfile!
   nutritionProductUnits: [NutritionProductUnit]
 }
@@ -10,49 +14,22 @@ type NutritionProduct {
 type NutritionProductSummary {
   nutritionProductId: ID!
   nutritionProductBrandId: ID!
-  nutritionProductType: NutritionProductType!
   nutritionProductProfileSummary: NutritionProductProfileSummary!
-}
-
-enum NutritionProductStatus {
- ACTIVE
- DISCONTINUED
-}
-
-enum NutritionProductType {
- FORAGE
- FEED
- SUPPLEMENT
-}
-
-type ForageProfile {
-  forageType: ForageType
-  forageQuality: ForageQuality
-  forageColor: ForageColor
-}
-
-type ForageProfileSummary {
-  forageType: ForageType
-  forageQuality: ForageQuality
-  forageColor: ForageColor
 }
 
 type NutritionProductProfile {
   nutritionProductId: ID!
   nutritionProductStatus: NutritionProductStatus!
+  nutritionProductCategory: NutritionProductCategory!
   nutritionProductName: String!
   nutritionProductLifeStage: NutritionProductLifeStage
   nutritionProductHealthFocus: NutritionProductHealthFocus
-  nutritionProductCategory: String
-  nutritionProductPopularity: String
-  nutritionProductQuantity: String
-  nutritionProductUnit: String
-  nutritionProductFormFactor: String
+  nutritionProductPopularity: Int!
   nutritionProductMarkets: [MsCountryCode]
-  nutritionProductDescriptionEn: String
-  nutritionProductDirectionsEn: String
-  nutritionProductCautionsEn: String
-  nutritionProductWarningsEn: String
+  nutritionProductDescriptionEN: String
+  nutritionProductDirectionsEN: String
+  nutritionProductCautionsEN: String
+  nutritionProductWarningsEN: String
   nutritionProductDietaryFeatures: String
   nutritionProductServingSize: Float
   nutritionProductServingUnit: String
@@ -91,11 +68,9 @@ type NutritionProductProfile {
 type NutritionProductProfileSummary {
   nutritionProductId: ID!
   nutritionProductStatus: NutritionProductStatus!
+  nutritionProductCategory: NutritionProductCategory!
   nutritionProductName: String!
-  nutritionProductLifeStage: NutritionProductLifeStage
-  nutritionProductHealthFocus: NutritionProductHealthFocus
-  nutritionProductCategory: String
-  nutritionProductPopularity: String
+  nutritionProductPopularity: Int!
 }
 
 type NutritionProductUnit {
@@ -253,32 +228,14 @@ type MicroNutrientProfile {
   nutritionProductBacteriaYeastUnit: String
 }
 
-
-enum ForageType {
-  ALFALFA_HAY
-  CLOVER_HAY
-  ORCHARD_GRASS
-  BERMUDA_GRASS
-  OAT_HAY
-  MEADOW_HAY
-  MIXED_HAY
+enum NutritionProductStatus {
+ ACTIVE
+ DISCONTINUED
 }
 
-enum ForageQuality {
- PREMIUM
- GOOD
- FAIR
- POOR 
- UTILITY
-}
-
-enum ForageColor {
-  BRIGHT_GREEN
-  PALE_GREEN
-  YELLOW
-  BROWN
-  GRAY 
-  MIXED
+enum NutritionProductCategory {
+ FEED
+ SUPPLEMENT
 }
 
 enum NutritionProductLifeStage {
