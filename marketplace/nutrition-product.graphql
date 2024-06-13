@@ -5,27 +5,21 @@ type Query {
 
 type NutritionProduct {
   nutritionProductId: ID!
-  brandSummary: BrandSummary!
-  nutritionProductBrandId: ID!
+  nutritionProductBrandSummary: BrandSummary!
   nutritionProductProfile: NutritionProductProfile!
-  nutritionProductUnits: [NutritionProductUnit]
-}
-
-type NutritionProductSummary {
-  nutritionProductId: ID!
-  nutritionProductBrandId: ID!
-  nutritionProductProfileSummary: NutritionProductProfileSummary!
+  nutritionProductUnits: [NutritionProductUnit!]
 }
 
 type NutritionProductProfile {
   nutritionProductId: ID!
+  nutritionProductBrandId: ID!
   nutritionProductStatus: NutritionProductStatus!
   nutritionProductCategory: NutritionProductCategory!
   nutritionProductName: String!
   nutritionProductLifeStage: NutritionProductLifeStage
   nutritionProductHealthFocus: NutritionProductHealthFocus
   nutritionProductPopularity: Int!
-  nutritionProductMarkets: [MsCountryCode]
+  nutritionProductMarkets: [MsCountryCode!]
   nutritionProductDescriptionEN: String
   nutritionProductDirectionsEN: String
   nutritionProductCautionsEN: String
@@ -59,14 +53,15 @@ type NutritionProductProfile {
   nutritionProductLactatingMareRationHigh: Float
   nutritionProductBreedingStallionRationLow: Float
   nutritionProductBreedingStallionRationHigh: Float
-  nutritionProductActiveIngredientsEn: [String]
-  nutritionProductInactiveIngredientsEn: [String]
+  nutritionProductActiveIngredientsEn: [String!]
+  nutritionProductInactiveIngredientsEn: [String!]
   nutritionProductMacroNutrients: MacroNutrientProfile
   nutritionProductMicroNutrients: MicroNutrientProfile
 }
 
 type NutritionProductProfileSummary {
   nutritionProductId: ID!
+  nutritionProductBrandId: ID!
   nutritionProductStatus: NutritionProductStatus!
   nutritionProductCategory: NutritionProductCategory!
   nutritionProductName: String!
@@ -226,6 +221,43 @@ type MicroNutrientProfile {
   nutritionProductDocosahexaenoicAcidUnit: String
   nutritionProductBacteriaYeast: Float
   nutritionProductBacteriaYeastUnit: String
+}
+
+input GetNutritionProductsInput {
+  actingId: ID!
+  NutritionProductBrandId: ID
+  nutritionProductCategories: [NutritionProductCategory!]
+  brandProductMarkets: [MsCountryCode!]
+  resultLocalization: MsLanguageCode
+  startKey: String
+}
+
+type NutritionProductsResult {
+  result: MsResult!
+  nutritionProductSummaries: [NutritionProductProfileSummary!]
+  lastKey: String
+  error: NutritionProductError
+}
+
+input GetNutritionProductInput {
+  actingId: ID!
+  nutritionProductId: ID!
+  resultLocalization: MsLanguageCode
+}
+
+type NutritionProductResult {
+  result: MsResult!
+  nutritionProduct: BrandNutritionProduct
+  error: NutritionProductError
+}
+
+enum NutritionProductError {
+ NOT_AUTHORIZED
+ NONEXISTENT_ACTING_ID
+ INVALID_ACTING_ID
+ INACTIVE_ACTING_ID
+ NONEXISTENT_NUTRITION_PRODUCT_ID
+ INVALID_NUTRITION_PRODUCT_ID
 }
 
 enum NutritionProductStatus {
