@@ -10,6 +10,11 @@ type NutritionProduct {
   nutritionProductUnits: [NutritionProductUnit!]
 }
 
+type NutritionProductSummary {
+  nutritionProductId: ID!
+  nutritionProductProfileSummary: NutritionProductProfileSummary!
+}
+
 type NutritionProductProfile {
   nutritionProductId: ID!
   nutritionProductBrandId: ID!
@@ -234,7 +239,7 @@ input GetNutritionProductsInput {
 
 type NutritionProductsResult {
   result: MsResult!
-  nutritionProductSummaries: [NutritionProductProfileSummary!]
+  nutritionProductSummaries: [NutritionProductSummary!]
   lastKey: String
   error: NutritionProductError
 }
