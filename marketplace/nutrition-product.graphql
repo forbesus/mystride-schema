@@ -247,7 +247,7 @@ input GetNutritionProductInput {
 
 type NutritionProductResult {
   result: MsResult!
-  nutritionProduct: BrandNutritionProduct
+  nutritionProduct: NutritionProduct
   error: NutritionProductError
 }
 
